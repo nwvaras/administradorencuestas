@@ -1,0 +1,11 @@
+.DS_Store
+*.pyc
+*.sqlite3
+
+.idea
+
+administrador_encuestas/settings.py
+static/bower_components
+
+.coverage
+coverage/
