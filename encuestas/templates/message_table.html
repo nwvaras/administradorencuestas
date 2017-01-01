@@ -1,0 +1,32 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block js %}
+    <script src="{% static 'js/angular/controller_subject.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+
+<md-content class="md-padding" layout-xs="column" layout="row" ng-controller="ListCtrl"  class="listdemoListControls" >
+    <div flex-xs="" flex-gt-xs="80" layout="column">
+        <md-subheader>
+       <p>Lista de personas</p>
+
+        </md-subheader>
+        <md-list flex>
+            <md-divider></md-divider>
+  <md-list-item ng-repeat="person in people" ng-click="goToPerson(person.name, $event)" class="noright">
+
+      <p>{$ person.name $}</p>
+       <p>Titulo</p>
+       <p>&quot; message &quot;</p><md-divider></md-divider>
+
+
+    </md-list-item>
+            </md-list>
+</md-list>
+    </div>
+    <div flex-xs="" flex-gt-xs="20" layout="column">
+    </div>
+  </md-content>
+{% endblock %}

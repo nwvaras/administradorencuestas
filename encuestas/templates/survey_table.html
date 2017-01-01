@@ -2,28 +2,22 @@
 {% load staticfiles %}
 
 {% block js %}
-    <script src="{% static 'js/angular/controller_subject.js' %}"></script>
+    <script src="{% static 'js/angular/controller_survey.js' %}"></script>
 {% endblock %}
 
 {% block body %}
 
-<md-content class="md-padding" layout-xs="column" layout="row" ng-controller="ListCtrl"  class="listdemoListControls" >
+<md-content class="md-padding" layout-xs="column" layout="row" ng-controller="MainCtrl"  class="listdemoListControls" >
     <div flex-xs="" flex-gt-xs="80" layout="column">
         <md-subheader>
-       <p>Lista de personas</p>
+       <p>Lista de encuestas</p>
 
         </md-subheader>
 
-  <md-list-item ng-repeat="person in people" ng-click="goToPerson(person.name, $event)" class="noright">
-    <p flex="1">{$ person.name $}</p>
-       <p flex="1">{$ person.name $}</p>
-       <p flex="1">{$ person.name $}</p>
-       <p flex="1">{$ person.name $}</p>
-       <p flex="1">{$ person.name $}</p>
-
-    <md-checkbox class="md-secondary" ng-model="person.selected"></md-checkbox>
-    <md-icon md-svg-icon="communication:email" ng-click="doSecondaryAction($event)" aria-label="Send Email" class="md-secondary md-hue-3"></md-icon>
-    <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Chat" md-svg-icon="communication:message"></md-icon>
+  <md-list-item ng-repeat="person in people" ng-click="goToPerson(person.name, $event)" class="noright" >
+    <p>{$ person.name $}</p>
+      <p>13-2-2016 12:00</p>
+       <nvd3 options="options" data="data"></nvd3>
   </md-list-item>
 </md-list>
     </div>

@@ -78,7 +78,7 @@ def ready_survey(request, string):
 
     return JsonResponse({}, safe=False)
 def survey_menu(request):
-    return render(request, 'index.html')
+    return render(request, 'survey_table.html')
 def subject_menu(request):
     return render(request, 'subject_table.html')
 def message_record(request):
