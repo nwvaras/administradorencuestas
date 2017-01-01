@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Discusión Abierta</title>
+  <title>Administrador de Encuestas</title>
 
   <link rel="stylesheet" href="{% static 'bower_components/angular-material/angular-material.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -18,14 +18,13 @@
   <md-toolbar>
     <div class="md-toolbar-tools">
       <h2 class="title">
-        <span>Discusión Abierta</span>
+        <span>Administrador de Encuestas</span>
       </h2>
       <span flex></span>
-      <md-button href="/">Inicio</md-button>
-      <md-button href="/actas">Actas</md-button>
-      <div>
-        <md-button class="md-raised" aria-label="Subir acta" href="/actas/subir">Subir acta</md-button>
-      </div>
+      <md-button href="/admin">Dashboard</md-button>
+      <md-button href="/admin/encuestas">Encuestas</md-button>
+      <md-button href="/admin/personas">Personas</md-button>
+      <md-button href="/admin/messages">Historial</md-button>
     </div>
   </md-toolbar>
 

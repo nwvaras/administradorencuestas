@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from encuestas.models import Conjunto, Subject, Survey, SendedSurvey, Message, SendedMessage
 from django.contrib import admin
-from encuestas.views import subir
+from encuestas.views import subject_menu, survey_menu, message_record
 
 
 def create_action_for_subject_message(message):
@@ -117,9 +117,10 @@ class SendedMessageAdmin(admin.ModelAdmin):
     # list_filter = ['read']
     # search_fields = ['message__title']
     pass
-def mostrar_acta(request):
-    return render(request, 'index.html')
-admin.site.register_view('sasdasdsa', view=mostrar_acta)
+
+admin.site.register_view('personas' ,'Menu Personas', view=subject_menu,)
+admin.site.register_view('encuestas','Menu Encuestas', view=survey_menu)
+admin.site.register_view('mensajes','Historial de Mensajes', view=message_record)
 admin.site.register(Conjunto)
 admin.site.register(Subject)
 admin.site.register(Survey)
