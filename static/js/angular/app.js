@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('DiscusionAbiertaApp', ['ngMaterial', 'LocalStorageModule'])
+angular.module('DiscusionAbiertaApp',['ngMaterial', 'ngMessages', 'LocalStorageModule','material.svgAssetsCache'])
   .config(function ($httpProvider) {
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -8,4 +8,11 @@ angular.module('DiscusionAbiertaApp', ['ngMaterial', 'LocalStorageModule'])
   .config(function ($interpolateProvider) {
     $interpolateProvider.startSymbol('{$');
     $interpolateProvider.endSymbol('$}');
-  });
+  })
+.config(function($mdIconProvider) {
+  $mdIconProvider
+    .iconSet('social', 'img/icons/sets/social-icons.svg', 24)
+    .iconSet('device', 'img/icons/sets/device-icons.svg', 24)
+    .iconSet('communication', 'img/icons/sets/communication-icons.svg', 24)
+    .defaultIconSet('img/icons/sets/core-icons.svg', 24);
+});

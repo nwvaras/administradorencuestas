@@ -2,81 +2,75 @@
 {% load staticfiles %}
 
 {% block js %}
+    <script src="{% static 'js/angular/controller_subject.js' %}"></script>
 {% endblock %}
 
 {% block body %}
-<md-content class="md-padding" layout-xs="column" layout="row">
-    <div flex-xs="" flex-gt-xs="50" layout="column">
-      <md-card md-theme-watch="">
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">Card with image</span>
-            <span class="md-subhead">Large</span>
-          </md-card-title-text>
-          <md-card-title-media>
-            <div class="md-media-lg card-media"></div>
-          </md-card-title-media>
-        </md-card-title>
-        <md-card-actions layout="row" layout-align="end center">
-          <md-button>Action 1</md-button>
-          <md-button>Action 2</md-button>
-        </md-card-actions>
-      </md-card>
-      <md-card md-theme-watch="">
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">Card with image</span>
-            <span class="md-subhead">Extra Large</span>
-          </md-card-title-text>
-        </md-card-title>
-        <md-card-content layout="row" layout-align="space-between">
-          <div class="md-media-xl card-media"></div>
 
-          <md-card-actions layout="column">
-            <md-button class="md-icon-button" aria-label="Favorite">
-              <md-icon md-svg-icon="img/icons/favorite.svg"></md-icon>
-            </md-button>
-            <md-button class="md-icon-button" aria-label="Settings">
-              <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
-            </md-button>
-            <md-button class="md-icon-button" aria-label="Share">
-              <md-icon md-svg-icon="img/icons/share-arrow.svg"></md-icon>
-            </md-button>
-          </md-card-actions>
-        </md-card-content>
-      </md-card>
+<md-content class="md-padding" layout-xs="column" layout="row" ng-controller="ListCtrl"  class="listdemoListControls" >
+    <div flex-xs="" flex-gt-xs="70" layout="column">
+        <md-subheader >Lista de personas</md-subheader>
+  <md-list-item ng-repeat="person in people" ng-click="goToPerson(person.name, $event)" class="noright">
+    <p>{$ person.name $}</p>
+    <md-checkbox class="md-secondary" ng-model="person.selected"></md-checkbox>
+    <md-icon md-svg-icon="communication:email" ng-click="doSecondaryAction($event)" aria-label="Send Email" class="md-secondary md-hue-3"></md-icon>
+    <md-icon class="md-secondary" ng-click="doSecondaryAction($event)" aria-label="Chat" md-svg-icon="communication:message"></md-icon>
+  </md-list-item>
+</md-list>
     </div>
-    <div flex-xs="" flex-gt-xs="50" layout="column">
+    <div flex-xs="" flex-gt-xs="30" layout="column">
+        <md-card md-theme-watch="">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Filtros</span>
+          </md-card-title-text>
+             <md-card-actions layout="column">
+                <md-list-item ng-repeat="topping in toppings">
+                    <md-checkbox class="md-secondary" ng-model="topping.wanted"></md-checkbox>
+                <p> {$ topping.name $} </p>
+
+              </md-list-item>
+             </md-card-actions>
+        </md-card-title>
+      </md-card>
+
       <md-card md-theme-watch="">
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline">Card with image</span>
-            <span class="md-subhead">Small</span>
+            <span class="md-headline">Nuevo mensaje</span>
+              <md-input-container>
+        <label>Titulo</label>
+        <input ng-model="user.title">
+      </md-input-container>
+              <md-input-container class="md-block">
+            <label>Descripcion</label>
+            <textarea ng-model="user.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+          </md-input-container>
           </md-card-title-text>
-          <md-card-title-media>
-            <div class="md-media-sm card-media"></div>
-          </md-card-title-media>
         </md-card-title>
         <md-card-actions layout="row" layout-align="end center">
-          <md-button>Action 1</md-button>
-          <md-button>Action 2</md-button>
+          <md-button class="md-raised md-primary">Enviar a Seleccionados</md-button>
         </md-card-actions>
       </md-card>
-      <md-cardmd-theme-watch="">
+        <md-card md-theme-watch="">
         <md-card-title>
           <md-card-title-text>
-            <span class="md-headline">Card with image</span>
-            <span class="md-subhead">Medium</span>
+            <span class="md-headline">Enviar encuesta</span>
           </md-card-title-text>
-          <md-card-title-media>
-            <div class="md-media-md card-media"></div>
-          </md-card-title-media>
         </md-card-title>
+            <md-input-container class="md-padding">
+          <label>Encuesta</label>
+          <md-select name="type" ng-model="project.type" required>
+            <md-option value="app">Application</md-option>
+            <md-option value="web">Website</md-option>
+          </md-select>
+        </md-input-container>
         <md-card-actions layout="row" layout-align="end center">
-          <md-button>Action 1</md-button>
-          <md-button>Action 2</md-button>
+          <md-button class="md-raised">Enviar a seleccionados</md-button>
+          <md-button class="md-raised md-primary">Crear encuesta</md-button>
         </md-card-actions>
       </md-card>
+
     </div>
   </md-content>
 {% endblock %}
