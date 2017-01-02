@@ -63,7 +63,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 #
 #     return JsonResponse({'status': 'error', 'mensajes': errores}, status=400)
 
-from encuestas.models import Survey, SendedSurvey, Subject
+from encuestas.models import Survey, SendedSurvey, Subject, Message, SendedMessage
 
 
 def get_survey(request, user):
@@ -128,7 +128,28 @@ def get_surveys_by_filter(request):
             survey = surveys[i]
             base.append(survey.to_dict())
     return JsonResponse({'encuestas' : base})
-
+@csrf_exempt
+def get_messages_by_filter(request):
+    if request.method != 'POST':
+         return JsonResponse({}, status=404)
+    body = request.body.decode('utf-8')
+    try:
+        body = json.loads(body)
+    except ValueError:
+         return JsonResponse({}, status=404)
+    filters = body.get('filters',{})
+    date_sended_min = filters.get('date_sended_min',datetime(2005, 1, 30))
+    date_sended_max = filters.get('date_sended_max',datetime(2025, 1, 30))
+    messages = SendedMessage.objects
+    messages=messages.filter(date_sended__range=[date_sended_min,date_sended_max])
+    base =[]
+    if len(messages) == 0:
+        return JsonResponse({}, status=404)
+    else:
+        for i in xrange(0,len(messages)):
+            message = messages[i]
+            base.append(message.to_dict())
+    return JsonResponse({'mensajes' : base})
 
 @login_required
 def survey_menu(request):

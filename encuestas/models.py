@@ -77,14 +77,14 @@ class Survey(models.Model):
             'description': self.description,
             'url': self.url,
             'date_creation': self.date_creation,
-            'estado':[{
-                'key' : 'Si',
-                'y' :yes
+            'estado': [{
+                'key': 'Si',
+                'y': yes
             },
-            {
-                'key' : 'No',
-                'y' : no
-            }],
+                {
+                    'key': 'No',
+                    'y': no
+                }],
 
         }
 
@@ -125,13 +125,25 @@ class Message(models.Model):
 
     def __unicode__(self):
         return self.title
-
+    def to_dict(self):
+        return {
+            'pk': self.pk,
+            'title': self.title,
+            'description': self.description,
+        }
 
 class SendedMessage(models.Model):
     message = models.ForeignKey(to=Message)
     subject = models.ForeignKey(to=Subject)
     read = models.BooleanField(default=False)
     date_sended = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def to_dict(self):
+        return {
+            'pk': self.pk,
+            'message': self.message.to_dict(),
+            'usuario': self.subject.to_dict(),
+        }
 
     class Meta:
         verbose_name = u"Mensaje enviado"
