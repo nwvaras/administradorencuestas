@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -69,7 +70,6 @@ def get_survey(request, user):
     results = [ob.to_dict() for ob in surveyRespList]
     return JsonResponse(results, safe=False)
 
-
 def ready_survey(request, string):
     surveyResp = SendedSurvey.objects.get(pk=string)
 
@@ -77,9 +77,15 @@ def ready_survey(request, string):
     surveyResp.save()
 
     return JsonResponse({}, safe=False)
+@login_required
 def survey_menu(request):
     return render(request, 'survey_table.html')
+@login_required
+def graph_viewer(request):
+    return render(request, 'graph_viewer.html')
+@login_required
 def subject_menu(request):
     return render(request, 'subject_table.html')
+@login_required
 def message_record(request):
     return render(request, 'message_table.html')

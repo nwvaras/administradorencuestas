@@ -1,0 +1,14 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block js %}
+    <script src="{% static 'js/angular/controler_graphs.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+
+<md-content ng-controller="MainCtrl"  class="listdemoListControls" >
+<nvd3 options="options" data="data" class="with-3d-shadow with-transitions"></nvd3>
+
+  </md-content>
+{% endblock %}

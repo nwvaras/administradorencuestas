@@ -17,6 +17,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from adminplus.sites import AdminSitePlus
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from encuestas.views import survey_menu, graph_viewer
 
 admin.site = AdminSitePlus()
 admin.autodiscover()
@@ -25,6 +26,7 @@ urlpatterns = [
     # ...
     # Include the admin URL conf as normal.
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/graphs', graph_viewer),
     # ...
 ]
 urlpatterns += staticfiles_urlpatterns()
