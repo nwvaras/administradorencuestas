@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block js %}
-    <script src="{% static 'js/angular/controller_subject.js' %}"></script>
+    <script src="{% static 'js/angular/controller_messages.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -15,11 +15,11 @@
         </md-subheader>
         <md-list flex>
             <md-divider></md-divider>
-  <md-list-item ng-repeat="person in people" ng-click="goToPerson(person.name, $event)" class="noright">
-
-      <p>{$ person.name $}</p>
-       <p>Titulo</p>
-       <p>&quot; message &quot;</p><md-divider></md-divider>
+  <md-list-item ng-repeat="message in messages" ng-click="goToPerson(message.name, $event)" class="noright">
+        <p>{$ message.usuario.nombre $}</p>
+      <p>{$ message.message.title $}</p>
+       <p>{$ message.message.description$}</p>
+      <md-checkbox class="md-secondary" ng-model="message.selected"></md-checkbox><md-divider></md-divider>
 
 
     </md-list-item>
@@ -27,6 +27,39 @@
 </md-list>
     </div>
     <div flex-xs="" flex-gt-xs="20" layout="column">
+        <md-card md-theme-watch="">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Filtros</span>
+          </md-card-title-text>
+             <md-card-actions layout="column">
+                <md-list-item ng-repeat="topping in toppings">
+                    <md-checkbox class="md-secondary" ng-model="topping.wanted"></md-checkbox>
+                <p> {$ topping.name $} </p>
+
+              </md-list-item>
+             </md-card-actions>
+        </md-card-title>
+      </md-card>
+
+      <md-card md-theme-watch="">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Nuevo mensaje</span>
+              <md-input-container>
+        <label>Titulo</label>
+        <input ng-model="user.title">
+      </md-input-container>
+              <md-input-container class="md-block">
+            <label>Descripcion</label>
+            <textarea ng-model="user.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+          </md-input-container>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button class="md-raised md-primary">Enviar</md-button>
+        </md-card-actions>
+      </md-card>
     </div>
   </md-content>
 {% endblock %}

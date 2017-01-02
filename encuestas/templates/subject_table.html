@@ -13,13 +13,14 @@
        <p>Lista de personas</p>
 
         </md-subheader>
-
+<md-divider></md-divider>
   <md-list-item ng-repeat="subject in subjects" ng-click="goToPerson(person.name, $event)" class="noright">
     <p>{$ subject.nombre $}</p>
        <p>{$ subject.edad $}</p>
        <p>{$ subject.rut $}</p>
        <p>{$ subject.email $}</p>
        <p ng-repeat="x in subject.conjuntos">{$x.name$}</p>
+      <md-divider></md-divider>
 
     <md-checkbox class="md-secondary" ng-model="person.selected"></md-checkbox>
     <md-icon md-svg-icon="communication:email" ng-click="doSecondaryAction($event)" aria-label="Send Email" class="md-secondary md-hue-3"></md-icon>
