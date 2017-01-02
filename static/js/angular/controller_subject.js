@@ -4,9 +4,9 @@ var LOCALSTORAGE_ACTA_KEY = 'acta';
 
 angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($scope, $mdDialog) {
   $scope.toppings = [
-    { name: 'Pepperoni', wanted: true },
-    { name: 'Sausage', wanted: false },
-    { name: 'Black Olives', wanted: true },
+    { name: 'Edad minima', wanted: true },
+    { name: 'Edad maxima', wanted: false },
+    { name: 'Conjuntos', wanted: true },
     { name: 'Green Peppers', wanted: false }
   ];
 

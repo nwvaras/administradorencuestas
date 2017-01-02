@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Conjunto(models.Model):
     name = models.CharField(max_length=32)
     description = models.TextField()
@@ -20,8 +21,7 @@ class Subject(models.Model):
     rut = models.CharField(max_length=12, default='123456789-1')
     phone = models.IntegerField(default=0)
     age = models.IntegerField(default=20)
-    email = models.EmailField(blank=True,null=True)
-
+    email = models.EmailField(blank=True, null=True)
 
     class Meta:
         verbose_name = u"Sujeto"
@@ -33,19 +33,19 @@ class Subject(models.Model):
     def conjuntos_dict(self):
         total = []
         for i in self.conjunto.all():
-            total.append({"name":i.name})
+            total.append({"name": i.name})
         return total
 
     def to_dict(self):
         return {
             'pk': self.pk,
             'nombre': self.name,
-            'rut' : self.rut,
-            'edad' : self.age,
-            'phone' : self.phone,
-            'email' : self.email,
+            'rut': self.rut,
+            'edad': self.age,
+            'phone': self.phone,
+            'email': self.email,
 
-            'conjuntos' : self.conjuntos_dict()
+            'conjuntos': self.conjuntos_dict()
 
         }
 
@@ -62,6 +62,26 @@ class Survey(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def calculate_responses(self):
+        sended = SendedSurvey.objects.filter(survey__pk=self.pk)
+        yes_count = sended.filter(respondida=True).count()
+        no_count = sended.filter(respondida=False).count()
+        return (yes_count, no_count)
+
+    def to_dict(self):
+        (yes, no) = self.calculate_responses()
+        return {
+            'pk': self.pk,
+            'titulo': self.title,
+            'description': self.description,
+            'url': self.url,
+            'date_creation': self.date_creation,
+            'si': yes,
+
+            'no': no
+
+        }
 
 
 class SendedSurvey(models.Model):

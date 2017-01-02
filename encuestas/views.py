@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import JsonResponse
@@ -82,25 +83,18 @@ def ready_survey(request, string):
 @csrf_exempt
 def get_users_by_filter(request):
     if request.method != 'POST':
-        return (None, 'Request inválido.',)
-    print("holi")
+         return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
-    print(body)
     try:
         body = json.loads(body)
-        print("holi")
     except ValueError:
-        print("holo")
-        return JsonResponse({},safe=False)
-    print("holi")
+         return JsonResponse({}, status=404)
     filters = body.get('filters',{})
     age_min = filters.get('age_min',0)
     age_max = filters.get('age_max',99)
     conjuntos = filters.get('conjuntos',{})
     users = Subject.objects
     for c in conjuntos:
-        print("conjuntos" + str(conjuntos))
-        print c
         users= users.filter(conjunto__name=c['name'])
     users=users.filter(age__range=[age_min,age_max])
     base =[]
@@ -112,7 +106,28 @@ def get_users_by_filter(request):
             base.append(user.to_dict())
     return JsonResponse({'usuarios' : base})
 
-
+@csrf_exempt
+def get_surveys_by_filter(request):
+    if request.method != 'POST':
+         return JsonResponse({}, status=404)
+    body = request.body.decode('utf-8')
+    try:
+        body = json.loads(body)
+    except ValueError:
+         return JsonResponse({}, status=404)
+    filters = body.get('filters',{})
+    date_creation_min = filters.get('date_creation_min',datetime(2005, 1, 30))
+    date_creation_max = filters.get('date_creation_max',datetime(2025, 1, 30))
+    surveys = Survey.objects
+    surveys=surveys.filter(date_creation__range=[date_creation_min,date_creation_max])
+    base =[]
+    if len(surveys) == 0:
+        return JsonResponse({}, status=404)
+    else:
+        for i in xrange(0,len(surveys)):
+            survey = surveys[i]
+            base.append(survey.to_dict())
+    return JsonResponse({'encuestas' : base})
 
 
 @login_required
