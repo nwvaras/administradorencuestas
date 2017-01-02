@@ -59,11 +59,13 @@
 
         </md-subheader>
 
-  <md-list-item ng-repeat="person in people" ng-click="goToPerson(person.name, $event)" class="noright" >
-    <p>{$ person.name $}</p>
-      <p>13-2-2016 12:00</p>
-       <nvd3 options="options" data="data"></nvd3>
+  <md-list-item ng-repeat="encuesta in encuestas" ng-click="goToPerson(person.name, $event)" class="noright" >
+    <p>{$ encuesta.titulo $}</p>
+      <p>{$ encuesta.description$}</p>
+      <p>{$ encuesta.date_creation$}</p>
+       <nvd3 options="options" data="encuesta.estado"></nvd3>
       <md-checkbox class="md-secondary" ng-model="person.selected"></md-checkbox>
+      <md-checkbox class="md-secondary" ng-model="person.selected2"></md-checkbox>
   </md-list-item>
 </md-list>
     </div>

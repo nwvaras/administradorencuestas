@@ -1,7 +1,7 @@
 /**
  * Created by Nicolas on 01-01-2017.
  */
-angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $mdDialog){
+angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $mdDialog,$http){
     $scope.toppings = [
     { name: 'Pepperoni', wanted: true },
     { name: 'Sausage', wanted: false },
@@ -69,6 +69,22 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
         .targetEvent(event)
     );
   };
+
+    var cargarDatos = function () {
+
+    $http({
+      method: 'POST',
+      url: '/encuestas/surveys/',
+      data: { test: 'test' }
+    }).then(function (response) {
+
+          $scope.encuestas = response.data.encuestas;
+
+
+    });
+
+  };
+    cargarDatos()
  $scope.options = {
             chart: {
                 type: 'pieChart',
@@ -87,15 +103,4 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
 
             }
         };
-
-        $scope.data = [
-            {
-                key: "Si",
-                y: 5
-            },
-            {
-                key: "No",
-                y: 2
-            }
-        ];
 });

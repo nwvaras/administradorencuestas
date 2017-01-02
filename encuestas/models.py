@@ -77,9 +77,14 @@ class Survey(models.Model):
             'description': self.description,
             'url': self.url,
             'date_creation': self.date_creation,
-            'si': yes,
-
-            'no': no
+            'estado':[{
+                'key' : 'Si',
+                'y' :yes
+            },
+            {
+                'key' : 'No',
+                'y' : no
+            }],
 
         }
 
