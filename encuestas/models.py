@@ -20,6 +20,8 @@ class Subject(models.Model):
     rut = models.CharField(max_length=12, default='123456789-1')
     phone = models.IntegerField(default=0)
     age = models.IntegerField(default=20)
+    email = models.EmailField(blank=True,null=True)
+
 
     class Meta:
         verbose_name = u"Sujeto"
@@ -27,6 +29,25 @@ class Subject(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def conjuntos_dict(self):
+        total = []
+        for i in self.conjunto.all():
+            total.append({"name":i.name})
+        return total
+
+    def to_dict(self):
+        return {
+            'pk': self.pk,
+            'nombre': self.name,
+            'rut' : self.rut,
+            'edad' : self.age,
+            'phone' : self.phone,
+            'email' : self.email,
+
+            'conjuntos' : self.conjuntos_dict()
+
+        }
 
 
 class Survey(models.Model):

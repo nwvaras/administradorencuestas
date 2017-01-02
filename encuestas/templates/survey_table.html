@@ -8,7 +8,52 @@
 {% block body %}
 
 <md-content class="md-padding" layout-xs="column" layout="row" ng-controller="MainCtrl"  class="listdemoListControls" >
-    <div flex-xs="" flex-gt-xs="80" layout="column">
+<div flex-xs="" flex-gt-xs="20" layout="column">
+
+       <md-card md-theme-watch="">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Enviar encuesta</span>
+          </md-card-title-text>
+        </md-card-title>
+            <md-input-container class="md-padding">
+          <label>Encuesta</label>
+          <md-select name="type" ng-model="project.type" required>
+            <md-option value="app">Application</md-option>
+            <md-option value="web">Website</md-option>
+          </md-select>
+        </md-input-container>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button class="md-raised">Enviar</md-button>
+          <md-button class="md-raised md-primary">Crear</md-button>
+        </md-card-actions>
+      </md-card>
+
+    <md-card md-theme-watch="">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Nueva encuesta</span>
+              <md-input-container>
+                <label>Titulo</label>
+                <input ng-model="user.title">
+                </md-input-container>
+              <md-input-container class="md-block">
+                <label>Descripcion</label>
+
+            <textarea ng-model="user.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+          </md-input-container>
+              <md-input-container>
+                <label>URL</label>
+                <input ng-model="user.url">
+              </md-input-container>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button class="md-raised md-primary">Crear</md-button>
+        </md-card-actions>
+      </md-card>
+    </div>
+    <div flex-xs="" flex-gt-xs="60" layout="column">
         <md-subheader>
        <p>Lista de encuestas</p>
 
@@ -18,6 +63,7 @@
     <p>{$ person.name $}</p>
       <p>13-2-2016 12:00</p>
        <nvd3 options="options" data="data"></nvd3>
+      <md-checkbox class="md-secondary" ng-model="person.selected"></md-checkbox>
   </md-list-item>
 </md-list>
     </div>
@@ -42,9 +88,9 @@
           <md-card-title-text>
             <span class="md-headline">Nuevo mensaje</span>
               <md-input-container>
-        <label>Titulo</label>
-        <input ng-model="user.title">
-      </md-input-container>
+                <label>Titulo</label>
+                <input ng-model="user.title">
+                </md-input-container>
               <md-input-container class="md-block">
             <label>Descripcion</label>
             <textarea ng-model="user.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
@@ -55,24 +101,8 @@
           <md-button class="md-raised md-primary">Enviar</md-button>
         </md-card-actions>
       </md-card>
-        <md-card md-theme-watch="">
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">Enviar encuesta</span>
-          </md-card-title-text>
-        </md-card-title>
-            <md-input-container class="md-padding">
-          <label>Encuesta</label>
-          <md-select name="type" ng-model="project.type" required>
-            <md-option value="app">Application</md-option>
-            <md-option value="web">Website</md-option>
-          </md-select>
-        </md-input-container>
-        <md-card-actions layout="row" layout-align="end center">
-          <md-button class="md-raised">Enviar</md-button>
-          <md-button class="md-raised md-primary">Crear</md-button>
-        </md-card-actions>
-      </md-card>
+
+
 
     </div>
   </md-content>

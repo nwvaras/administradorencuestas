@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+import json
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import render
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 
 #
 #
@@ -61,7 +62,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 #
 #     return JsonResponse({'status': 'error', 'mensajes': errores}, status=400)
 
-from encuestas.models import Survey, SendedSurvey
+from encuestas.models import Survey, SendedSurvey, Subject
 
 
 def get_survey(request, user):
@@ -77,6 +78,43 @@ def ready_survey(request, string):
     surveyResp.save()
 
     return JsonResponse({}, safe=False)
+
+@csrf_exempt
+def get_users_by_filter(request):
+    if request.method != 'POST':
+        return (None, 'Request inválido.',)
+    print("holi")
+    body = request.body.decode('utf-8')
+    print(body)
+    try:
+        body = json.loads(body)
+        print("holi")
+    except ValueError:
+        print("holo")
+        return JsonResponse({},safe=False)
+    print("holi")
+    filters = body.get('filters',{})
+    age_min = filters.get('age_min',0)
+    age_max = filters.get('age_max',99)
+    conjuntos = filters.get('conjuntos',{})
+    users = Subject.objects
+    for c in conjuntos:
+        print("conjuntos" + str(conjuntos))
+        print c
+        users= users.filter(conjunto__name=c['name'])
+    users=users.filter(age__range=[age_min,age_max])
+    base =[]
+    if len(users) == 0:
+        return JsonResponse({}, status=404)
+    else:
+        for i in xrange(0,len(users)):
+            user = users[i]
+            base.append(user.to_dict())
+    return JsonResponse({'usuarios' : base})
+
+
+
+
 @login_required
 def survey_menu(request):
     return render(request, 'survey_table.html')

@@ -27,6 +27,7 @@ urlpatterns = [
     # Include the admin URL conf as normal.
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/graphs', graph_viewer),
+    url(r'^encuestas/',include('encuestas.urls', namespace='encuestas')),
     # ...
 ]
 urlpatterns += staticfiles_urlpatterns()
