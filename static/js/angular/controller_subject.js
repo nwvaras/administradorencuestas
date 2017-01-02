@@ -2,7 +2,7 @@
 
 var LOCALSTORAGE_ACTA_KEY = 'acta';
 
-angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($scope, $mdDialog) {
+angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$scope, $mdDialog) {
   $scope.toppings = [
     { name: 'Edad minima', wanted: true },
     { name: 'Edad maxima', wanted: false },
@@ -70,4 +70,20 @@ angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($scope, $m
         .targetEvent(event)
     );
   };
+
+  var cargarDatos = function () {
+
+    $http({
+      method: 'POST',
+      url: '/encuestas/subjects/',
+      data: { test: 'test' }
+    }).then(function (response) {
+
+          $scope.subjects = response.data.usuarios;
+
+
+    });
+
+  };
+    cargarDatos()
 });
