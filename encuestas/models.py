@@ -41,8 +41,8 @@ class Subject(models.Model):
             'pk': self.pk,
             'nombre': self.name,
             'rut': self.rut,
-            'edad': self.age,
-            'phone': self.phone,
+            'edad': str(self.age),
+            'phone': str(self.phone),
             'email': self.email,
 
             'conjuntos': self.conjuntos_dict()

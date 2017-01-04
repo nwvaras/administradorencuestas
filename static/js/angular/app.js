@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('DiscusionAbiertaApp',['ngMaterial', 'ngMessages', 'LocalStorageModule','material.svgAssetsCache','nvd3'])
+angular.module('DiscusionAbiertaApp',['ngMaterial', 'ngMessages', 'LocalStorageModule','material.svgAssetsCache','nvd3','md.data.table'])
   .config(function ($httpProvider) {
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
@@ -15,4 +15,9 @@ angular.module('DiscusionAbiertaApp',['ngMaterial', 'ngMessages', 'LocalStorageM
     .iconSet('device', 'img/icons/sets/device-icons.svg', 24)
     .iconSet('communication', 'img/icons/sets/communication-icons.svg', 24)
     .defaultIconSet('img/icons/sets/core-icons.svg', 24);
-});
+})
+.directive('mdtCustomCellCheckbox', function () {
+  return {
+    template: '<md-checkbox aria-label="Editar" class="md-secondary"></md-checkbox>',
+  };
+});;

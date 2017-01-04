@@ -15,7 +15,7 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope) {
             var count= $scope.rawData[i].count;
             var name =i;
 
-        if(count >10){
+        if(count >0){
             $scope.data.nodes[u] = {"name": name,"group": group,"count" : count}
             for(var c = 0; c < count; c++) {
             $scope.data.links.push({"source":0,"target":u,"value":1})

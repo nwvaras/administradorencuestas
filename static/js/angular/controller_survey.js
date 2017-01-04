@@ -84,11 +84,12 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
     });
 
   };
+    $scope.selected=[]
     cargarDatos()
  $scope.options = {
             chart: {
                 type: 'pieChart',
-                height: 200,
+                height: 150,
                 donut: true,
                 x: function(d){return d.key;},
                 y: function(d){return d.y;},
@@ -99,8 +100,13 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
                     startAngle: function(d) { return d.startAngle/2 -Math.PI/2 },
                     endAngle: function(d) { return d.endAngle/2 -Math.PI/2 }
                 },
-                duration: 500,
+                duration: 20,
 
             }
         };
+    $scope.query = {
+    order: 'titulo',
+    limit: 5,
+    page: 1
+  };
 });

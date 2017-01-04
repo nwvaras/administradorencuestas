@@ -2,7 +2,7 @@
 
 var LOCALSTORAGE_ACTA_KEY = 'acta';
 
-angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$scope, $mdDialog) {
+angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$scope, $mdDialog,$mdToast) {
   $scope.toppings = [
     { name: 'Edad minima', wanted: true },
     { name: 'Edad maxima', wanted: false },
@@ -70,6 +70,8 @@ angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$sco
         .targetEvent(event)
     );
   };
+$scope.selected = [];
+  $scope.subjects =[]
 
   var cargarDatos = function () {
 
@@ -85,5 +87,21 @@ angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$sco
     });
 
   };
-    cargarDatos()
+ cargarDatos()
+  $scope.test = true
+  $scope.selectedRowCallback = function(rows){
+            $mdToast.show(
+                $mdToast.simple()
+                    .content('Selected row id(s): '+rows)
+                    .hideDelay(3000)
+            );
+        };
+  $scope.getConjuntos= function(conjuntos) {
+    var total =""
+    for (var i = 0; i < conjuntos.length; i++) {
+      var obj = conjuntos[i];
+      total = total + " " + obj.name
+    }
+    return total
+  }
 });
