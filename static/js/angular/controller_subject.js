@@ -71,14 +71,19 @@ angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$sco
     );
   };
 $scope.selected = [];
-  $scope.subjects =[]
+  $scope.subjects =[];
+  $scope.filters={'filters': {
+    'age-min' : 0,
+    'age-max' : 99,
+    'conjuntos' : [],
+  }}
 
   var cargarDatos = function () {
 
     $http({
       method: 'POST',
       url: '/encuestas/subjects/',
-      data: { test: 'test' }
+      data: $scope.filters
     }).then(function (response) {
 
           $scope.subjects = response.data.usuarios;
@@ -104,4 +109,5 @@ $scope.selected = [];
     }
     return total
   }
+
 });

@@ -23,7 +23,7 @@
       </tr>
     </thead>
     <tbody md-body>
-      <tr md-row md-select="message" md-select-id="nombre" md-auto-select ng-repeat="message in messages">
+      <tr md-row md-select="message" md-select-id="pk" ng-repeat="message in messages">
         <td md-cell>{$ message.usuario.nombre $}</td>
         <td md-cell>{$ message.message.title   $}</td>
           <td md-cell>{$ message.message.description $}</td>

@@ -108,5 +108,6 @@ $scope.paginatorCallback = paginatorCallback;
     });
 
   };
+    $scope.selected =[]
     cargarDatos()
 });

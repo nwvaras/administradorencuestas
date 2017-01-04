@@ -82,6 +82,7 @@ def ready_survey(request, string):
 
 @csrf_exempt
 def get_users_by_filter(request):
+    print request.body
     if request.method != 'POST':
          return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
@@ -92,7 +93,7 @@ def get_users_by_filter(request):
     filters = body.get('filters',{})
     age_min = filters.get('age_min',0)
     age_max = filters.get('age_max',99)
-    conjuntos = filters.get('conjuntos',{})
+    conjuntos = filters.get('conjuntos',[])
     users = Subject.objects
     for c in conjuntos:
         users= users.filter(conjunto__name=c['name'])
@@ -108,6 +109,7 @@ def get_users_by_filter(request):
 
 @csrf_exempt
 def get_surveys_by_filter(request):
+
     if request.method != 'POST':
          return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
