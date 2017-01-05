@@ -10,7 +10,8 @@
 <md-content class="md-padding" layout-xs="column" layout="row" ng-controller="MainCtrl"  class="listdemoListControls" ng-cloak>
 <div flex-xs="" flex-gt-xs="20" layout="column">
 
-       <md-card md-theme-watch="">
+        </md-card>
+        <md-card md-theme-watch="">
         <md-card-title>
           <md-card-title-text>
             <span class="md-headline">Enviar encuesta</span>
@@ -23,7 +24,7 @@
           </md-select>
         </md-input-container>
         <md-card-actions layout="row" layout-align="end center">
-          <md-button class="md-raised">Enviar</md-button>
+          <md-button class="md-raised" ng-click="sendSurveys()">Enviar</md-button>
           <md-button class="md-raised md-primary">Crear</md-button>
         </md-card-actions>
       </md-card>
@@ -71,7 +72,7 @@
       </tr>
     </thead>
     <tbody md-body>
-      <tr md-row md-select="encuesta" md-select-id="pk" ng-repeat="encuesta in encuestas">
+      <tr md-row md-select="encuesta" md-select-id="pk" ng-repeat="encuesta in encuestas | filter:filterSurvey">
         <td md-cell ng-click="goToPerson(encuesta, $event)" >{$encuesta.titulo$}</td>
         <td md-cell ng-click="goToPerson(encuesta, $event)" >{$encuesta.description$}</td>
         <td md-cell ng-click="goToPerson(encuesta, $event)" >{$encuesta.date_creation$}</td>

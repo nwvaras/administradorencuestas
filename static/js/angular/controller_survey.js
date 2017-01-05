@@ -84,6 +84,26 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
     });
 
   };
+    $scope.sendSurveys= function () {
+
+    $http({
+      method: 'POST',
+      url: '/encuestas/surveys/sendFromSurvey/',
+      data: { encuesta:$scope.selectedSurvey,
+          selected: $scope.selected
+                }
+    }).then(function (response) {
+
+           console.log(response)
+
+
+    });
+  }
+
+    $scope.filterSurvey = function(survey) {
+        console.log("asd")
+        return !(survey.estado[0].y == 0 &&survey.estado[1].y == 0 );
+    };
     $scope.selected=[]
     cargarDatos()
  $scope.options = {

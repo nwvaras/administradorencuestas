@@ -26,6 +26,7 @@ angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$sco
     { name: 'Mary Johnson', newMessage: false },
     { name: 'Peter Carlsson', newMessage: false }
   ];
+  $scope.selectedSurvey=""
 
   $scope.goToPerson = function(person, event) {
     $mdDialog.show(
@@ -92,7 +93,35 @@ $scope.selected = [];
     });
 
   };
- cargarDatos()
+  var cargarEncuestas= function () {
+
+    $http({
+      method: 'POST',
+      url: '/encuestas/surveys/',
+      data: { test: 'test' }
+    }).then(function (response) {
+
+          $scope.encuestas = response.data.encuestas;
+
+
+    });
+  }
+  $scope.sendSurveys= function () {
+
+    $http({
+      method: 'POST',
+      url: '/encuestas/surveys/send/',
+      data: { encuesta:$scope.selectedSurvey,
+      usuarios: $scope.selected}
+    }).then(function (response) {
+
+           console.log(response)
+
+
+    });
+  }
+ cargarEncuestas()
+  cargarDatos()
   $scope.test = true
   $scope.selectedRowCallback = function(rows){
             $mdToast.show(

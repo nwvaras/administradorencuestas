@@ -82,6 +82,7 @@ def ready_survey(request, string):
 
 @csrf_exempt
 def get_users_by_filter(request):
+    print("asd2")
     print request.body
     if request.method != 'POST':
          return JsonResponse({}, status=404)
@@ -152,6 +153,61 @@ def get_messages_by_filter(request):
             message = messages[i]
             base.append(message.to_dict())
     return JsonResponse({'mensajes' : base})
+
+@csrf_exempt
+def send_surveys_from_cp(request):
+    print("asd")
+    print(request.body)
+    print("asd")
+    if request.method != 'POST':
+         return JsonResponse({}, status=404)
+    body = request.body.decode('utf-8')
+    try:
+        body = json.loads(body)
+    except ValueError:
+         return JsonResponse({}, status=404)
+
+    if 'encuesta' in body and 'usuarios' in body:
+        usuarios= body.get('usuarios',{})
+        encuesta = body.get('encuesta',{})
+        for user in usuarios:
+            sended_survey = SendedSurvey(survey_id=encuesta['pk'],subject_id=user['pk'])
+            sended_survey.save()
+    else:
+        return JsonResponse({}, status=404)
+    base =[]
+    if len(usuarios) == 0:
+        return JsonResponse({}, status=404)
+    else:
+        return JsonResponse({'status' : 'OK'})
+@csrf_exempt
+def send_surveys_from_cp_to_survey_users(request):
+
+    print(request.body)
+    print "je"
+
+    if request.method != 'POST':
+         return JsonResponse({}, status=404)
+    body = request.body.decode('utf-8')
+    try:
+        body = json.loads(body)
+    except ValueError:
+         return JsonResponse({}, status=404)
+
+    if 'encuesta' in body and 'selected' in body:
+
+        encuesta = body.get('encuesta',{})
+        selectedSurveys = body.get('selected',{})
+        for selectedSurvey in selectedSurveys:
+            sended_surveys = SendedSurvey.objects.filter(survey_id=selectedSurvey['pk'])
+            for sended in sended_surveys:
+                to_send = SendedSurvey(survey_id=encuesta['pk'],subject=sended.subject)
+                to_send.save()
+    else:
+        return JsonResponse({}, status=404)
+    return JsonResponse({'status' : 'OK'})
+
+
 
 @login_required
 def survey_menu(request):
