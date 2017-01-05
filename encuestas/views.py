@@ -206,7 +206,29 @@ def send_surveys_from_cp_to_survey_users(request):
     else:
         return JsonResponse({}, status=404)
     return JsonResponse({'status' : 'OK'})
+@csrf_exempt
+def create_survey_from_cp(request):
 
+    print(request.body)
+    print "je2"
+
+    if request.method != 'POST':
+         return JsonResponse({}, status=404)
+    body = request.body.decode('utf-8')
+    try:
+        body = json.loads(body)
+    except ValueError:
+         return JsonResponse({}, status=404)
+
+    if 'encuesta' in body:
+
+        encuesta = body.get('encuesta',{})
+        survey = Survey(title=encuesta['titulo'],description = encuesta['description'],url=encuesta['url'])
+        survey.save()
+
+    else:
+        return JsonResponse({}, status=404)
+    return JsonResponse({'status' : 'OK'})
 
 
 @login_required

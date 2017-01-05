@@ -35,21 +35,21 @@
             <span class="md-headline">Nueva encuesta</span>
               <md-input-container>
                 <label>Titulo</label>
-                <input ng-model="user.title">
+                <input ng-model="createSurvey.encuesta.titulo">
                 </md-input-container>
               <md-input-container class="md-block">
                 <label>Descripcion</label>
 
-            <textarea ng-model="user.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+            <textarea ng-model="createSurvey.encuesta.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
           </md-input-container>
               <md-input-container>
                 <label>URL</label>
-                <input ng-model="user.url">
+                <input ng-model="createSurvey.encuesta.url">
               </md-input-container>
           </md-card-title-text>
         </md-card-title>
         <md-card-actions layout="row" layout-align="end center">
-          <md-button class="md-raised md-primary">Crear</md-button>
+          <md-button class="md-raised md-primary" ng-click="createAndSendSurvey()">Crear</md-button>
         </md-card-actions>
       </md-card>
     </div>
@@ -103,20 +103,6 @@
 {#</md-list>#}
     </div>
     <div flex-xs="" flex-gt-xs="20" layout="column">
-        <md-card md-theme-watch="">
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">Filtros</span>
-          </md-card-title-text>
-             <md-card-actions layout="column">
-                <md-list-item ng-repeat="topping in toppings">
-                    <md-checkbox class="md-secondary" ng-model="topping.wanted"></md-checkbox>
-                <p> {$topping.name $} </p>
-
-              </md-list-item>
-             </md-card-actions>
-        </md-card-title>
-      </md-card>
 
       <md-card md-theme-watch="">
         <md-card-title>

@@ -99,6 +99,20 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
 
     });
   }
+    $scope.createSurvey=""
+    $scope.createAndSendSurvey= function () {
+
+    $http({
+      method: 'POST',
+      url: '/encuestas/surveys/create/',
+      data: $scope.createSurvey
+    }).then(function (response) {
+
+           console.log(response)
+
+
+    });
+  }
 
     $scope.filterSurvey = function(survey) {
         console.log("asd")
