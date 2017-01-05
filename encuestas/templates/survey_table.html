@@ -18,9 +18,8 @@
         </md-card-title>
             <md-input-container class="md-padding">
           <label>Encuesta</label>
-          <md-select name="type" ng-model="project.type" required>
-            <md-option value="app">Application</md-option>
-            <md-option value="web">Website</md-option>
+          <md-select name="type" ng-model="selectedSurvey" required>
+            <md-option ng-value="encuesta" ng-repeat="encuesta in encuestas">{$ encuesta.titulo $}</md-option>
           </md-select>
         </md-input-container>
         <md-card-actions layout="row" layout-align="end center">
