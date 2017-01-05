@@ -120,6 +120,21 @@ $scope.selected = [];
 
     });
   }
+  $scope.sendMessage=""
+  $scope.createAndSendMessage= function () {
+
+    $http({
+      method: 'POST',
+      url: '/encuestas/messages/create/',
+      data: {message:$scope.sendMessage,
+      users:$scope.selected}
+    }).then(function (response) {
+
+           console.log(response)
+
+
+    });
+  }
  cargarEncuestas()
   cargarDatos()
   $scope.test = true

@@ -247,15 +247,27 @@ def create_message_from_cp(request):
     except ValueError:
          return JsonResponse({}, status=404)
 
-    if 'message' in body and 'users' in body:
-
+    if 'message' in body:
         message= body.get('message',{})
-        users = body.get('users',{})
         db_message = Message(title=message['title'],description=message['description'])
         db_message.save()
-        for user in users:
-            sended_message = SendedMessage(message=db_message,subject_id = user['pk'])
-            sended_message.save()
+        if 'users' in body:
+            users = body.get('users',{})
+            for user in users:
+                sended_message = SendedMessage(message=db_message,subject_id = user['pk'])
+                sended_message.save()
+        else:
+            if 'surveys' in body:
+                selectedSurveys = body.get('surveys',{})
+                for selectedSurvey in selectedSurveys:
+                    sended_surveys = SendedSurvey.objects.filter(survey_id=selectedSurvey['pk'])
+                    for sended in sended_surveys:
+                        to_send = SendedMessage(message=db_message,subject= sended.subject)
+                        to_send.save()
+            else:
+                return JsonResponse({}, status=404)
+
+
 
     else:
         return JsonResponse({}, status=404)

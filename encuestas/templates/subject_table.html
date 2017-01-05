@@ -62,16 +62,16 @@
             <span class="md-headline">Nuevo mensaje</span>
               <md-input-container>
         <label>Titulo</label>
-        <input ng-model="user.title">
+        <input ng-model="sendMessage.title">
       </md-input-container>
               <md-input-container class="md-block">
             <label>Descripcion</label>
-            <textarea ng-model="user.biography" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+            <textarea ng-model="sendMessage.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
           </md-input-container>
           </md-card-title-text>
         </md-card-title>
         <md-card-actions layout="row" layout-align="end center">
-          <md-button class="md-raised md-primary">Enviar</md-button>
+          <md-button class="md-raised md-primary" ng-click="createAndSendMessage()">Enviar</md-button>
         </md-card-actions>
       </md-card>
         <md-card md-theme-watch="">
