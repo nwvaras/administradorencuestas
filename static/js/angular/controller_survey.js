@@ -93,7 +93,7 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
           selected: $scope.selected
                 }
     }).then(function (response) {
-
+            afterChange()
            console.log(response)
 
 
@@ -107,7 +107,7 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
       url: '/encuestas/surveys/create/',
       data: $scope.createSurvey
     }).then(function (response) {
-
+            afterChange()
            console.log(response)
 
 
@@ -127,13 +127,16 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
 
     });
   }
-
+    var afterChange= function (){
+    console.log("yeah")
+    cargarDatos()
+  }
     $scope.filterSurvey = function(survey) {
         console.log("asd")
         return !(survey.estado[0].y == 0 &&survey.estado[1].y == 0 );
     };
     $scope.selected=[]
-    cargarDatos()
+    afterChange()
  $scope.options = {
             chart: {
                 type: 'pieChart',

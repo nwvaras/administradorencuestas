@@ -115,7 +115,7 @@ $scope.selected = [];
       usuarios: $scope.selected}
     }).then(function (response) {
 
-           console.log(response)
+           afterChange()
 
 
     });
@@ -130,13 +130,17 @@ $scope.selected = [];
       users:$scope.selected}
     }).then(function (response) {
 
-           console.log(response)
+           afterChange()
 
 
     });
   }
- cargarEncuestas()
-  cargarDatos()
+  var afterChange= function (){
+    console.log("yeah")
+      cargarEncuestas()
+    cargarDatos()
+  }
+ afterChange()
   $scope.test = true
   $scope.selectedRowCallback = function(rows){
             $mdToast.show(

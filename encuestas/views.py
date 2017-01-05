@@ -199,6 +199,8 @@ def send_surveys_from_cp_to_survey_users(request):
 
         encuesta = body.get('encuesta',{})
         selectedSurveys = body.get('selected',{})
+        if len(selectedSurveys) ==0:
+            return JsonResponse({}, status=404)
         for selectedSurvey in selectedSurveys:
             sended_surveys = SendedSurvey.objects.filter(survey_id=selectedSurvey['pk'])
             for sended in sended_surveys:
