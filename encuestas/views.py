@@ -181,6 +181,7 @@ def send_surveys_from_cp(request):
     else:
         return JsonResponse({'status' : 'OK'})
 @csrf_exempt
+@transaction.atomic
 def send_surveys_from_cp_to_survey_users(request):
 
     print(request.body)
@@ -207,6 +208,7 @@ def send_surveys_from_cp_to_survey_users(request):
         return JsonResponse({}, status=404)
     return JsonResponse({'status' : 'OK'})
 @csrf_exempt
+@transaction.atomic
 def create_survey_from_cp(request):
 
     print(request.body)
@@ -225,6 +227,35 @@ def create_survey_from_cp(request):
         encuesta = body.get('encuesta',{})
         survey = Survey(title=encuesta['titulo'],description = encuesta['description'],url=encuesta['url'])
         survey.save()
+
+    else:
+        return JsonResponse({}, status=404)
+    return JsonResponse({'status' : 'OK'})
+
+@csrf_exempt
+@transaction.atomic
+def create_message_from_cp(request):
+
+    print(request.body)
+    print "je2"
+
+    if request.method != 'POST':
+         return JsonResponse({}, status=404)
+    body = request.body.decode('utf-8')
+    try:
+        body = json.loads(body)
+    except ValueError:
+         return JsonResponse({}, status=404)
+
+    if 'message' in body and 'users' in body:
+
+        message= body.get('message',{})
+        users = body.get('users',{})
+        db_message = Message(title=message['title'],description=message['description'])
+        db_message.save()
+        for user in users:
+            sended_message = SendedMessage(message=db_message,subject_id = user['pk'])
+            sended_message.save()
 
     else:
         return JsonResponse({}, status=404)

@@ -59,6 +59,7 @@ angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$sco
         .targetEvent(event)
     );
   };
+        $scope.selected =[]
 
   $scope.doSecondaryAction = function(event) {
     $mdDialog.show(
@@ -70,6 +71,21 @@ angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$sco
         .targetEvent(event)
     );
   };
+
+    $scope.createAndSendMessage= function () {
+
+    $http({
+      method: 'POST',
+      url: '/encuestas/messages/create/',
+      data: {message:$scope.sendMessage,
+      users:$scope.selected}
+    }).then(function (response) {
+
+           console.log(response)
+
+
+    });
+  }
 $scope.paginatorCallback = paginatorCallback;
 
         function paginatorCallback(page, pageSize){
@@ -93,6 +109,7 @@ $scope.paginatorCallback = paginatorCallback;
                     }
                 });
         }
+    $scope.sendMessage =""
 
   var cargarDatos = function () {
 
@@ -108,6 +125,6 @@ $scope.paginatorCallback = paginatorCallback;
     });
 
   };
-    $scope.selected =[]
+
     cargarDatos()
 });
