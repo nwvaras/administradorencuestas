@@ -22,6 +22,7 @@ class Subject(models.Model):
     phone = models.IntegerField(default=0)
     age = models.IntegerField(default=20)
     email = models.EmailField(blank=True, null=True)
+    last_connection = models.DateTimeField(null=True)
 
     class Meta:
         verbose_name = u"Sujeto"
@@ -44,6 +45,7 @@ class Subject(models.Model):
             'edad': str(self.age),
             'phone': str(self.phone),
             'email': self.email,
+            'ultima_conexion' : self.last_connection,
 
             'conjuntos': self.conjuntos_dict()
 
@@ -55,6 +57,9 @@ class Survey(models.Model):
     description = models.TextField()
     url = models.URLField(default='www.google.cl')
     date_creation = models.DateTimeField(auto_now_add=True, blank=True)
+    last_sended_date = models.DateTimeField(null=True)
+    sended = models.BooleanField(default=False)
+    end_survey_time =models.DateTimeField(null=True)
 
     class Meta:
         verbose_name = u"Encuesta"

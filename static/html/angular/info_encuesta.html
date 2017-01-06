@@ -1,0 +1,65 @@
+<md-dialog aria-label="Dialog" ng-controller="MainCtrl">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Mango (Fruit)</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <md-card>
+
+        <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+          <div class="md-toolbar-tools">
+            <span>Encuestas</span>
+            <div flex></div>
+             <md-button class="md-raised" ng-click="createAndSendSurvey()">Gestionar encuestas</md-button>
+          </div>
+        </md-toolbar>
+        <md-table-container>
+  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+      <thead md-head md-order="encuesta.order" md-on-reorder="getDesserts">
+      <tr md-row>
+       <th md-column md-order-by="titulo"><span>Titulo</span></th>
+        <th md-column md-numeric><span>Descripcion</span></th>
+          <th md-column md-numeric><span>Fecha Creacion</span></th>
+          <th md-column md-numeric><span>Respuestas</span></th>
+          <th md-column md-numeric><span>url</span></th>
+      </tr>
+    </thead>
+    <tbody md-body>
+      <tr md-row md-select="encuesta" md-select-id="pk" ng-repeat="encuesta in encuestas | filter:filterSurvey">
+        <td md-cell ng-click="showAdvanced($event)" >{$encuesta.titulo$}</td>
+        <td md-cell ng-click="showAdvanced($event)" >{$encuesta.description$}</td>
+        <td md-cell ng-click="showAdvanced($event)" >{$encuesta.date_creation$}</td>
+
+          <td md-cell ng-click="showAdvanced($event)" >{$encuesta.estado[0].y/(encuesta.estado[1].y + encuesta.estado[0].y)*100 | number:0 $}%</td>
+          <td md-cell> <a ng-href="{$encuesta.url$}">{$ encuesta.url $}</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+</md-table-container>
+
+<md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{$subjects.count$}" md-on-paginate="getDesserts" md-page-select></md-table-pagination>
+          </md-card>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button href="http://en.wikipedia.org/wiki/Mango" target="_blank" md-autofocus>
+        More on Wikipedia
+      </md-button>
+      <span flex></span>
+      <md-button ng-click="answer('not useful')">
+       Not Useful
+      </md-button>
+      <md-button ng-click="answer('useful')">
+        Useful
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

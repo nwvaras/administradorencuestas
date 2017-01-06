@@ -160,4 +160,32 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
     limit: 5,
     page: 1
   };
+    var DialogController = function ($scope, $mdDialog) {
+
+    $scope.aceptamos = false;
+
+    $scope.aceptan = function () {
+      $mdDialog.hide();
+    };
+
+    $scope.rechazan = function () {
+      $mdDialog.cancel();
+    };
+  };
+
+    $scope.showAdvanced = function(ev) {
+    $mdDialog.show({
+      controller: DialogController,
+      templateUrl: '/static/html/angular/info_encuesta.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose:false,
+      fullscreen: true // Only for -xs, -sm breakpoints.
+    })
+    .then(function(answer) {
+      $scope.status = 'You said the information was "' + answer + '".';
+    }, function() {
+      $scope.status = 'You cancelled the dialog.';
+    });
+  };
 });
