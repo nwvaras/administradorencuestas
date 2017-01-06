@@ -2,9 +2,10 @@
 import json
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db import transaction
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 
 #
@@ -67,10 +68,11 @@ from encuestas.models import Survey, SendedSurvey, Subject, Message, SendedMessa
 
 
 def get_survey(request, user):
-    surveyRespList = SendedSurvey.objects.filter(respondida=False,subject__rut=user).all()
+    surveyRespList = SendedSurvey.objects.filter(respondida=False, subject__rut=user).all()
     print surveyRespList
     results = [ob.to_dict() for ob in surveyRespList]
     return JsonResponse(results, safe=False)
+
 
 def ready_survey(request, string):
     surveyResp = SendedSurvey.objects.get(pk=string)
@@ -80,79 +82,83 @@ def ready_survey(request, string):
 
     return JsonResponse({}, safe=False)
 
+
 @csrf_exempt
 def get_users_by_filter(request):
     print("asd2")
     print request.body
     if request.method != 'POST':
-         return JsonResponse({}, status=404)
+        return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-         return JsonResponse({}, status=404)
-    filters = body.get('filters',{})
-    age_min = filters.get('age_min',0)
-    age_max = filters.get('age_max',99)
-    conjuntos = filters.get('conjuntos',[])
+        return JsonResponse({}, status=404)
+    filters = body.get('filters', {})
+    age_min = filters.get('age_min', 0)
+    age_max = filters.get('age_max', 99)
+    conjuntos = filters.get('conjuntos', [])
     users = Subject.objects
     for c in conjuntos:
-        users= users.filter(conjunto__name=c['name'])
-    users=users.filter(age__range=[age_min,age_max])
-    base =[]
+        users = users.filter(conjunto__name=c['name'])
+    users = users.filter(age__range=[age_min, age_max])
+    base = []
     if len(users) == 0:
         return JsonResponse({}, status=404)
     else:
-        for i in xrange(0,len(users)):
+        for i in xrange(0, len(users)):
             user = users[i]
             base.append(user.to_dict())
-    return JsonResponse({'usuarios' : base})
+    return JsonResponse({'usuarios': base})
+
 
 @csrf_exempt
 def get_surveys_by_filter(request):
-
     if request.method != 'POST':
-         return JsonResponse({}, status=404)
+        return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-         return JsonResponse({}, status=404)
-    filters = body.get('filters',{})
-    date_creation_min = filters.get('date_creation_min',datetime(2005, 1, 30))
-    date_creation_max = filters.get('date_creation_max',datetime(2025, 1, 30))
+        return JsonResponse({}, status=404)
+    filters = body.get('filters', {})
+    date_creation_min = filters.get('date_creation_min', datetime(2005, 1, 30))
+    date_creation_max = filters.get('date_creation_max', datetime(2025, 1, 30))
     surveys = Survey.objects
-    surveys=surveys.filter(date_creation__range=[date_creation_min,date_creation_max])
-    base =[]
+    surveys = surveys.filter(date_creation__range=[date_creation_min, date_creation_max])
+    base = []
     if len(surveys) == 0:
         return JsonResponse({}, status=404)
     else:
-        for i in xrange(0,len(surveys)):
+        for i in xrange(0, len(surveys)):
             survey = surveys[i]
             base.append(survey.to_dict())
-    return JsonResponse({'encuestas' : base})
+    return JsonResponse({'encuestas': base})
+
+
 @csrf_exempt
 def get_messages_by_filter(request):
     if request.method != 'POST':
-         return JsonResponse({}, status=404)
+        return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-         return JsonResponse({}, status=404)
-    filters = body.get('filters',{})
-    date_sended_min = filters.get('date_sended_min',datetime(2005, 1, 30))
-    date_sended_max = filters.get('date_sended_max',datetime(2025, 1, 30))
+        return JsonResponse({}, status=404)
+    filters = body.get('filters', {})
+    date_sended_min = filters.get('date_sended_min', datetime(2005, 1, 30))
+    date_sended_max = filters.get('date_sended_max', datetime(2025, 1, 30))
     messages = SendedMessage.objects
-    messages=messages.filter(date_sended__range=[date_sended_min,date_sended_max])
-    base =[]
+    messages = messages.filter(date_sended__range=[date_sended_min, date_sended_max])
+    base = []
     if len(messages) == 0:
         return JsonResponse({}, status=404)
     else:
-        for i in xrange(0,len(messages)):
+        for i in xrange(0, len(messages)):
             message = messages[i]
             base.append(message.to_dict())
-    return JsonResponse({'mensajes' : base})
+    return JsonResponse({'mensajes': base})
+
 
 @csrf_exempt
 def send_surveys_from_cp(request):
@@ -160,111 +166,113 @@ def send_surveys_from_cp(request):
     print(request.body)
     print("asd")
     if request.method != 'POST':
-         return JsonResponse({}, status=404)
+        return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-         return JsonResponse({}, status=404)
+        return JsonResponse({}, status=404)
 
     if 'encuesta' in body and 'usuarios' in body:
-        usuarios= body.get('usuarios',{})
-        encuesta = body.get('encuesta',{})
+        usuarios = body.get('usuarios', {})
+        encuesta = body.get('encuesta', {})
         for user in usuarios:
-            sended_survey = SendedSurvey(survey_id=encuesta['pk'],subject_id=user['pk'])
+            sended_survey = SendedSurvey(survey_id=encuesta['pk'], subject_id=user['pk'])
             sended_survey.save()
     else:
         return JsonResponse({}, status=404)
-    base =[]
+    base = []
     if len(usuarios) == 0:
         return JsonResponse({}, status=404)
     else:
-        return JsonResponse({'status' : 'OK'})
+        return JsonResponse({'status': 'OK'})
+
+
 @csrf_exempt
 @transaction.atomic
 def send_surveys_from_cp_to_survey_users(request):
-
     print(request.body)
     print "je"
 
     if request.method != 'POST':
-         return JsonResponse({}, status=404)
+        return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-         return JsonResponse({}, status=404)
+        return JsonResponse({}, status=404)
 
     if 'encuesta' in body and 'selected' in body:
 
-        encuesta = body.get('encuesta',{})
-        selectedSurveys = body.get('selected',{})
-        if len(selectedSurveys) ==0:
+        encuesta = body.get('encuesta', {})
+        selectedSurveys = body.get('selected', {})
+        if len(selectedSurveys) == 0:
             return JsonResponse({}, status=404)
         for selectedSurvey in selectedSurveys:
             sended_surveys = SendedSurvey.objects.filter(survey_id=selectedSurvey['pk'])
             for sended in sended_surveys:
-                to_send = SendedSurvey(survey_id=encuesta['pk'],subject=sended.subject)
+                to_send = SendedSurvey(survey_id=encuesta['pk'], subject=sended.subject)
                 to_send.save()
     else:
         return JsonResponse({}, status=404)
-    return JsonResponse({'status' : 'OK'})
+    return JsonResponse({'status': 'OK'})
+
+
 @csrf_exempt
 @transaction.atomic
 def create_survey_from_cp(request):
-
     print(request.body)
     print "je2"
 
     if request.method != 'POST':
-         return JsonResponse({}, status=404)
+        return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-         return JsonResponse({}, status=404)
+        return JsonResponse({}, status=404)
 
     if 'encuesta' in body:
 
-        encuesta = body.get('encuesta',{})
-        survey = Survey(title=encuesta['titulo'],description = encuesta['description'],url=encuesta['url'])
+        encuesta = body.get('encuesta', {})
+        survey = Survey(title=encuesta['titulo'], description=encuesta['description'], url=encuesta['url'])
         survey.save()
 
     else:
         return JsonResponse({}, status=404)
-    return JsonResponse({'status' : 'OK'})
+    return JsonResponse({'status': 'OK'})
+
 
 @csrf_exempt
 @transaction.atomic
 def create_message_from_cp(request):
-
     print(request.body)
     print "je2"
 
     if request.method != 'POST':
-         return JsonResponse({}, status=404)
+        return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-         return JsonResponse({}, status=404)
+        return JsonResponse({}, status=404)
 
     if 'message' in body:
-        message= body.get('message',{})
-        db_message = Message(title=message['title'],description=message['description'])
+        message = body.get('message', {})
+        db_message = Message(title=message['title'], description=message['description'])
         db_message.save()
         if 'users' in body:
-            users = body.get('users',{})
+            users = body.get('users', {})
             for user in users:
-                sended_message = SendedMessage(message=db_message,subject_id = user['pk'])
+                sended_message = SendedMessage(message=db_message, subject_id=user['pk'])
                 sended_message.save()
         else:
             if 'surveys' in body:
-                selectedSurveys = body.get('surveys',{})
+                selectedSurveys = body.get('surveys', {})
                 for selectedSurvey in selectedSurveys:
                     sended_surveys = SendedSurvey.objects.filter(survey_id=selectedSurvey['pk'])
                     for sended in sended_surveys:
-                        to_send = SendedMessage(message=db_message,subject= sended.subject)
+                        to_send = SendedMessage(message=db_message, subject=sended.subject)
                         to_send.save()
             else:
                 return JsonResponse({}, status=404)
@@ -273,18 +281,44 @@ def create_message_from_cp(request):
 
     else:
         return JsonResponse({}, status=404)
-    return JsonResponse({'status' : 'OK'})
+    return JsonResponse({'status': 'OK'})
+
+
+def get_survey_details_html(request,id):
+    print "hello"
+    if request.method != 'GET':
+        return JsonResponse({}, status=404)
+
+    sended_surveys = SendedSurvey.objects.filter(survey_id = id)
+    survey =sended_surveys.first().survey
+    users = Subject.objects.all()
+    total = sended_surveys.count()
+    responded = sended_surveys.filter(respondida=True).count()
+
+    base = []
+    for i in xrange(0, len(users)):
+        user = users[i]
+        base.append(user.to_dict_with_survey(sended_surveys))
+    surveyDetails = json.dumps({'surveyDetails':{'usuarios': base, 'encuesta' : survey.to_dict(), 'total' : total , 'responded': responded}})
+    return render_to_response('survey_details.html', {'surveyDetails': surveyDetails})
+
 
 
 @login_required
 def survey_menu(request):
     return render(request, 'survey_table.html')
+
+
 @login_required
 def graph_viewer(request):
     return render(request, 'graph_viewer.html')
+
+
 @login_required
 def subject_menu(request):
     return render(request, 'subject_table.html')
+
+
 @login_required
 def message_record(request):
     return render(request, 'message_table.html')

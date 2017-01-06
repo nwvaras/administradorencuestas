@@ -37,17 +37,42 @@ class Subject(models.Model):
             total.append({"name": i.name})
         return total
 
+    def getDateToIso(self,date):
+        if date is not None:
+            return date.isoformat()
+        else:
+            return ""
+
     def to_dict(self):
         return {
             'pk': self.pk,
             'nombre': self.name,
             'rut': self.rut,
-            'edad': str(self.age),
-            'phone': str(self.phone),
+            'edad': self.age,
+            'phone': self.phone,
             'email': self.email,
-            'ultima_conexion' : self.last_connection,
+            'ultima_conexion': self.getDateToIso(self.last_connection),
 
             'conjuntos': self.conjuntos_dict()
+
+        }
+
+    def to_dict_with_survey(self, sendedsurveys):
+        sendedsurvey = sendedsurveys.filter(subject_id=self.pk)
+        status = False
+        sended = ""
+        responded = False
+        if len(sendedsurvey) != 0:
+            status = True
+            sended = self.getDateToIso(sendedsurvey.first().date_creation)
+            responded = sendedsurvey.first().respondida
+        return {
+            'pk': self.pk,
+            'nombre': self.name,
+            'conjuntos': self.conjuntos_dict(),
+            'enviada': status,
+            'fecha_envio': sended,
+            'responded': responded
 
         }
 
@@ -59,7 +84,7 @@ class Survey(models.Model):
     date_creation = models.DateTimeField(auto_now_add=True, blank=True)
     last_sended_date = models.DateTimeField(null=True)
     sended = models.BooleanField(default=False)
-    end_survey_time =models.DateTimeField(null=True)
+    end_survey_time = models.DateTimeField(null=True)
 
     class Meta:
         verbose_name = u"Encuesta"
@@ -74,6 +99,12 @@ class Survey(models.Model):
         no_count = sended.filter(respondida=False).count()
         return (yes_count, no_count)
 
+    def getDateToIso(self):
+        if self.date_creation is not None:
+            return self.date_creation.isoformat()
+        else:
+            return ""
+
     def to_dict(self):
         (yes, no) = self.calculate_responses()
         return {
@@ -81,7 +112,7 @@ class Survey(models.Model):
             'titulo': self.title,
             'description': self.description,
             'url': self.url,
-            'date_creation': self.date_creation,
+            'date_creation': self.getDateToIso(),
             'estado': [{
                 'key': 'Si',
                 'y': yes
@@ -130,12 +161,14 @@ class Message(models.Model):
 
     def __unicode__(self):
         return self.title
+
     def to_dict(self):
         return {
             'pk': self.pk,
             'title': self.title,
             'description': self.description,
         }
+
 
 class SendedMessage(models.Model):
     message = models.ForeignKey(to=Message)

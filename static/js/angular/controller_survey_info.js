@@ -35,6 +35,7 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
         .targetEvent(event)
     );
   };
+    $scope.surveyDetails = pre.surveyDetails
 
   $scope.navigateTo = function(to, event) {
     $mdDialog.show(
@@ -57,7 +58,14 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
         .targetEvent(event)
     );
   };
-
+    $scope.getConjuntos= function(conjuntos) {
+    var total =""
+    for (var i = 0; i < conjuntos.length; i++) {
+      var obj = conjuntos[i];
+      total = total + " " + obj.name
+    }
+    return total
+  }
   $scope.doSecondaryAction = function(event) {
     $mdDialog.show(
       $mdDialog.alert()
@@ -190,4 +198,12 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
       $scope.status = 'You cancelled the dialog.';
     });
   };
+    $scope.getConjuntos= function(conjuntos) {
+    var total =""
+    for (var i = 0; i < conjuntos.length; i++) {
+      var obj = conjuntos[i];
+      total = total + " " + obj.name
+    }
+    return total
+  }
 });
