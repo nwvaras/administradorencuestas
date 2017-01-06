@@ -54,6 +54,20 @@
         </md-card>
     </div>
 <div flex-xs="" flex-gt-xs="20" layout="column">
+    <md-card md-theme-watch="">
+         <md-card-title>
+           <md-card-title-text>
+             <span class="md-headline">Filtros</span>
+           </md-card-title-text>
+              <md-card-actions layout="column">
+                 <md-list-item ng-repeat="topping in toppings">
+                     <md-checkbox class="md-secondary" ng-model="topping.wanted"></md-checkbox>
+                 <p> {$ topping.name $} </p>
+
+               </md-list-item>
+              </md-card-actions>
+         </md-card-title>
+       </md-card>
 
     </div>
   </md-content>
