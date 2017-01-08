@@ -64,7 +64,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 #
 #     return JsonResponse({'status': 'error', 'mensajes': errores}, status=400)
 
-from encuestas.models import Survey, SendedSurvey, Subject, Message, SendedMessage
+from encuestas.models import Survey, SendedSurvey, Subject, Message, SendedMessage, Conjunto
 
 
 def get_survey(request, user):
@@ -283,7 +283,7 @@ def create_message_from_cp(request):
         return JsonResponse({}, status=404)
     return JsonResponse({'status': 'OK'})
 
-
+@csrf_exempt
 def get_survey_details_html(request,id):
     print "hello"
     if request.method != 'GET':
@@ -301,6 +301,21 @@ def get_survey_details_html(request,id):
         base.append(user.to_dict_with_survey(sended_surveys))
     surveyDetails = json.dumps({'surveyDetails':{'usuarios': base, 'encuesta' : survey.to_dict(), 'total' : total , 'responded': responded}})
     return render_to_response('survey_details.html', {'surveyDetails': surveyDetails})
+
+@csrf_exempt
+def get_conjuntos(request):
+    if request.method != 'GET':
+        return JsonResponse({}, status=404)
+
+    conjuntos = Conjunto.objects.all()
+
+    base = []
+    for i in xrange(0, len(conjuntos)):
+        conjunto = conjuntos[i]
+        base.append(conjunto.to_dict())
+    return JsonResponse({'conjuntos': base})
+
+
 
 
 

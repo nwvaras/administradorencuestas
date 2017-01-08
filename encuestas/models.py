@@ -13,6 +13,13 @@ class Conjunto(models.Model):
 
     def __unicode__(self):
         return self.name
+    def to_dict(self):
+        return {
+            'pk': self.pk,
+            'name': self.name,
+            'description' : self.description,
+            'getStatus' :True,
+        }
 
 
 class Subject(models.Model):

@@ -28,7 +28,7 @@
 
         </md-toolbar>
         <md-table-container>
-  <table md-table  multiple ng-model="selected" md-progress="promise">
+  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
       <thead md-head md-order="subject.order" md-on-reorder="cargarDatos">
       <tr md-row>
         <th md-column md-order-by="nameToLower"><span>Nombre</span></th>
@@ -39,18 +39,16 @@
       </tr>
     </thead>
     <tbody md-body>
-      <tr md-row md-select="subject" md-select-id="nombre" md-auto-select ng-repeat="subject in surveyDetails.usuarios">
-        <td md-cell ng-click="showAdvanced($event)" >{$ subject.nombre $}</td>
-        <td md-cell ng-click="showAdvanced($event)" >{$ getConjuntos(subject.conjuntos)   $}</td>
-          <td md-cell ng-click="showAdvanced($event)" >{$ subject.enviada $}</td>
-        <td md-cell ng-click="showAdvanced($event)" >{$ subject.fecha_envio  $}</td>
-          <td md-cell ng-click="showAdvanced($event)" >{$ subject.responded $}</td>
+      <tr md-row md-select="subject" md-select-id="nombre" md-auto-select ng-repeat="subject in usuarios">
+        <td md-cell >{$ subject.nombre $}</td>
+        <td md-cell >{$ getConjuntos(subject.conjuntos)   $}</td>
+          <td md-cell ><p ng-show="subject.enviada"><ng-md-icon icon="done"></ng-md-icon></p><p ng-show="!subject.enviada"><ng-md-icon icon="not_interested"></ng-md-icon> </p></td>
+        <td md-cell >{$ subject.fecha_envio  $}</td>
+          <td md-cell ><p ng-show="subject.responded"><ng-md-icon icon="done"></ng-md-icon></p><p ng-show="!subject.responded"><ng-md-icon icon="not_interested"></ng-md-icon> </p></td>
       </tr>
     </tbody>
   </table>
 </md-table-container>
-
-<md-table-pagination md-limit="query.limit" md-limit-options="[7, 10, 15]" md-page="query.page" md-total="{$subjects.count$}" md-on-paginate="cargarDatos" md-page-select></md-table-pagination>
         </md-card>
     </div>
 <div flex-xs="" flex-gt-xs="20" layout="column">
@@ -59,14 +57,43 @@
            <md-card-title-text>
              <span class="md-headline">Filtros</span>
            </md-card-title-text>
-              <md-card-actions layout="column">
-                 <md-list-item ng-repeat="topping in toppings">
-                     <md-checkbox class="md-secondary" ng-model="topping.wanted"></md-checkbox>
-                 <p> {$ topping.name $} </p>
 
-               </md-list-item>
               </md-card-actions>
          </md-card-title>
+        <md-card-actions layout="column">
+            <md-divider></md-divider>
+            <p class="md-body-2">Estado de la encuesta</p>
+             <md-list-item>
+                     <md-checkbox ng-model="getSended" class="md-secondary"></md-checkbox>
+                 <p> Enviada </p>
+
+               </md-list-item>
+            <md-list-item>
+                     <md-checkbox ng-model="getNotSended"class="md-secondary"></md-checkbox>
+                 <p> No enviada </p>
+
+               </md-list-item>
+            <md-divider></md-divider>
+            <p class="md-body-2">Respuesta del Usuario</p>
+            <md-list-item>
+                     <md-checkbox class="md-secondary" ng-model="getResponded"></md-checkbox>
+                 <p> Respondida </p>
+
+               </md-list-item>
+            <md-list-item>
+                     <md-checkbox ng-model="getNotResponded" class="md-secondary"></md-checkbox>
+                 <p> No respondida </p>
+
+               </md-list-item>
+            <md-divider></md-divider>
+            <p class="md-body-2">Conjuntos</p>
+                 <md-list-item ng-repeat="conjunto in totalConjuntos">
+                     <md-checkbox class="md-secondary" ng-model="conjunto.getStatus"></md-checkbox>
+                 <p> {$ conjunto.name $} </p>
+
+
+
+            </md-card-actions>
        </md-card>
 
     </div>

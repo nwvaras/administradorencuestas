@@ -167,6 +167,113 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
     limit: 5,
     page: 1
   };
+    $scope.totalConjuntos = ""
+    var getDBConjuntos = function () {
+
+    $http({
+      method: 'GET',
+      url: '/encuestas/conjuntos/'
+    }).then(function (response) {
+
+           console.log(response)
+        $scope.totalConjuntos = response.data.conjuntos
+
+
+    });
+  }
+    getDBConjuntos()
+
+    $scope.getSended = true
+    $scope.$watch('getSended', function() {
+        console.log("watche")
+        $scope.userTableinit()
+    })
+    $scope.getNotSended = true
+    $scope.$watch('getNotSended', function() {
+        console.log("watche")
+        $scope.userTableinit()
+    })
+    $scope.getResponded = true
+    $scope.$watch('getResponded', function() {
+        console.log("watche")
+        $scope.userTableinit()
+    })
+    $scope.getNotResponded = true
+    $scope.$watch('getNotResponded', function() {
+        console.log("watche")
+        $scope.userTableinit()
+    })
+    $scope.conjuntosFilter= function(x) {
+        var conjuntos = x.conjuntos
+        var total = true
+       for (var i = 0; i < conjuntos.length; i++) {
+           for (var u = 0; u < $scope.totalConjuntos.length; u++) {
+               if(conjuntos[i].name == $scope.totalConjuntos[u].name){
+                    console.log(conjuntos[i])
+                   if(!$scope.totalConjuntos[u].getStatus){
+                       console.log("farso")
+                       return false
+                   }
+               }
+
+            }
+
+        }
+        return true
+    }
+    $scope.$watch('totalConjuntos', function() {
+        console.log("watche")
+        $scope.userTableinit()
+    },true)
+    $scope.respondedFilter= function(x) {
+        if(!$scope.getResponded){
+            return !x.responded
+        }
+        else{
+            return true
+        }
+    }
+    $scope.notRespondedFilter= function(x) {
+        if(!$scope.getNotResponded){
+            return x.responded
+        }
+        else{
+            return true
+        }
+    }
+    $scope.sendedFilter= function(x) {
+        if(!$scope.getSended){
+            return !x.enviada
+        }
+        else{
+            return true
+        }
+    }
+    $scope.notSendedFilter= function(x) {
+        if(!$scope.getNotSended){
+            return x.enviada
+        }
+        else{
+            return true
+        }
+    }
+
+    $scope.userTableinit = function() {
+     $scope.usuarios = $scope.surveyDetails.usuarios.filter(function(usuario) {
+       // Create an array using `.split()` method
+         $scope.selected=[]
+       return ($scope.conjuntosFilter(usuario) && $scope.respondedFilter(usuario) && $scope.notRespondedFilter(usuario) && $scope.sendedFilter(usuario) && $scope.notSendedFilter(usuario))
+
+       // Filter the returned array based on specified filters
+       // If the length of the returned filtered array is equal to
+       // length of the filters array the element should be returned
+       return cats.filter(function(cat) {
+           return filtersArray.indexOf(cat) > -1;
+       }).length === filtersArray.length;
+    });
+}
+    $scope.userTableinit()
+
     var DialogController = function ($scope, $mdDialog) {
 
     $scope.aceptamos = false;
@@ -182,6 +289,8 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
     $scope.loadSurveyDetail = function(survey){
         $window.location.href = '/encuestas/surveys/info/' + survey.pk;
     }
+
+
 
     $scope.showAdvanced = function(ev) {
     $mdDialog.show({

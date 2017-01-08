@@ -60,11 +60,11 @@
     <tbody md-body>
       <tr md-row md-select="encuesta" md-select-id="pk" ng-repeat="encuesta in encuestas | filter:filterSurvey">
         <td md-cell ng-click="loadSurveyDetail(encuesta)" >{$encuesta.titulo$}</td>
-        <td md-cell ng-click="loadSurveyDetail(encuesta)Z" >{$encuesta.description$}</td>
-        <td md-cell ng-click="loadSurveyDetail(encuesta)Z" >{$encuesta.date_creation$}</td>
+        <td md-cell ng-click="loadSurveyDetail(encuesta)" >{$encuesta.description$}</td>
+        <td md-cell ng-click="loadSurveyDetail(encuesta)" >{$encuesta.date_creation$}</td>
 
-{#        <td md-cell ng-click="loadSurveyDetail(encuesta)Z" > <nvd3  options="options" data="encuesta.estado"></nvd3></td>#}
-          <td md-cell ng-click="loadSurveyDetail(encuesta)Z" >{$encuesta.estado[0].y/(encuesta.estado[1].y + encuesta.estado[0].y)*100 | number:0 $}%</td>
+{#        <td md-cell ng-click="loadSurveyDetail(encuesta)" > <nvd3  options="options" data="encuesta.estado"></nvd3></td>#}
+          <td md-cell ng-click="loadSurveyDetail(encuesta)" >{$encuesta.estado[0].y/(encuesta.estado[1].y + encuesta.estado[0].y)*100 | number:0 $}%</td>
           <td md-cell> <a ng-href="{$encuesta.url$}">{$ encuesta.url $}</a></td>
       </tr>
     </tbody>
