@@ -30,7 +30,7 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
     last = angular.extend({},current);
   }
 
-    $scope.surveyDetails = pre.surveyDetails
+    $scope.messageDetails = pre.messageDetails
 
     $scope.getConjuntos= function(conjuntos) {
     var total =""
@@ -248,7 +248,7 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
     }
 
     $scope.userTableinit = function() {
-     $scope.usuarios = $scope.surveyDetails.usuarios.filter(function(usuario) {
+     $scope.usuarios = $scope.messageDetails.usuarios.filter(function(usuario) {
        // Create an array using `.split()` method
          $scope.selected=[]
        return ($scope.conjuntosFilter(usuario) && $scope.respondedFilter(usuario) && $scope.notRespondedFilter(usuario) && $scope.sendedFilter(usuario) && $scope.notSendedFilter(usuario))
@@ -282,7 +282,7 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
 
     $scope.enviarEncuesta = function(ev) {
         if($scope.selected.length>0){
-        var enc = $scope.surveyDetails.encuesta
+        var enc = $scope.messageDetails.encuesta
 
     // Appending dialog to document.body to cover sidenav in docs app
     var confirm = $mdDialog.confirm()
@@ -330,7 +330,7 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
     $http({
       method: 'POST',
       url: '/encuestas/surveys/sendFromSurvey/',
-      data: { encuesta:$scope.surveyDetails.encuesta,
+      data: { encuesta:$scope.messageDetails.encuesta,
           selected: $scope.selected
                 }
     }).then(function (response) {

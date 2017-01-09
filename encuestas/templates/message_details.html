@@ -1,0 +1,101 @@
+{% extends 'base/base.html' %}
+{% load staticfiles %}
+
+{% block js %}
+    <script src="{% static 'js/angular/controller_message_info.js' %}"></script>
+    <script type="text/javascript">
+        var pre = eval({{messageDetails|safe}})
+
+        //var messageDetails = JSON.parse(pre);
+    console.log(pre)
+    </script>
+{% endblock %}
+
+{% block body %}
+
+<md-content class="md-padding" layout-xs="column" layout="row" ng-controller="MainCtrl"  class="listdemoListControls" ng-cloak>
+    <div flex-xs="" flex-gt-xs="80" layout="column">
+    <md-card>
+
+        <md-toolbar  ng-hide="options.rowSelection && selected.length">
+          <div class="md-toolbar-tools">
+            <span>Personas</span>
+            <div flex></div>
+{#             <md-button class="md-raised md-default" ng-click="showDialogMessage($event)">Enviar Mensaje</md-button>#}
+{#             <md-button class="md-raised md-warn md-default" ng-click="enviarEncuesta($event)">Enviar Encuesta</md-button>#}
+          </div>
+
+
+        </md-toolbar>
+        <md-table-container>
+  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+      <thead md-head md-order="subject.order" md-on-reorder="cargarDatos">
+      <tr md-row>
+        <th md-column md-order-by="nameToLower"><span>Nombre</span></th>
+        <th md-column md-numeric md-order-by="calories.value"><span>Conjuntos</span></th>
+        <th md-column md-numeric>Enviada</th>
+        <th md-column md-numeric>Fecha de Envio</th>
+          <th md-column md-numeric>Leida</th>
+      </tr>
+    </thead>
+    <tbody md-body>
+      <tr md-row md-select="subject" md-select-id="nombre" ng-repeat="subject in usuarios">
+        <td md-cell >{$ subject.nombre $}</td>
+        <td md-cell >{$ getConjuntos(subject.conjuntos)   $}</td>
+          <td md-cell ><p ng-show="subject.enviada"><ng-md-icon icon="done"></ng-md-icon></p><p ng-show="!subject.enviada"><ng-md-icon icon="not_interested"></ng-md-icon> </p></td>
+       <td md-cell ng-click="loadSurveyDetail(encuesta)" ><p ng-show="subject.fecha_envio">{$subject.fecha_envio$}</p><p ng-hide="subject.fecha_envio">No aplica</p></td>
+          <td md-cell ><p ng-show="subject.leida"><ng-md-icon icon="done"></ng-md-icon></p><p ng-show="!subject.leida"><ng-md-icon icon="not_interested"></ng-md-icon> </p></td>
+      </tr>
+    </tbody>
+  </table>
+</md-table-container>
+        </md-card>
+    </div>
+<div flex-xs="" flex-gt-xs="20" layout="column">
+{#    <md-card md-theme-watch="">#}
+{#         <md-card-title>#}
+{#           <md-card-title-text>#}
+{#             <span class="md-headline">Filtros</span>#}
+{#           </md-card-title-text>#}
+{##}
+{#              </md-card-actions>#}
+{#         </md-card-title>#}
+{#        <md-card-actions layout="column">#}
+{#            <md-divider></md-divider>#}
+{#            <p class="md-body-2">Estado de la encuesta</p>#}
+{#             <md-list-item>#}
+{#                     <md-checkbox ng-model="getSended" class="md-secondary"></md-checkbox>#}
+{#                 <p> Enviada </p>#}
+{##}
+{#               </md-list-item>#}
+{#            <md-list-item>#}
+{#                     <md-checkbox ng-model="getNotSended"class="md-secondary"></md-checkbox>#}
+{#                 <p> No enviada </p>#}
+{##}
+{#               </md-list-item>#}
+{#            <md-divider></md-divider>#}
+{#            <p class="md-body-2">Respuesta del Usuario</p>#}
+{#            <md-list-item>#}
+{#                     <md-checkbox class="md-secondary" ng-model="getResponded"></md-checkbox>#}
+{#                 <p> Respondida </p>#}
+{##}
+{#               </md-list-item>#}
+{#            <md-list-item>#}
+{#                     <md-checkbox ng-model="getNotResponded" class="md-secondary"></md-checkbox>#}
+{#                 <p> No respondida </p>#}
+{##}
+{#               </md-list-item>#}
+{#            <md-divider></md-divider>#}
+{#            <p class="md-body-2">Conjuntos</p>#}
+{#                 <md-list-item ng-repeat="conjunto in totalConjuntos">#}
+{#                     <md-checkbox class="md-secondary" ng-model="conjunto.getStatus"></md-checkbox>#}
+{#                 <p> {$ conjunto.name $} </p>#}
+{##}
+{##}
+{##}
+{#            </md-card-actions>#}
+{#       </md-card>#}
+
+    </div>
+  </md-content>
+{% endblock %}

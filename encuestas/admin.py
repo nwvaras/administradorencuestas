@@ -117,7 +117,14 @@ class SendedMessageAdmin(admin.ModelAdmin):
     # list_filter = ['read']
     # search_fields = ['message__title']
     pass
+class MyModelAdmin(admin.ModelAdmin):
+    def get_model_perms(self, request):
+        """
+        Return empty perms dict thus hiding the model from admin index.
+        """
+        return {}
 
+# admin.site.register(Message, MyModelAdmin)
 admin.site.register_view('personas' ,'Menu Personas', view=subject_menu,)
 admin.site.register_view('encuestas','Menu Encuestas', view=survey_menu)
 admin.site.register_view('mensajes','Historial de Mensajes', view=message_record)
@@ -127,3 +134,9 @@ admin.site.register(Survey)
 admin.site.register(SendedSurvey,SendedSurveyAdmin)
 admin.site.register(Message)
 admin.site.register(SendedMessage)
+# admin.site.register(Conjunto,MyModelAdmin)
+# admin.site.register(Subject,MyModelAdmin)
+# admin.site.register(Survey,MyModelAdmin)
+# admin.site.register(SendedSurvey,MyModelAdmin)
+# admin.site.register(Message,MyModelAdmin)
+# admin.site.register(SendedMessage,MyModelAdmin)

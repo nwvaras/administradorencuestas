@@ -15,7 +15,7 @@
           <div class="md-toolbar-tools">
             <span>Personas</span>
             <div flex></div>
-             <md-button class="md-raised" ng-click="createAndSendSurvey()">Agregar Persona</md-button>
+             <md-button class="md-raised" ng-click="createUser($event)">Agregar Persona</md-button>
           </div>
         </md-toolbar>
         <md-table-container>
@@ -33,13 +33,13 @@
     </thead>
     <tbody md-body>
       <tr md-row md-select="subject" md-select-id="nombre" md-auto-select ng-repeat="subject in subjects">
-        <td md-cell ng-click="showAdvanced($event)" >{$ subject.nombre $}</td>
-        <td md-cell ng-click="showAdvanced($event)" >{$ subject.rut   $}</td>
-          <td md-cell ng-click="showAdvanced($event)" >{$ subject.edad $}</td>
-        <td md-cell ng-click="showAdvanced($event)" >{$ subject.email  $}</td>
-          <td md-cell ng-click="showAdvanced($event)" >{$ subject.phone $}</td>
-          <td md-cell ng-click="showAdvanced($event)" >{$ getConjuntos(subject.conjuntos)  $}</td>
-          <td md-cell ng-click="showAdvanced($event)" >{$ subject.ultima_conexion $}</td>
+        <td md-cell ng-click="editUser(subject,$event)" >{$ subject.nombre $}</td>
+        <td md-cell ng-click="editUser(subject,$event)" >{$ subject.rut   $}</td>
+          <td md-cell ng-click="editUser(subject,$event)" >{$ subject.edad $}</td>
+        <td md-cell ng-click="editUser(subject,$event)" >{$ subject.email  $}</td>
+          <td md-cell ng-click="editUser(subject,$event)" >{$ subject.phone $}</td>
+          <td md-cell ng-click="editUser(subject,$event)" >{$ getConjuntos(subject.conjuntos)  $}</td>
+          <td md-cell ng-click="editUser(subject,$event)" >{$ subject.ultima_conexion $}</td>
       </tr>
     </tbody>
   </table>

@@ -1,0 +1,29 @@
+<md-dialog aria-label="Mango (Fruit)" ng-cloack ng-controller="MainCtrl">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Enviar mensaje</h2>
+        <md-button class="md-icon-button" ng-click="cancel()">
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content style="padding:4vw">
+      <md-input-container flex class="flex md-input-has-value">
+        <label class="md-required">Escoja un mensaje para enviar</label>
+        <md-select ng-model="sendedMessage" required>
+           <md-option ng-value="message" ng-repeat="message in messages">{$ message.title $}</md-option>
+        </md-select>
+      </md-input-container>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="answer(sendedMessage)">
+       Obtener
+      </md-button>
+        <span flex></span>
+      <md-button ng-click="answer('')">
+        Cancelar
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

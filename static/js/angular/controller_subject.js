@@ -157,5 +157,40 @@ $scope.selected = [];
     }
     return total
   }
+  var DialogController = function ($scope, $mdDialog) {
+
+  };
+  $scope.createUser = function(ev) {
+
+
+            $mdDialog.show({
+                controller: DialogController,
+                templateUrl: '/cpadmin/encuestas/subject/add/',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                fullscreen: true // Only for -xs, -sm breakpoints.
+            })
+                .then(function (answer) {
+
+                });
+        }
+        ;
+  $scope.editUser = function(user,ev) {
+
+
+            $mdDialog.show({
+                controller: DialogController,
+                templateUrl: '/cpadmin/encuestas/subject/'+user.pk+'/change/',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                fullscreen: true // Only for -xs, -sm breakpoints.
+            })
+                .then(function (answer) {
+
+                });
+        }
+        ;
 
 });

@@ -137,7 +137,7 @@ def get_surveys_by_filter(request):
 
 
 @csrf_exempt
-def get_messages_by_filter(request):
+def get_sended_messages_by_filter(request):
     if request.method != 'POST':
         return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
@@ -151,6 +151,22 @@ def get_messages_by_filter(request):
     messages = SendedMessage.objects
     messages = messages.filter(date_sended__range=[date_sended_min, date_sended_max])
     base = []
+    if len(messages) == 0:
+        return JsonResponse({}, status=404)
+    else:
+        for i in xrange(0, len(messages)):
+            message = messages[i]
+            base.append(message.to_dict())
+    return JsonResponse({'mensajes': base})
+
+
+@csrf_exempt
+def get_messages(request):
+    if request.method != 'POST':
+        return JsonResponse({}, status=404)
+    messages = Message.objects.all()
+    base = []
+
     if len(messages) == 0:
         return JsonResponse({}, status=404)
     else:
@@ -284,6 +300,34 @@ def create_message_from_cp(request):
     return JsonResponse({'status': 'OK'})
 
 
+def send_message(request):
+    print(request.body)
+    print "je2"
+
+    if request.method != 'POST':
+        return JsonResponse({}, status=404)
+    body = request.body.decode('utf-8')
+    try:
+        body = json.loads(body)
+    except ValueError:
+        return JsonResponse({}, status=404)
+
+    if 'message' in body:
+        message = body.get('message')
+        id = message['pk']
+        if 'users' in body:
+            users = body.get('users', {})
+            for user in users:
+                sended_message = SendedMessage(message_id=id, subject_id=user['pk'])
+                sended_message.save()
+        else:
+            return JsonResponse({}, status=404)
+
+    else:
+        return JsonResponse({}, status=404)
+    return JsonResponse({'status': 'OK'})
+
+
 @csrf_exempt
 def get_survey_details_html(request, id):
     print "hello"
@@ -305,7 +349,23 @@ def get_survey_details_html(request, id):
     surveyDetails = json.dumps(
         {'surveyDetails': {'usuarios': base, 'encuesta': survey.to_dict(), 'total': total, 'responded': responded}})
     return render_to_response('survey_details.html', {'surveyDetails': surveyDetails})
-
+@csrf_exempt
+def get_message_details_html(request, id):
+    print "hello"
+    if request.method != 'GET':
+        return JsonResponse({}, status=404)
+    sended_surveys = SendedMessage.objects.filter(message_id=id)
+    message = Message.objects.get(id=id)
+    users = Subject.objects.all()
+    responded = 0
+    total = 0
+    base = []
+    for i in xrange(0, len(users)):
+        user = users[i]
+        base.append(user.to_dict_with_message(sended_surveys))
+    surveyDetails = json.dumps(
+        {'messageDetails': {'usuarios': base, 'message': message.to_dict(), 'total': total, 'responded': responded}})
+    return render_to_response('message_details.html', {'messageDetails': surveyDetails})
 
 @csrf_exempt
 def get_conjuntos(request):

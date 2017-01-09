@@ -14,22 +14,22 @@
         <md-toolbar ng-hide="options.rowSelection && selected.length">
           <div class="md-toolbar-tools">
             <span>Mensajes</span>
+              <div flex></div>
+             <md-button class="md-raised" ng-click="createAndSendSurvey()">Gestionar mensaje</md-button>
           </div>
         </md-toolbar>
         <md-table-container>
   <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
       <thead md-head md-order="message.order" md-on-reorder="cargarDatos">
       <tr md-row>
-        <th md-column md-order-by="nameToLower"><span>Usuario</span></th>
-        <th md-column md-numeric md-order-by="calories.value"><span>Mensaje</span></th>
+        <th md-column md-numeric md-order-by="calories.value"><span>Titulo</span></th>
         <th md-column md-numeric>Descripcion</th>
       </tr>
     </thead>
     <tbody md-body>
       <tr md-row md-select="message" md-select-id="pk" ng-repeat="message in messages">
-        <td md-cell>{$ message.usuario.nombre $}</td>
-        <td md-cell>{$ message.message.title   $}</td>
-          <td md-cell>{$ message.message.description $}</td>
+        <td md-cell ng-click="loadMessageDetail(message)">{$ message.title   $}</td>
+          <td md-cell ng-click="loadMessageDetail(message)">{$ message.description $}</td>
       </tr>
     </tbody>
   </table>

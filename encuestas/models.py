@@ -13,12 +13,13 @@ class Conjunto(models.Model):
 
     def __unicode__(self):
         return self.name
+
     def to_dict(self):
         return {
             'pk': self.pk,
             'name': self.name,
-            'description' : self.description,
-            'getStatus' :True,
+            'description': self.description,
+            'getStatus': True,
         }
 
 
@@ -44,7 +45,7 @@ class Subject(models.Model):
             total.append({"name": i.name})
         return total
 
-    def getDateToIso(self,date):
+    def getDateToIso(self, date):
         if date is not None:
             return date.isoformat()
         else:
@@ -80,6 +81,26 @@ class Subject(models.Model):
             'enviada': status,
             'fecha_envio': sended,
             'responded': responded
+
+        }
+
+    def to_dict_with_message(self, sendedmessages):
+        sendedmessage = sendedmessages.filter(subject_id=self.pk)
+        status = False
+        sended = ""
+        responded = False
+        read= False
+        if len(sendedmessage) != 0:
+            status = True
+            sended = self.getDateToIso(sendedmessage.first().date_sended)
+            read = sendedmessage.first().read
+        return {
+            'pk': self.pk,
+            'nombre': self.name,
+            'conjuntos': self.conjuntos_dict(),
+            'enviada': status,
+            'leida': read,
+            'fecha_envio': sended,
 
         }
 
@@ -120,6 +141,7 @@ class Survey(models.Model):
             'description': self.description,
             'url': self.url,
             'date_creation': self.getDateToIso(),
+            'date_end': self.end_survey_time,
             'estado': [{
                 'key': 'Si',
                 'y': yes

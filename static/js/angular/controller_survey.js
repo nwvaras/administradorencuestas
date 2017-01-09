@@ -176,18 +176,23 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
     }
 
     $scope.showAdvanced = function(ev) {
-    $mdDialog.show({
-      controller: DialogController,
-      templateUrl: '/static/html/angular/info_encuesta.html',
-      parent: angular.element(document.body),
-      targetEvent: ev,
-      clickOutsideToClose:false,
-      fullscreen: true // Only for -xs, -sm breakpoints.
-    })
-    .then(function(answer) {
-      $scope.status = 'You said the information was "' + answer + '".';
-    }, function() {
-      $scope.status = 'You cancelled the dialog.';
-    });
-  };
+        if ($scope.selected.length == 1) {
+            var sel = $scope.selected[0]
+
+            $mdDialog.show({
+                controller: DialogController,
+                templateUrl: '/cpadmin/encuestas/survey/'+sel.pk+'/change/',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: true,
+                fullscreen: true // Only for -xs, -sm breakpoints.
+            })
+                .then(function (answer) {
+                    $scope.status = 'You said the information was "' + answer + '".';
+                }, function () {
+                    $scope.status = 'You cancelled the dialog.';
+                });
+        }
+        ;
+    }
 });
