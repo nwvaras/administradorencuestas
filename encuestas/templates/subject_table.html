@@ -8,13 +8,18 @@
 {% block body %}
 
 <md-content class="md-padding" layout-xs="column" layout="row" ng-controller="ListCtrl"  class="listdemoListControls" ng-cloak>
-    <div flex-xs="" flex-gt-xs="80" layout="column">
-         <md-subheader>
-       <p>Personas</p>
+    <div flex-xs="" flex-gt-xs="100" layout="column">
+    <md-card>
 
-        </md-subheader>
+        <md-toolbar ng-hide="options.rowSelection && selected.length">
+          <div class="md-toolbar-tools">
+            <span>Personas</span>
+            <div flex></div>
+             <md-button class="md-raised" ng-click="createAndSendSurvey()">Agregar Persona</md-button>
+          </div>
+        </md-toolbar>
         <md-table-container>
-  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+  <table md-table  multiple ng-model="selected" md-progress="promise">
       <thead md-head md-order="subject.order" md-on-reorder="cargarDatos">
       <tr md-row>
         <th md-column md-order-by="nameToLower"><span>Nombre</span></th>
@@ -23,75 +28,23 @@
         <th md-column md-numeric>Email</th>
           <th md-column md-numeric>Telefono</th>
         <th md-column md-numeric>Conjuntos</th>
+          <th md-column md-numeric>Ultima Conexion</th>
       </tr>
     </thead>
     <tbody md-body>
       <tr md-row md-select="subject" md-select-id="nombre" md-auto-select ng-repeat="subject in subjects">
-        <td md-cell>{$ subject.nombre $}</td>
-        <td md-cell>{$ subject.rut   $}</td>
-          <td md-cell>{$ subject.edad $}</td>
-        <td md-cell>{$ subject.email  $}</td>
-          <td md-cell>{$ subject.phone $}</td>
-          <td md-cell>{$ getConjuntos(subject.conjuntos)  $}</td>
+        <td md-cell ng-click="showAdvanced($event)" >{$ subject.nombre $}</td>
+        <td md-cell ng-click="showAdvanced($event)" >{$ subject.rut   $}</td>
+          <td md-cell ng-click="showAdvanced($event)" >{$ subject.edad $}</td>
+        <td md-cell ng-click="showAdvanced($event)" >{$ subject.email  $}</td>
+          <td md-cell ng-click="showAdvanced($event)" >{$ subject.phone $}</td>
+          <td md-cell ng-click="showAdvanced($event)" >{$ getConjuntos(subject.conjuntos)  $}</td>
+          <td md-cell ng-click="showAdvanced($event)" >{$ subject.ultima_conexion $}</td>
       </tr>
     </tbody>
   </table>
 </md-table-container>
-
-<md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{$subjects.count$}" md-on-paginate="cargarDatos" md-page-select></md-table-pagination>
-    </div>
-    <div flex-xs="" flex-gt-xs="20" layout="column">
-        <md-card md-theme-watch="">
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">Filtros</span>
-          </md-card-title-text>
-             <md-card-actions layout="column">
-                <md-list-item ng-repeat="topping in toppings">
-                    <md-checkbox class="md-secondary" ng-model="topping.wanted"></md-checkbox>
-                <p> {$ topping.name $} </p>
-
-              </md-list-item>
-             </md-card-actions>
-        </md-card-title>
-      </md-card>
-
-      <md-card md-theme-watch="">
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">Nuevo mensaje</span>
-              <md-input-container>
-        <label>Titulo</label>
-        <input ng-model="sendMessage.title">
-      </md-input-container>
-              <md-input-container class="md-block">
-            <label>Descripcion</label>
-            <textarea ng-model="sendMessage.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
-          </md-input-container>
-          </md-card-title-text>
-        </md-card-title>
-        <md-card-actions layout="row" layout-align="end center">
-          <md-button class="md-raised md-primary" ng-click="createAndSendMessage()">Enviar</md-button>
-        </md-card-actions>
-      </md-card>
-        <md-card md-theme-watch="">
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">Enviar encuesta</span>
-          </md-card-title-text>
-        </md-card-title>
-            <md-input-container class="md-padding">
-          <label>Encuesta</label>
-          <md-select name="type" ng-model="selectedSurvey" required>
-            <md-option ng-value="encuesta" ng-repeat="encuesta in encuestas">{$ encuesta.titulo $}</md-option>
-          </md-select>
-        </md-input-container>
-        <md-card-actions layout="row" layout-align="end center">
-          <md-button class="md-raised" ng-click="sendSurveys()">Enviar</md-button>
-          <md-button class="md-raised md-primary">Crear</md-button>
-        </md-card-actions>
-      </md-card>
-
+     </md-card>
     </div>
   </md-content>
 {% endblock %}
