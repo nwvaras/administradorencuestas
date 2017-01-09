@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('DiscusionAbiertaApp',['ngMaterial', 'ngMessages', 'LocalStorageModule','material.svgAssetsCache','nvd3','md.data.table'])
+angular.module('DiscusionAbiertaApp',['ngMaterial', 'ngMessages','material.svgAssetsCache','nvd3','md.data.table'])
   .config(function ($httpProvider) {
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';

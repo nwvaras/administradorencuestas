@@ -30,7 +30,7 @@ SECRET_KEY = 'yc8rm+7-k2zu_v7@3q$32&5bepgl%@x7g+otfqivq6o%3u(^+4'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['buho.dcc.uchile.cl','localhost']
 
 
 # Application definition
