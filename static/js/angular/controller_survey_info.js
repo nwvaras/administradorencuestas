@@ -1,63 +1,37 @@
 /**
  * Created by Nicolas on 01-01-2017.
  */
-angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $mdDialog,$http,$window){
-    $scope.toppings = [
-    { name: 'Pepperoni', wanted: true },
-    { name: 'Sausage', wanted: false },
-    { name: 'Black Olives', wanted: true },
-    { name: 'Green Peppers', wanted: false }
-  ];
+angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $mdDialog,$http,$window,$mdToast){
+    var last = {
+      bottom: true,
+      top:  false,
+      left: false,
+      right: true
+    };
 
-  $scope.settings = [
-    { name: 'Wi-Fi', extraScreen: 'Wi-fi menu', icon: 'device:network-wifi', enabled: true },
-    { name: 'Bluetooth', extraScreen: 'Bluetooth menu', icon: 'device:bluetooth', enabled: false },
-  ];
+  $scope.toastPosition = angular.extend({},last);
 
-  $scope.messages = [
-    {id: 1, title: "Message A", selected: false},
-    {id: 2, title: "Message B", selected: true},
-    {id: 3, title: "Message C", selected: true},
-  ];
+  $scope.getToastPosition = function() {
+    sanitizePosition();
 
-  $scope.people = [
-    { name: 'Janet Perkins', newMessage: true },
-    { name: 'Mary Johnson', newMessage: false },
-    { name: 'Peter Carlsson', newMessage: false }
-  ];
-  $scope.goToPerson = function(person, event) {
-    $mdDialog.show(
-      $mdDialog.alert()
-        .title('Navigating')
-        .textContent('Inspect ' + person)
-        .ariaLabel('Person inspect demo')
-        .ok('Neat!')
-        .targetEvent(event)
-    );
+    return Object.keys($scope.toastPosition)
+      .filter(function(pos) { return $scope.toastPosition[pos]; })
+      .join(' ');
   };
+
+  function sanitizePosition() {
+    var current = $scope.toastPosition;
+
+    if ( current.bottom && last.top ) current.top = false;
+    if ( current.top && last.bottom ) current.bottom = false;
+    if ( current.right && last.left ) current.left = false;
+    if ( current.left && last.right ) current.right = false;
+
+    last = angular.extend({},current);
+  }
+
     $scope.surveyDetails = pre.surveyDetails
 
-  $scope.navigateTo = function(to, event) {
-    $mdDialog.show(
-      $mdDialog.alert()
-        .title('Navigating')
-        .textContent('Imagine being taken to ' + to)
-        .ariaLabel('Navigation demo')
-        .ok('Neat!')
-        .targetEvent(event)
-    );
-  };
-
-  $scope.doPrimaryAction = function(event) {
-    $mdDialog.show(
-      $mdDialog.alert()
-        .title('Primary Action')
-        .textContent('Primary actions can be used for one click actions')
-        .ariaLabel('Primary click demo')
-        .ok('Awesome!')
-        .targetEvent(event)
-    );
-  };
     $scope.getConjuntos= function(conjuntos) {
     var total =""
     for (var i = 0; i < conjuntos.length; i++) {
@@ -290,7 +264,26 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
         $window.location.href = '/encuestas/surveys/info/' + survey.pk;
     }
 
+    $scope.enviarEncuesta = function(ev) {
+        if($scope.selected.length>0){
+        var enc = $scope.surveyDetails.encuesta
 
+    // Appending dialog to document.body to cover sidenav in docs app
+    var confirm = $mdDialog.confirm()
+          .title('Envio de encuesta: ' + enc.titulo)
+          .textContent('La encuesta sera enviada a los usuarios seleccionados')
+          .ariaLabel('Envio')
+          .targetEvent(ev)
+          .ok('Ok')
+          .cancel('Cancel');
+
+    $mdDialog.show(confirm).then(function() {
+
+      $scope.sendToast('Encuesta ' + enc.titulo + ' enviada')
+    }, function() {
+    });
+        }
+  };
 
     $scope.showAdvanced = function(ev) {
     $mdDialog.show({
@@ -315,4 +308,15 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
     }
     return total
   }
+
+    $scope.sendToast = function(message) {
+    var pinTo = $scope.getToastPosition();
+
+    $mdToast.show(
+      $mdToast.simple()
+        .textContent(message)
+        .position(pinTo )
+        .hideDelay(3000)
+    );
+  };
 });

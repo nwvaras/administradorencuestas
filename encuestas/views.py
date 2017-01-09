@@ -283,24 +283,29 @@ def create_message_from_cp(request):
         return JsonResponse({}, status=404)
     return JsonResponse({'status': 'OK'})
 
+
 @csrf_exempt
-def get_survey_details_html(request,id):
+def get_survey_details_html(request, id):
     print "hello"
     if request.method != 'GET':
         return JsonResponse({}, status=404)
-
-    sended_surveys = SendedSurvey.objects.filter(survey_id = id)
-    survey =sended_surveys.first().survey
+    sended_surveys = SendedSurvey.objects.filter(survey_id=id)
+    survey = Survey.objects.get(id=id)
     users = Subject.objects.all()
-    total = sended_surveys.count()
-    responded = sended_surveys.filter(respondida=True).count()
-
+    responded = 0
+    total = 0
     base = []
+    if sended_surveys.exists():
+        total = sended_surveys.count()
+        responded = sended_surveys.filter(respondida=True).count()
+
     for i in xrange(0, len(users)):
         user = users[i]
         base.append(user.to_dict_with_survey(sended_surveys))
-    surveyDetails = json.dumps({'surveyDetails':{'usuarios': base, 'encuesta' : survey.to_dict(), 'total' : total , 'responded': responded}})
+    surveyDetails = json.dumps(
+        {'surveyDetails': {'usuarios': base, 'encuesta': survey.to_dict(), 'total': total, 'responded': responded}})
     return render_to_response('survey_details.html', {'surveyDetails': surveyDetails})
+
 
 @csrf_exempt
 def get_conjuntos(request):
@@ -314,9 +319,6 @@ def get_conjuntos(request):
         conjunto = conjuntos[i]
         base.append(conjunto.to_dict())
     return JsonResponse({'conjuntos': base})
-
-
-
 
 
 @login_required

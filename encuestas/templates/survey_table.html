@@ -37,7 +37,7 @@
     <div flex-xs="" flex-gt-xs="80" layout="column">
       <md-card>
 
-        <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+        <md-toolbar ng-hide="options.rowSelection && selected.length">
           <div class="md-toolbar-tools">
             <span>Encuestas</span>
             <div flex></div>
@@ -58,22 +58,19 @@
       </tr>
     </thead>
     <tbody md-body>
-      <tr md-row md-select="encuesta" md-select-id="pk" ng-repeat="encuesta in encuestas | filter:filterSurvey">
+      <tr md-row md-select="encuesta" md-select-id="pk" ng-repeat="encuesta in encuestas">
         <td md-cell ng-click="loadSurveyDetail(encuesta)" >{$encuesta.titulo$}</td>
         <td md-cell ng-click="loadSurveyDetail(encuesta)" >{$encuesta.description$}</td>
-        <td md-cell ng-click="loadSurveyDetail(encuesta)" >{$encuesta.date_creation$}</td>
+        <td md-cell ng-click="loadSurveyDetail(encuesta)" ><p ng-show="encuesta.date_creation">{$encuesta.date_creation$}</p><p ng-hide="encuesta.date_creation">No aplica</p></td>
 
 {#        <td md-cell ng-click="loadSurveyDetail(encuesta)" > <nvd3  options="options" data="encuesta.estado"></nvd3></td>#}
-          <td md-cell ng-click="loadSurveyDetail(encuesta)" >{$encuesta.estado[0].y/(encuesta.estado[1].y + encuesta.estado[0].y)*100 | number:0 $}%</td>
+          <td md-cell ng-click="loadSurveyDetail(encuesta)" ><p ng-show="encuesta.estado[0].y !=0 || encuesta.estado[1].y !=0">{$encuesta.estado[0].y/(encuesta.estado[1].y + encuesta.estado[0].y)*100 | number:0 $}</p><p ng-hide="encuesta.estado[0].y !=0 ||encuesta.estado[1].y !=0">No enviada</p></td>
           <td md-cell> <a ng-href="{$encuesta.url$}">{$ encuesta.url $}</a></td>
       </tr>
     </tbody>
   </table>
 
-</md-table-container>
-
-<md-table-pagination md-limit="query.limit" md-limit-options="[5, 10, 15]" md-page="query.page" md-total="{$subjects.count$}" md-on-paginate="getDesserts" md-page-select></md-table-pagination>
-          </md-card>
+</md-table-container>       </md-card>
 {#        <md-subheader>#}
 {#       <p>Lista de encuestas</p>#}
 {##}

@@ -17,12 +17,12 @@
     <div flex-xs="" flex-gt-xs="80" layout="column">
     <md-card>
 
-        <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+        <md-toolbar  ng-hide="options.rowSelection && selected.length">
           <div class="md-toolbar-tools">
             <span>Personas</span>
             <div flex></div>
-             <md-button class="md-raised">Enviar Mensaje</md-button>
-             <md-button class="md-raised">Enviar Encuesta</md-button>
+             <md-button class="md-raised md-default">Enviar Mensaje</md-button>
+             <md-button class="md-raised md-warn md-default" ng-click="enviarEncuesta($event)">Enviar Encuesta</md-button>
           </div>
 
 
@@ -39,11 +39,11 @@
       </tr>
     </thead>
     <tbody md-body>
-      <tr md-row md-select="subject" md-select-id="nombre" md-auto-select ng-repeat="subject in usuarios">
+      <tr md-row md-select="subject" md-select-id="nombre" ng-repeat="subject in usuarios">
         <td md-cell >{$ subject.nombre $}</td>
         <td md-cell >{$ getConjuntos(subject.conjuntos)   $}</td>
           <td md-cell ><p ng-show="subject.enviada"><ng-md-icon icon="done"></ng-md-icon></p><p ng-show="!subject.enviada"><ng-md-icon icon="not_interested"></ng-md-icon> </p></td>
-        <td md-cell >{$ subject.fecha_envio  $}</td>
+       <td md-cell ng-click="loadSurveyDetail(encuesta)" ><p ng-show="subject.fecha_envio">{$subject.fecha_envio$}</p><p ng-hide="subject.fecha_envio">No aplica</p></td>
           <td md-cell ><p ng-show="subject.responded"><ng-md-icon icon="done"></ng-md-icon></p><p ng-show="!subject.responded"><ng-md-icon icon="not_interested"></ng-md-icon> </p></td>
       </tr>
     </tbody>
