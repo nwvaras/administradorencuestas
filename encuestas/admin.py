@@ -83,26 +83,11 @@ class SurveyAdmin(admin.ModelAdmin):
     # list_display_links = ('titulo', 'description', 'url', 'fecha_creacion')
     list_filter = ['date_creation']
     search_fields = ['title']
+    readonly_fields = ['last_connection']
 
 
 class SendedSurveyAdmin(admin.ModelAdmin):
-    list_display = ['survey', 'subject',"get_subject_conjuntos", 'date_creation', 'date_responded', 'respondida']
-    list_display_links = ['survey', 'subject',"get_subject_conjuntos", 'date_creation', 'date_responded', 'respondida']
-    search_fields = ['survey__title','subject__name']
-    list_filter = ['date_creation', 'date_responded', 'respondida','subject__conjunto']
-
-    def conjuntos(self, obj):
-        return ",".join([p.name for p in obj.conjunto.all()])
-
-    def get_subject_name(self, obj):
-        return obj.subject
-
-    def get_subject_conjuntos(self, obj):
-        return self.conjuntos(obj.subject)
-    def get_actions(self, request):
-        x = dict(create_action_for_sended_survey_message(q) for q in Message.objects.all())
-        y = dict(create_action_for_sended_survey_survey(x) for x in Survey.objects.all())
-        return dict(x, **y)
+   pass
 
 
 class MessageAdmin(admin.ModelAdmin):
@@ -123,20 +108,27 @@ class MyModelAdmin(admin.ModelAdmin):
         Return empty perms dict thus hiding the model from admin index.
         """
         return {}
+class MySubjectAdmin(MyModelAdmin):
+    readonly_fields= ('last_connection',)
+
+class MySurveyAdmin(MyModelAdmin):
+    readonly_fields= ('last_sended_date',)
+
+
 
 # admin.site.register(Message, MyModelAdmin)
 admin.site.register_view('personas' ,'Menu Personas', view=subject_menu,)
 admin.site.register_view('encuestas','Menu Encuestas', view=survey_menu)
 admin.site.register_view('mensajes','Historial de Mensajes', view=message_record)
-admin.site.register(Conjunto)
-admin.site.register(Subject,SubjectAdmin)
-admin.site.register(Survey)
-admin.site.register(SendedSurvey,SendedSurveyAdmin)
-admin.site.register(Message)
-admin.site.register(SendedMessage)
-# admin.site.register(Conjunto,MyModelAdmin)
-# admin.site.register(Subject,MyModelAdmin)
-# admin.site.register(Survey,MyModelAdmin)
-# admin.site.register(SendedSurvey,MyModelAdmin)
-# admin.site.register(Message,MyModelAdmin)
-# admin.site.register(SendedMessage,MyModelAdmin)
+# admin.site.register(Conjunto,ConjuntoAdmin)
+# admin.site.register(Subject,SubjectAdmin)
+# admin.site.register(Survey,SurveyAdmin)
+# admin.site.register(SendedSurvey,SendedSurvey)
+# admin.site.register(Message,MessageAdmin)
+# admin.site.register(SendedMessage,SendedMessageAdmin)
+admin.site.register(Conjunto,MyModelAdmin)
+admin.site.register(Subject,MySubjectAdmin)
+admin.site.register(Survey,MySurveyAdmin)
+admin.site.register(SendedSurvey,MyModelAdmin)
+admin.site.register(Message,MyModelAdmin)
+admin.site.register(SendedMessage,MyModelAdmin)

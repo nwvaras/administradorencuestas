@@ -45,7 +45,7 @@ angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$sco
 
             $mdDialog.show({
                 controller: DialogController,
-                templateUrl: '/cpadmin/encuestas/survey/'+sel.pk+'/change/',
+                templateUrl: '/admin/encuestas/survey/'+sel.pk+'/change/',
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose: true,

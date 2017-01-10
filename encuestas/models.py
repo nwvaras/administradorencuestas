@@ -142,6 +142,7 @@ class Survey(models.Model):
             'url': self.url,
             'date_creation': self.getDateToIso(self.date_creation),
             'date_end': self.getDateToIso(self.end_survey_time),
+            'last_sended_date' : self.getDateToIso(self.last_sended_date),
             'estado': [{
                 'key': 'Si',
                 'y': yes

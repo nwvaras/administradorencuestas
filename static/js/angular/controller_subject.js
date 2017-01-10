@@ -2,7 +2,7 @@
 
 var LOCALSTORAGE_ACTA_KEY = 'acta';
 
-angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$scope, $mdDialog,$mdToast) {
+angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$scope, $mdDialog,$mdToast,$window) {
   $scope.toppings = [
     { name: 'Edad minima', wanted: true },
     { name: 'Edad maxima', wanted: false },
@@ -162,35 +162,13 @@ $scope.selected = [];
   };
   $scope.createUser = function(ev) {
 
+            $window.location.href ='/admin/encuestas/subject/add/';
+  }
 
-            $mdDialog.show({
-                controller: DialogController,
-                templateUrl: '/cpadmin/encuestas/subject/add/',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                fullscreen: true // Only for -xs, -sm breakpoints.
-            })
-                .then(function (answer) {
-
-                });
-        }
-        ;
   $scope.editUser = function(user,ev) {
 
+            $window.location.href = '/admin/encuestas/subject/'+user.pk+'/change/';
 
-            $mdDialog.show({
-                controller: DialogController,
-                templateUrl: '/cpadmin/encuestas/subject/'+user.pk+'/change/',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                fullscreen: true // Only for -xs, -sm breakpoints.
-            })
-                .then(function (answer) {
 
-                });
-        }
-        ;
-
+}
 });

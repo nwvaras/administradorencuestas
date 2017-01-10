@@ -41,7 +41,7 @@
           <div class="md-toolbar-tools">
             <span>Encuestas</span>
             <div flex></div>
-             <md-button class="md-raised" ng-click="showAdvanced($event)">Gestionar encuestas</md-button>
+             <md-button class="md-raised" ng-click="showAdvanced($event)">Editar encuesta</md-button>
           </div>
         </md-toolbar>
         <md-table-container>
@@ -49,24 +49,24 @@
       <thead md-head md-order="encuesta.order" md-on-reorder="getDesserts">
       <tr md-row>
        <th md-column md-order-by="titulo"><span>Titulo</span></th>
-        <th md-column md-numeric><span>Descripcion</span></th>
           <th md-column md-numeric><span>Fecha Creacion</span></th>
 
 {#          <th md-column md-numeric><span>Estado</span></th>#}
           <th md-column md-numeric><span>Fecha Termino</span></th>
           <th md-column md-numeric><span>Respuestas</span></th>
           <th md-column md-numeric><span>url</span></th>
+          <th md-column md-numeric><span>Ultima fecha de Envio</span></th>
       </tr>
     </thead>
     <tbody md-body>
       <tr md-row md-select="encuesta" md-select-id="pk" ng-repeat="encuesta in encuestas">
         <td md-cell ng-click="loadSurveyDetail(encuesta)" >{$encuesta.titulo$}</td>
-        <td md-cell ng-click="loadSurveyDetail(encuesta)" >{$encuesta.description$}</td>
         <td md-cell ng-click="loadSurveyDetail(encuesta)" ><p ng-show="encuesta.date_creation">{$encuesta.date_creation$}</p><p ng-hide="encuesta.date_creation">No aplica</p></td>
         <td md-cell> {$encuesta.date_end$}</td>
 {#        <td md-cell ng-click="loadSurveyDetail(encuesta)" > <nvd3  options="options" data="encuesta.estado"></nvd3></td>#}
           <td md-cell ng-click="loadSurveyDetail(encuesta)" ><p ng-show="encuesta.estado[0].y !=0 || encuesta.estado[1].y !=0">{$encuesta.estado[0].y/(encuesta.estado[1].y + encuesta.estado[0].y)*100 | number:0 $}</p><p ng-hide="encuesta.estado[0].y !=0 ||encuesta.estado[1].y !=0">No enviada</p></td>
           <td md-cell> <a ng-href="{$encuesta.url$}">{$ encuesta.url $}</a></td>
+          <td md-cell>{$ encuesta.last_sended_date $}</td>
       </tr>
     </tbody>
   </table>

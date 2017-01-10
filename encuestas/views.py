@@ -193,6 +193,9 @@ def send_surveys_from_cp(request):
         usuarios = body.get('usuarios', {})
         encuesta = body.get('encuesta', {})
         for user in usuarios:
+            survey = Survey.objects.get(id=encuesta['pk'])
+            survey.last_sended_date = datetime.now()
+            survey.save()
             sended_survey = SendedSurvey(survey_id=encuesta['pk'], subject_id=user['pk'])
             sended_survey.save()
     else:

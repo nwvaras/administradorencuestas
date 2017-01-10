@@ -326,11 +326,11 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
     return total
   }
     $scope.sendSurveys= function () {
-
+    var encuesta = $scope.surveyDetails.encuesta
     $http({
       method: 'POST',
       url: '/encuestas/surveys/send/',
-      data: { encuesta:$scope.surveyDetails.encuesta,
+      data: { encuesta:encuesta,
           usuarios: $scope.selected
                 }
     }).then(function (response) {
