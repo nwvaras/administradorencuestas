@@ -127,9 +127,9 @@ class Survey(models.Model):
         no_count = sended.filter(respondida=False).count()
         return (yes_count, no_count)
 
-    def getDateToIso(self):
-        if self.date_creation is not None:
-            return self.date_creation.isoformat()
+    def getDateToIso(self,date):
+        if date is not None:
+            return date.isoformat()
         else:
             return ""
 
@@ -140,8 +140,8 @@ class Survey(models.Model):
             'titulo': self.title,
             'description': self.description,
             'url': self.url,
-            'date_creation': self.getDateToIso(),
-            'date_end': self.end_survey_time,
+            'date_creation': self.getDateToIso(self.date_creation),
+            'date_end': self.getDateToIso(self.end_survey_time),
             'estado': [{
                 'key': 'Si',
                 'y': yes
