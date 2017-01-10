@@ -298,7 +298,25 @@ def create_message_from_cp(request):
     else:
         return JsonResponse({}, status=404)
     return JsonResponse({'status': 'OK'})
+def create_message(request):
+    print(request.body)
+    print "je2"
 
+    if request.method != 'POST':
+        return JsonResponse({}, status=404)
+    body = request.body.decode('utf-8')
+    try:
+        body = json.loads(body)
+    except ValueError:
+        return JsonResponse({}, status=404)
+
+    if 'message' in body:
+        message = body.get('message', {})
+        db_message = Message(title=message['title'], description=message['description'])
+        db_message.save()
+    else:
+        return JsonResponse({}, status=404)
+    return JsonResponse({'status': 'OK'})
 
 def send_message(request):
     print(request.body)

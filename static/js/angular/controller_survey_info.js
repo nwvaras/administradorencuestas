@@ -329,9 +329,9 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
 
     $http({
       method: 'POST',
-      url: '/encuestas/surveys/sendFromSurvey/',
+      url: '/encuestas/surveys/send/',
       data: { encuesta:$scope.surveyDetails.encuesta,
-          selected: $scope.selected
+          usuarios: $scope.selected
                 }
     }).then(function (response) {
             afterChange()
