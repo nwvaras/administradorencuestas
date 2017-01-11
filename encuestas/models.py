@@ -177,16 +177,7 @@ class SendedSurvey(models.Model):
             'survey': {
                 'titulo': self.survey.title,
                 'url': self.survey.url,
-            }
-        }
-    def to_dict(self):
-        return {
-            'pk': self.pk,
-            'respondida': self.respondida,
-            'horaEnvio': self.date_creation,
-            'survey': {
-                'titulo': self.survey.title,
-                'url': self.survey.url,
+                'date_end' : self.survey.getDateToIso(self.survey.end_survey_time)
             }
         }
 
