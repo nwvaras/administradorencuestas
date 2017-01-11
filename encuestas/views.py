@@ -89,7 +89,7 @@ def user_get_data(request):
     rut = body.get('rut', "12121")
     print body
     surveyRespList = SendedSurvey.objects.filter(respondida=False, subject__rut=rut).all()
-    last_message = SendedMessage.objects.filter(subject__rut=rut).order_by('-date_sended')
+    last_message = SendedMessage.objects.filter(subject__rut=rut).order_by('-date_sended').first()
     print surveyRespList
     results = dict()
     results['result'] = [ob.to_dict() for ob in surveyRespList]
