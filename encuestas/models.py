@@ -23,7 +23,7 @@ class Conjunto(models.Model):
         }
 
 
-class ConjutosToSend(models.Model):
+class ConjuntosToSend(models.Model):
     conjunto = models.ForeignKey(to=Conjunto)
     type = models.IntegerField(default=1)
 

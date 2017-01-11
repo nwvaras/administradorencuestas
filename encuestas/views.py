@@ -4,6 +4,7 @@ from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import transaction
+from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, render_to_response
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
@@ -64,7 +65,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 #
 #     return JsonResponse({'status': 'error', 'mensajes': errores}, status=400)
 
-from encuestas.models import Survey, SendedSurvey, Subject, Message, SendedMessage, Conjunto
+from encuestas.models import Survey, SendedSurvey, Subject, Message, SendedMessage, Conjunto, ConjuntosToSend
 
 
 @csrf_exempt
@@ -73,6 +74,62 @@ def get_survey(request, user):
     print surveyRespList
     results = [ob.to_dict() for ob in surveyRespList]
     return JsonResponse(results, safe=False)
+
+
+@csrf_exempt
+def user_register(request):
+    print "first"
+    if request.method != 'POST':
+        return JsonResponse({}, status=404)
+    body = request.body.decode('utf-8')
+    print "firstf"
+    try:
+        body = json.loads(body)
+    except ValueError:
+        return JsonResponse({}, status=404)
+    print "second"
+    if 'rut' in body and 'conjunto' in body and 'email' in body and 'telefono' in body and 'sexo' in body and 'nombre' in body and 'apellido' in body and 'edad' in body:
+        name = body['nombre'] + " " + body['apellido']
+        email = body['email']
+        phone = body['telefono']
+        sexo = body['sexo']
+        rut = body['rut']
+        conjunto = body['conjunto']
+        age = body['edad']
+        userExist = Subject.objects.filter(rut=rut)
+        if len(userExist) > 0:
+            return JsonResponse({}, status=404)
+        new_user = Subject(name=name, age=age, phone=phone, email=email, rut=rut)
+        new_user.save()
+        new_user.conjunto.add(Conjunto.objects.get(id=conjunto['pk']))
+        new_user.conjunto.add(Conjunto.objects.get(id=sexo['pk']))
+        new_user.last_connection= datetime.now()
+        new_user.save()
+        return JsonResponse({'status': 'Ok'})
+    else:
+        return JsonResponse({}, status=404)
+
+
+@csrf_exempt
+def user_register_data(request):
+    print "first"
+    if request.method != 'GET':
+        return JsonResponse({}, status=404)
+
+    conjuntos = ConjuntosToSend.objects.exclude(conjunto__name="Mujer").exclude(conjunto__name="Hombre").all()
+    dict_base = dict()
+    base = []
+    for i in xrange(0, len(conjuntos)):
+        conjunto = conjuntos[i].conjunto
+        base.append(conjunto.to_dict())
+    dict_base['conjuntos'] = base
+    base2 = []
+    conjuntos = ConjuntosToSend.objects.filter(Q(conjunto__name='Mujer') | Q(conjunto__name='Hombre'))
+    for i in xrange(0, len(conjuntos)):
+        conjunto = conjuntos[i].conjunto
+        base2.append(conjunto.to_dict())
+    dict_base['sexo'] = base2
+    return JsonResponse(dict_base)
 
 
 @csrf_exempt
@@ -92,7 +149,7 @@ def user_get_data(request):
     if len(userExist) == 0:
         return JsonResponse({}, status=404)
     print body
-    user=userExist.first()
+    user = userExist.first()
     user.last_connection = datetime.now()
     user.save()
     surveyRespList = SendedSurvey.objects.filter(respondida=False, subject__rut=rut).all()
