@@ -87,8 +87,8 @@ def user_get_data(request):
         return JsonResponse({}, status=404)
     print "second"
     rut = body.get('rut', "12121")
-    userExist = Subject.objects.exists(rut=rut)
-    if not userExist:
+    userExist = Subject.objects.get(rut=rut)
+    if userExist is None:
         return JsonResponse({}, status=404)
     print body
     surveyRespList = SendedSurvey.objects.filter(respondida=False, subject__rut=rut).all()
