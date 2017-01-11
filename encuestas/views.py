@@ -92,6 +92,9 @@ def user_get_data(request):
     if len(userExist) == 0:
         return JsonResponse({}, status=404)
     print body
+    user=userExist.first()
+    user.last_connection = datetime.now()
+    user.save()
     surveyRespList = SendedSurvey.objects.filter(respondida=False, subject__rut=rut).all()
     last_message = SendedMessage.objects.filter(subject__rut=rut).order_by('-date_sended').first()
     print surveyRespList

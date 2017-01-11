@@ -23,6 +23,14 @@ class Conjunto(models.Model):
         }
 
 
+class ConjutosToSend(models.Model):
+    conjunto = models.ForeignKey(to=Conjunto)
+    type = models.IntegerField(default=1)
+
+    def to_dict(self):
+        return self.conjunto.to_dict()
+
+
 class Subject(models.Model):
     name = models.CharField(max_length=32, default='John Doe')
     conjunto = models.ManyToManyField(to=Conjunto)
@@ -89,7 +97,7 @@ class Subject(models.Model):
         status = False
         sended = ""
         responded = False
-        read= False
+        read = False
         if len(sendedmessage) != 0:
             status = True
             sended = self.getDateToIso(sendedmessage.first().date_sended)
@@ -127,7 +135,7 @@ class Survey(models.Model):
         no_count = sended.filter(respondida=False).count()
         return (yes_count, no_count)
 
-    def getDateToIso(self,date):
+    def getDateToIso(self, date):
         if date is not None:
             return date.isoformat()
         else:
@@ -142,7 +150,7 @@ class Survey(models.Model):
             'url': self.url,
             'date_creation': self.getDateToIso(self.date_creation),
             'date_end': self.getDateToIso(self.end_survey_time),
-            'last_sended_date' : self.getDateToIso(self.last_sended_date),
+            'last_sended_date': self.getDateToIso(self.last_sended_date),
             'estado': [{
                 'key': 'Si',
                 'y': yes
@@ -177,9 +185,10 @@ class SendedSurvey(models.Model):
             'survey': {
                 'titulo': self.survey.title,
                 'url': self.survey.url,
-                'date_end' : self.survey.getDateToIso(self.survey.end_survey_time)
+                'date_end': self.survey.getDateToIso(self.survey.end_survey_time)
             }
         }
+
 
 class Message(models.Model):
     title = models.CharField(max_length=32)
@@ -212,8 +221,9 @@ class SendedMessage(models.Model):
             'message': self.message.to_dict(),
             'usuario': self.subject.to_dict(),
         }
+
     def to_dict_to_user(self):
-         return {
+        return {
             'pk': self.pk,
             'message': self.message.to_dict(),
         }
