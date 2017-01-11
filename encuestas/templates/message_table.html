@@ -8,14 +8,14 @@
 {% block body %}
 
 <md-content class="md-padding" layout-xs="column" layout="row" ng-controller="ListCtrl"  class="listdemoListControls" ng-cloak>
-    <div flex-xs="" flex-gt-xs="100" layout="column">
+    <div flex-xs="" flex-gt-xs="80" layout="column">
         <md-card>
 
         <md-toolbar ng-hide="options.rowSelection && selected.length">
           <div class="md-toolbar-tools">
             <span>Mensajes</span>
               <div flex></div>
-             <md-button class="md-raised" ng-click="createAndSendSurvey()">Gestionar mensaje</md-button>
+             <md-button class="md-raised" ng-click="editMessage(selected[0])">Gestionar mensaje</md-button>
           </div>
         </md-toolbar>
         <md-table-container>
@@ -33,10 +33,34 @@
       </tr>
     </tbody>
   </table>
+
 </md-table-container>
+            </md-card>
+             </div>
 
 {#<md-table-pagination md-limit="query.limit" md-limit-options="[7, 10, 15]" md-page="query.page" md-total="{$subjects.count$}" md-on-paginate="cargarDatos" md-page-select></md-table-pagination>#}
         </md-card>
+        <div flex-xs="" flex-gt-xs="20" layout="column">
+        <md-card md-theme-watch="">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Nuevo mensaje</span>
+              <md-input-container>
+        <label>Titulo</label>
+        <input ng-model="sendMessage.title">
+      </md-input-container>
+              <md-input-container class="md-block">
+            <label>Descripcion</label>
+            <textarea ng-model="sendMessage.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+          </md-input-container>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button class="md-raised md-primary" ng-click="createAndSendMessage()">Crear</md-button>
+        </md-card-actions>
+      </md-card>
+
+    </div>
 
 
 {#        <md-subheader>#}
@@ -55,6 +79,6 @@
 {#    </md-list-item>#}
 {#            </md-list>#}
 
-    </div>
+
   </md-content>
 {% endblock %}

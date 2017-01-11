@@ -11,12 +11,13 @@ angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$sco
       data: {message:$scope.sendMessage,
       users:$scope.selected}
     }).then(function (response) {
-
+        cargarDatos()
            console.log(response)
 
 
     });
   }
+    $scope.selected=[]
     $scope.sendMessage =""
 
   var cargarDatos = function () {
@@ -39,22 +40,10 @@ angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$sco
     }
 
     cargarDatos()
-    $scope.showAdvanced = function(ev) {
-        if ($scope.selected.length == 1) {
-            var sel = $scope.selected[0]
+    $scope.editMessage = function(message,ev) {
 
-            $mdDialog.show({
-                controller: DialogController,
-                templateUrl: '/admin/encuestas/survey/'+sel.pk+'/change/',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose: true,
-                fullscreen: true // Only for -xs, -sm breakpoints.
-            })
-                .then(function (answer) {
+            $window.location.href = '/admin/encuestas/message/'+message.pk+'/change/';
 
-                })
-        }
-        ;
-    }
+
+}
 });
