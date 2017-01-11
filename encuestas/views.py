@@ -92,7 +92,7 @@ def user_get_survey(request):
     print surveyRespList
     results = dict()
     results['result'] = [ob.to_dict() for ob in surveyRespList]
-    results["count"] = len(results) -1
+    results["count"] = len(results['result'])
     return JsonResponse(results, safe=False)
 
 
