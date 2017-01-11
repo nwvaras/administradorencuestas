@@ -75,7 +75,7 @@ def get_survey(request, user):
 
 
 @csrf_exempt
-def user_get_survey(request):
+def user_get_data(request):
     print "first"
     if request.method != 'POST':
         return JsonResponse({}, status=404)
@@ -89,9 +89,11 @@ def user_get_survey(request):
     rut = body.get('rut', "12121")
     print body
     surveyRespList = SendedSurvey.objects.filter(respondida=False, subject__rut=rut).all()
+    last_message = SendedMessage.objects.filter(subject__rut=rut).order_by('-date_sended')
     print surveyRespList
     results = dict()
     results['result'] = [ob.to_dict() for ob in surveyRespList]
+    results['last_message'] = last_message.to_dict()
     results["count"] = len(results['result'])
     return JsonResponse(results, safe=False)
 
