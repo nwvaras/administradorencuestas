@@ -221,6 +221,11 @@ class SendedMessage(models.Model):
             'message': self.message.to_dict(),
             'usuario': self.subject.to_dict(),
         }
+    def to_dict_to_user(self):
+         return {
+            'pk': self.pk,
+            'message': self.message.to_dict(),
+        }
 
     class Meta:
         verbose_name = u"Mensaje enviado"

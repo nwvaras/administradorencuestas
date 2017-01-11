@@ -93,7 +93,7 @@ def user_get_data(request):
     print surveyRespList
     results = dict()
     results['result'] = [ob.to_dict() for ob in surveyRespList]
-    results['last_message'] = last_message.to_dict()
+    results['last_message'] = last_message.to_dict_to_user()
     results["count"] = len(results['result'])
     return JsonResponse(results, safe=False)
 
