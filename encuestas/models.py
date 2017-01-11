@@ -30,6 +30,9 @@ class ConjuntosToSend(models.Model):
     def to_dict(self):
         return self.conjunto.to_dict()
 
+    def __unicode__(self):
+        return self.conjunto.name
+
 
 class Subject(models.Model):
     name = models.CharField(max_length=32, default='John Doe')
