@@ -5,9 +5,10 @@ from requests import request
 from .views import get_survey, ready_survey, get_users_by_filter, get_surveys_by_filter, get_messages, \
     send_surveys_from_cp, send_surveys_from_cp_to_survey_users, create_survey_from_cp, create_message_from_cp, \
     get_survey_details_html, get_conjuntos, get_sended_messages_by_filter, send_message, get_message_details_html, \
-    create_message
+    create_message, user_get_survey
 
 urlpatterns = [
+
     url(r'^supdate/(?P<string>\w+)/$',ready_survey, name='ready_survey'),
     url(r'^subjects/$',get_users_by_filter, name='get_users_by_filter'),
     url(r'^surveys/send/$',send_surveys_from_cp, name='send_surveys_from_cp'),
@@ -22,5 +23,6 @@ urlpatterns = [
     url(r'^messages/create/$',create_message, name='create_message'),
     url(r'^message/send/$',send_message, name='send_message'),
     url(r'^surveys/(?P<user>\w+)/$', get_survey, name='get_survey'),
+    url(r'^userGetSurvey/$',user_get_survey, name='user_get_survey'),
 
 ]

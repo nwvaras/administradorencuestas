@@ -179,7 +179,16 @@ class SendedSurvey(models.Model):
                 'url': self.survey.url,
             }
         }
-
+    def to_dict(self):
+        return {
+            'pk': self.pk,
+            'respondida': self.respondida,
+            'horaEnvio': self.date_creation,
+            'survey': {
+                'titulo': self.survey.title,
+                'url': self.survey.url,
+            }
+        }
 
 class Message(models.Model):
     title = models.CharField(max_length=32)

@@ -66,11 +66,33 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 
 from encuestas.models import Survey, SendedSurvey, Subject, Message, SendedMessage, Conjunto
 
-
+@csrf_exempt
 def get_survey(request, user):
     surveyRespList = SendedSurvey.objects.filter(respondida=False, subject__rut=user).all()
     print surveyRespList
     results = [ob.to_dict() for ob in surveyRespList]
+    return JsonResponse(results, safe=False)
+
+
+@csrf_exempt
+def user_get_survey(request):
+    print "first"
+    if request.method != 'POST':
+        return JsonResponse({}, status=404)
+    body = request.body.decode('utf-8')
+    print "firstf"
+    try:
+        body = json.loads(body)
+    except ValueError:
+        return JsonResponse({}, status=404)
+    print "second"
+    rut = body.get('rut', "12121")
+    print body
+    surveyRespList = SendedSurvey.objects.filter(respondida=False, subject__rut=rut).all()
+    print surveyRespList
+    results = dict()
+    results['result'] = [ob.to_dict() for ob in surveyRespList]
+    results["count"] = len(results) -1
     return JsonResponse(results, safe=False)
 
 
@@ -254,7 +276,9 @@ def create_survey_from_cp(request):
     if 'encuesta' in body:
 
         encuesta = body.get('encuesta', {})
-        survey = Survey(title=encuesta['titulo'], description=encuesta['description'], url=encuesta['url'])
+        date = datetime.strptime(encuesta['date'], "%a, %d %b %Y %H:%M:%S %Z")
+        survey = Survey(title=encuesta['titulo'], description=encuesta['description'], url=encuesta['url'],
+                        end_survey_time=date)
         survey.save()
 
     else:
@@ -301,6 +325,8 @@ def create_message_from_cp(request):
     else:
         return JsonResponse({}, status=404)
     return JsonResponse({'status': 'OK'})
+
+
 def create_message(request):
     print(request.body)
     print "je2"
@@ -320,6 +346,7 @@ def create_message(request):
     else:
         return JsonResponse({}, status=404)
     return JsonResponse({'status': 'OK'})
+
 
 def send_message(request):
     print(request.body)
@@ -370,6 +397,8 @@ def get_survey_details_html(request, id):
     surveyDetails = json.dumps(
         {'surveyDetails': {'usuarios': base, 'encuesta': survey.to_dict(), 'total': total, 'responded': responded}})
     return render_to_response('survey_details.html', {'surveyDetails': surveyDetails})
+
+
 @csrf_exempt
 def get_message_details_html(request, id):
     print "hello"
@@ -387,6 +416,7 @@ def get_message_details_html(request, id):
     surveyDetails = json.dumps(
         {'messageDetails': {'usuarios': base, 'message': message.to_dict(), 'total': total, 'responded': responded}})
     return render_to_response('message_details.html', {'messageDetails': surveyDetails})
+
 
 @csrf_exempt
 def get_conjuntos(request):

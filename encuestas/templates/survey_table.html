@@ -14,19 +14,27 @@
         <md-card-title>
           <md-card-title-text>
             <span class="md-headline">Nueva encuesta</span>
+
               <md-input-container>
                 <label>Titulo</label>
                 <input ng-model="createSurvey.encuesta.titulo">
                 </md-input-container>
+
               <md-input-container class="md-block">
                 <label>Descripcion</label>
 
             <textarea ng-model="createSurvey.encuesta.description" md-maxlength="150" rows="5" md-select-on-focus></textarea>
           </md-input-container>
               <md-input-container>
+                  <label>Termino</label>
+                  <md-datepicker ng-model="createSurvey.encuesta.date" name="dateField"></md-datepicker>
+
+            </md-input-container>
+              <md-input-container>
                 <label>URL</label>
                 <input ng-model="createSurvey.encuesta.url">
               </md-input-container>
+
           </md-card-title-text>
         </md-card-title>
         <md-card-actions layout="row" layout-align="end center">

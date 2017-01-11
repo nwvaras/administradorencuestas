@@ -100,7 +100,7 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
   }
     $scope.createSurvey=""
     $scope.createAndSendSurvey= function () {
-
+    $scope.createSurvey.encuesta.date=$scope.createSurvey.encuesta.date.toUTCString()
     $http({
       method: 'POST',
       url: '/encuestas/surveys/create/',
