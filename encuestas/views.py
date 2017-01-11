@@ -66,6 +66,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 
 from encuestas.models import Survey, SendedSurvey, Subject, Message, SendedMessage, Conjunto
 
+
 @csrf_exempt
 def get_survey(request, user):
     surveyRespList = SendedSurvey.objects.filter(respondida=False, subject__rut=user).all()
@@ -87,8 +88,8 @@ def user_get_data(request):
         return JsonResponse({}, status=404)
     print "second"
     rut = body.get('rut', "12121")
-    userExist = Subject.objects.get(rut=rut)
-    if userExist is None:
+    userExist = Subject.objects.filter(rut=rut)
+    if len(userExist) == 0:
         return JsonResponse({}, status=404)
     print body
     surveyRespList = SendedSurvey.objects.filter(respondida=False, subject__rut=rut).all()
