@@ -153,11 +153,14 @@ def user_get_data(request):
     user.last_connection = datetime.now()
     user.save()
     surveyRespList = SendedSurvey.objects.filter(respondida=False, subject__rut=rut).all()
-    last_message = SendedMessage.objects.filter(subject__rut=rut).order_by('-date_sended').first()
+    last_message = SendedMessage.objects.filter(subject__rut=rut).order_by('-date_sended')
     print surveyRespList
     results = dict()
     results['result'] = [ob.to_dict() for ob in surveyRespList]
-    results['last_message'] = last_message.to_dict_to_user()
+    if len(last_message)>0:
+        results['last_message'] = last_message.first().to_dict_to_user()
+    else:
+        results['last_message'] = ""
     results["count"] = len(results['result'])
     return JsonResponse(results, safe=False)
 
