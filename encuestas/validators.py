@@ -22,9 +22,10 @@ def verificar_rut(rut):
     print digito
     if digito_ingresado == 'k' or digito_ingresado == 'K':
         digito = 10
-    print digito_ingresado 
+    print digito_ingresado
     print digito
     if digito != digito_ingresado:
+        print "why :c"
         raise ValidationError(
             "error de rut"
         )
