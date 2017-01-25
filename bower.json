@@ -21,7 +21,8 @@
     "angular-material-icons": "~v0.6.0",
     "angular-nvd3": "^1.0.9",
     "md-data-table": "^2.2.0",
-    "angular-material-data-table": "^0.10.10"
+    "angular-material-data-table": "^0.10.10",
+    "lf-ng-md-file-input": "^1.5.1"
   },
   "resolutions": {
     "angular": "~1.5.8"

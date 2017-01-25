@@ -171,4 +171,60 @@ $scope.selected = [];
 
 
 }
+  $scope.files = ""
+  $scope.$watch('files.length',function(newVal,oldVal){
+          console.log($scope.files[0]);
+            uploadCSV($scope.files[0]);
+  });
+
+
+  function DialogController($scope, $mdDialog) {
+    $scope.hide = function() {
+      $mdDialog.hide();
+    };
+
+    $scope.cancel = function() {
+      $mdDialog.cancel();
+    };
+
+    $scope.answer = function(answer) {
+      $mdDialog.hide(answer);
+    };
+  }
+    $scope.loadSurveyDetail = function(survey){
+        $window.location.href = '/encuestas/surveys/info/' + survey.pk;
+    }
+    $scope.showDialogMessage= function(ev) {
+    $mdDialog.show({
+      controller: DialogController,
+      templateUrl: '/static/html/angular/info_encuesta.html',
+      parent: angular.element(document.body),
+      targetEvent: ev,
+      clickOutsideToClose:true,
+      fullscreen: true // Only for -xs, -sm breakpoints.
+    })
+    .then(function(answer) {
+      $scope.sendMessage(answer)
+    }, function() {
+      $scope.status = 'You cancelled the dialog.';
+    });
+  };
+
+  var uploadCSV= function (file) {
+    var formData = new FormData();
+            angular.forEach($scope.files,function(obj){
+                if(!obj.isRemote){
+                    formData.append('csv', obj.lfFile);
+                }
+            });
+         $http.post('/encuestas/subjects/fromcsv/', formData, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            }).then(function(result){
+                // do sometingh
+            },function(err){
+                // do sometingh
+            });
+
+  }
 });

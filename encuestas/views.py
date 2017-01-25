@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
+import codecs
+import csv
 import json
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db import transaction
 from django.db.models import Q
@@ -103,7 +106,7 @@ def user_register(request):
         new_user.save()
         new_user.conjunto.add(Conjunto.objects.get(id=conjunto['pk']))
         new_user.conjunto.add(Conjunto.objects.get(id=sexo['pk']))
-        new_user.last_connection= datetime.now()
+        new_user.last_connection = datetime.now()
         new_user.save()
         return JsonResponse({'status': 'Ok'})
     else:
@@ -157,7 +160,7 @@ def user_get_data(request):
     print surveyRespList
     results = dict()
     results['result'] = [ob.to_dict() for ob in surveyRespList]
-    if len(last_message)>0:
+    if len(last_message) > 0:
         results['last_message'] = last_message.first().to_dict_to_user()
     else:
         results['last_message'] = ""
@@ -170,6 +173,29 @@ def ready_survey(request, string):
 
     surveyResp.respondida = True
     surveyResp.save()
+
+    return JsonResponse({}, safe=False)
+
+
+@transaction.atomic
+def upload_user_csv(request):
+    print request.FILES
+    if request.method == 'POST' and request.FILES:
+        csvfile = request.FILES['csv']
+        dialect = csv.Sniffer().sniff(codecs.EncodedFile(csvfile, "Latin-1").read(1024))
+        csvfile.open()
+        reader = csv.reader(codecs.EncodedFile(csvfile, "Latin-1"), delimiter=';', dialect=dialect)
+        header = next(reader, None)
+        print header
+        conjunto = Conjunto(name=header[1], description=header[2])
+        conjunto.save()
+        for row in reader:
+            try:
+                subject = Subject.objects.get(rut=row[0])
+            except ObjectDoesNotExist:
+                continue
+            if row[1] ==1:
+                subject.conjuntos.add(conjunto)
 
     return JsonResponse({}, safe=False)
 

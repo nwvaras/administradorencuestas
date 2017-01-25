@@ -280,6 +280,7 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
         $window.location.href = '/encuestas/surveys/info/' + survey.pk;
     }
 
+
     $scope.enviarEncuesta = function(ev) {
         if($scope.selected.length>0){
         var enc = $scope.surveyDetails.encuesta

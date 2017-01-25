@@ -5,12 +5,13 @@ from requests import request
 from .views import get_survey, ready_survey, get_users_by_filter, get_surveys_by_filter, get_messages, \
     send_surveys_from_cp, send_surveys_from_cp_to_survey_users, create_survey_from_cp, create_message_from_cp, \
     get_survey_details_html, get_conjuntos, get_sended_messages_by_filter, send_message, get_message_details_html, \
-    create_message, user_get_data, user_register_data, user_register
+    create_message, user_get_data, user_register_data, user_register, upload_user_csv
 
 urlpatterns = [
 
     url(r'^supdate/(?P<string>\w+)/$',ready_survey, name='ready_survey'),
     url(r'^subjects/$',get_users_by_filter, name='get_users_by_filter'),
+    url(r'^subjects/fromcsv/$',upload_user_csv, name='upload_user_csv'),
     url(r'^surveys/send/$',send_surveys_from_cp, name='send_surveys_from_cp'),
     url(r'^surveys/create/$',create_survey_from_cp, name='create_survey_from_cp'),
     url(r'^surveys/sendFromSurvey/$',send_surveys_from_cp_to_survey_users, name='send_surveys_from_cp_to_survey_users'),

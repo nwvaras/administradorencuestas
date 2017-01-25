@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
+from encuestas.validators import verificar_rut
 
 
 class Conjunto(models.Model):
@@ -37,7 +38,7 @@ class ConjuntosToSend(models.Model):
 class Subject(models.Model):
     name = models.CharField(max_length=32, default='John Doe')
     conjunto = models.ManyToManyField(to=Conjunto)
-    rut = models.CharField(max_length=12, default='123456789-1')
+    rut = models.CharField(max_length=12, default='123456789-1',validators=[verificar_rut])
     phone = models.IntegerField(default=0)
     age = models.IntegerField(default=20)
     email = models.EmailField(blank=True, null=True)
