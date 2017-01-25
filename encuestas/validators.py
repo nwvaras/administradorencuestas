@@ -20,8 +20,8 @@ def verificar_rut(rut):
     print rutsplited[1]
     digito = digito_verificador(rutsplited[0])
     print digito
-    if digito == 10:
-        digito = 'k'
+    if digito_ingresado == 'k' or digito_ingresado == 'K':
+        digito = 10
     if digito != digito_ingresado:
         raise ValidationError(
             "error de rut"
