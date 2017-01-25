@@ -16,7 +16,10 @@ def verificar_rut(rut):
 
     rutsplited = rut.split('-')
     digito_ingresado = rutsplited[1]
+    print rutsplited[0]
+    print rutsplited[1]
     digito = digito_verificador(rutsplited[0])
+    print digito
     if digito == 10:
         digito = 'k'
     if digito != digito_ingresado:
