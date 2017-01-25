@@ -25,7 +25,7 @@ def verificar_rut(rut):
     print digito_ingresado
     print digito
     if digito != digito_ingresado:
-        print "digito " + digito + " ingresasado " + digito_ingresado
+        print "digito " + str(digito) + " ingresasado " + str(digito_ingresado)
         print "why :c"
         raise ValidationError(
             "error de rut"
