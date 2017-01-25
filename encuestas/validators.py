@@ -1,4 +1,6 @@
+from django import forms
 from django.core.exceptions import ValidationError
+from encuestas.models import Subject
 
 __author__ = 'Nicolas'
 
@@ -32,3 +34,8 @@ def verificar_rut(rut):
         )
     else:
         return True
+
+
+class SubjectForm(forms.ModelForm):
+    class Meta:
+        model = Subject

@@ -69,6 +69,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 #     return JsonResponse({'status': 'error', 'mensajes': errores}, status=400)
 
 from encuestas.models import Survey, SendedSurvey, Subject, Message, SendedMessage, Conjunto, ConjuntosToSend
+from encuestas.validators import verificar_rut
 
 
 @csrf_exempt
@@ -92,6 +93,7 @@ def user_register(request):
         return JsonResponse({}, status=404)
     print "second"
     if 'rut' in body and 'conjunto' in body and 'email' in body and 'telefono' in body and 'sexo' in body and 'nombre' in body and 'apellido' in body and 'edad' in body:
+        verificar_rut(rut)
         name = body['nombre'] + " " + body['apellido']
         email = body['email']
         phone = body['telefono']
