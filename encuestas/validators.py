@@ -26,3 +26,5 @@ def verificar_rut(rut):
         raise ValidationError(
             "error de rut"
         )
+    else:
+        return True
