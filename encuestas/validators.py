@@ -13,11 +13,12 @@ def digito_verificador(rut):
 
 
 def verificar_rut(rut):
-    digito = digito_verificador(rut)
-    if digito == 10:
-        digito = 'k'
+
     rutsplited = rut.split('-')
     digito_ingresado = rutsplited[1]
+    digito = digito_verificador(rutsplited[0])
+    if digito == 10:
+        digito = 'k'
     if digito != digito_ingresado:
         raise ValidationError(
             "error de rut"
