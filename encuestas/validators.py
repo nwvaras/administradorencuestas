@@ -22,7 +22,7 @@ def verificar_rut(rut):
     digito = digito_verificador(rutsplited[0])
     print digito
     if digito_ingresado == 'k' or digito_ingresado == 'K':
-        digito = 10
+        digito_ingresado = 10
     print digito_ingresado
     print digito
     if int(digito) != int(digito_ingresado):
