@@ -93,12 +93,13 @@ def user_register(request):
         return JsonResponse({}, status=404)
     print "second"
     if 'rut' in body and 'conjunto' in body and 'email' in body and 'telefono' in body and 'sexo' in body and 'nombre' in body and 'apellido' in body and 'edad' in body:
-        verificar_rut(rut)
+
         name = body['nombre'] + " " + body['apellido']
         email = body['email']
         phone = body['telefono']
         sexo = body['sexo']
         rut = body['rut']
+        verificar_rut(rut)
         conjunto = body['conjunto']
         age = body['edad']
         userExist = Subject.objects.filter(rut=rut)
