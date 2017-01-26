@@ -35,6 +35,7 @@ class ConjuntosToSend(models.Model):
         return self.conjunto.name
 
 
+
 class Subject(models.Model):
     name = models.CharField(max_length=32, default='John Doe')
     conjunto = models.ManyToManyField(to=Conjunto)
@@ -82,8 +83,10 @@ class Subject(models.Model):
         status = False
         sended = ""
         responded = False
+        tpk = -1
         if len(sendedsurvey) != 0:
             status = True
+            tpk = self.pk
             sended = self.getDateToIso(sendedsurvey.first().date_creation)
             responded = sendedsurvey.first().respondida
         return {
@@ -92,7 +95,8 @@ class Subject(models.Model):
             'conjuntos': self.conjuntos_dict(),
             'enviada': status,
             'fecha_envio': sended,
-            'responded': responded
+            'responded': responded,
+            'survey_pk': tpk,
 
         }
 
@@ -115,8 +119,51 @@ class Subject(models.Model):
             'fecha_envio': sended,
 
         }
+class Message(models.Model):
+    title = models.CharField(max_length=32)
+    description = models.TextField()
+
+    class Meta:
+        verbose_name = u"Mensaje"
+        verbose_name_plural = verbose_name
+
+    def __unicode__(self):
+        return self.title
+
+    def to_dict(self):
+        return {
+            'pk': self.pk,
+            'title': self.title,
+            'description': self.description,
+        }
 
 
+
+class SendedMessage(models.Model):
+    message = models.ForeignKey(to=Message)
+    subject = models.ForeignKey(to=Subject)
+    read = models.BooleanField(default=False)
+    date_sended = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def to_dict(self):
+        return {
+            'pk': self.pk,
+            'message': self.message.to_dict(),
+            'usuario': self.subject.to_dict(),
+        }
+
+    def to_dict_to_user(self):
+        return {
+            'pk': self.pk,
+            'message': self.message.to_dict(),
+        }
+
+    class Meta:
+        verbose_name = u"Mensaje enviado"
+        verbose_name_plural = verbose_name
+
+    def __unicode__(self):
+        return self.message.title
 class Survey(models.Model):
     title = models.CharField(max_length=32)
     description = models.TextField()
@@ -173,6 +220,14 @@ class SendedSurvey(models.Model):
     respondida = models.BooleanField(default=False)
     date_creation = models.DateTimeField(auto_now_add=True, blank=True)
     date_responded = models.DateTimeField(null=True, blank=True)
+    messages = models.ManyToManyField(to=SendedMessage)
+
+    def messages_dict(self):
+        total = []
+        for i in self.messages.all():
+            total.append({"message": i.message.to_dict()})
+        return total
+    
 
     class Meta:
         verbose_name = u"Encuesta enviada"
@@ -190,51 +245,8 @@ class SendedSurvey(models.Model):
                 'titulo': self.survey.title,
                 'url': self.survey.url,
                 'date_end': self.survey.getDateToIso(self.survey.end_survey_time)
-            }
+            },
+            'messages' : self.messages_dict()
         }
 
 
-class Message(models.Model):
-    title = models.CharField(max_length=32)
-    description = models.TextField()
-
-    class Meta:
-        verbose_name = u"Mensaje"
-        verbose_name_plural = verbose_name
-
-    def __unicode__(self):
-        return self.title
-
-    def to_dict(self):
-        return {
-            'pk': self.pk,
-            'title': self.title,
-            'description': self.description,
-        }
-
-
-class SendedMessage(models.Model):
-    message = models.ForeignKey(to=Message)
-    subject = models.ForeignKey(to=Subject)
-    read = models.BooleanField(default=False)
-    date_sended = models.DateTimeField(auto_now_add=True, blank=True)
-
-    def to_dict(self):
-        return {
-            'pk': self.pk,
-            'message': self.message.to_dict(),
-            'usuario': self.subject.to_dict(),
-        }
-
-    def to_dict_to_user(self):
-        return {
-            'pk': self.pk,
-            'message': self.message.to_dict(),
-        }
-
-    class Meta:
-        verbose_name = u"Mensaje enviado"
-        verbose_name_plural = verbose_name
-
-    def __unicode__(self):
-        return self.message.title

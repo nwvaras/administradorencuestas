@@ -197,7 +197,7 @@ def upload_user_csv(request):
                 subject = Subject.objects.get(rut=row[0])
             except ObjectDoesNotExist:
                 continue
-            if row[1] ==1:
+            if row[1] == 1:
                 subject.conjuntos.add(conjunto)
 
     return JsonResponse({}, safe=False)
@@ -445,7 +445,7 @@ def create_message(request):
         return JsonResponse({}, status=404)
     return JsonResponse({'status': 'OK'})
 
-
+@transaction.atomic
 def send_message(request):
     print(request.body)
     print "je2"
@@ -459,13 +459,22 @@ def send_message(request):
         return JsonResponse({}, status=404)
 
     if 'message' in body:
+
         message = body.get('message')
         id = message['pk']
         if 'users' in body:
             users = body.get('users', {})
+
             for user in users:
+                sended = user.get('survey_pk')
+                if sended == -1:
+                    continue
                 sended_message = SendedMessage(message_id=id, subject_id=user['pk'])
                 sended_message.save()
+                sended_survey = SendedSurvey.objects.get(id=sended)
+                sended_survey.messages.add(sended_message)
+                sended_survey.save()
+
         else:
             return JsonResponse({}, status=404)
 
