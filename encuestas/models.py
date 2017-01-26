@@ -86,7 +86,7 @@ class Subject(models.Model):
         tpk = -1
         if len(sendedsurvey) != 0:
             status = True
-            tpk = sendedsurvey.pk
+            tpk = sendedsurvey.first().pk
             sended = self.getDateToIso(sendedsurvey.first().date_creation)
             responded = sendedsurvey.first().respondida
         return {
