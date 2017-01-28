@@ -359,7 +359,7 @@ def send_surveys_from_cp(request):
             sended_survey.save()
             db_user = Subject.objects.get(id=user['pk'])
             device = db_user.device
-            device.send_message({'message':'my test message'}, collapse_key='something')
+            device.send_message('Tienes una nueva encuesta que responder', collapse_key='something')
     else:
         return JsonResponse({}, status=404)
     base = []
@@ -516,6 +516,9 @@ def send_message(request):
                 sended_message.save()
                 sended_survey = SendedSurvey.objects.get(id=sended)
                 sended_survey.messages.add(sended_message)
+                db_user = Subject.objects.get(id=user['pk'])
+                device = db_user.device
+                device.send_message('Tienes un nuevo mensaje', collapse_key='something')
                 sended_survey.save()
 
         else:
