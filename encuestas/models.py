@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
+from fcm.models import AbstractDevice
 from encuestas.validators import verificar_rut
 
 
@@ -36,13 +37,17 @@ class ConjuntosToSend(models.Model):
 
 
 
+class DeviceEncuesta(AbstractDevice):
+    pass
+
 class Subject(models.Model):
     name = models.CharField(max_length=32, default='John Doe')
     conjunto = models.ManyToManyField(to=Conjunto)
-    rut = models.CharField(max_length=12, default='123456789-1',validators=[verificar_rut])
+    rut = models.CharField(max_length=12, default='123456789-1', validators=[verificar_rut])
     phone = models.IntegerField(default=0)
     age = models.IntegerField(default=20)
     email = models.EmailField(blank=True, null=True)
+    device = models.ForeignKey(to=DeviceEncuesta,blank=True, null=True)
     last_connection = models.DateTimeField(null=True)
 
     class Meta:
@@ -119,6 +124,8 @@ class Subject(models.Model):
             'fecha_envio': sended,
 
         }
+
+
 class Message(models.Model):
     title = models.CharField(max_length=32)
     description = models.TextField()
@@ -136,7 +143,6 @@ class Message(models.Model):
             'title': self.title,
             'description': self.description,
         }
-
 
 
 class SendedMessage(models.Model):
@@ -164,6 +170,8 @@ class SendedMessage(models.Model):
 
     def __unicode__(self):
         return self.message.title
+
+
 class Survey(models.Model):
     title = models.CharField(max_length=32)
     description = models.TextField()
@@ -227,7 +235,6 @@ class SendedSurvey(models.Model):
         for i in self.messages.all():
             total.append({"message": i.message.to_dict()})
         return total
-    
 
     class Meta:
         verbose_name = u"Encuesta enviada"
@@ -246,7 +253,5 @@ class SendedSurvey(models.Model):
                 'url': self.survey.url,
                 'date_end': self.survey.getDateToIso(self.survey.end_survey_time)
             },
-            'messages' : self.messages_dict()
+            'messages': self.messages_dict()
         }
-
-

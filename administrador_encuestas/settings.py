@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'adminplus',
     'encuestas',
+    'fcm',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -88,7 +89,8 @@ DATABASES = {
     }
 }
 
-
+FCM_APIKEY = "AIzaSyBIbdFZZ-69C2wn1m8uvYRddDQ6RPIuk-8"
+FCM_DEVICE_MODEL = 'encuestas.DeviceEncuesta'
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 

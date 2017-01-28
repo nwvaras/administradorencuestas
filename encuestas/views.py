@@ -67,8 +67,10 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 #         return JsonResponse({'status': 'success', 'mensajes': ['El acta ha sido ingresada exitosamente.']})
 #
 #     return JsonResponse({'status': 'error', 'mensajes': errores}, status=400)
+from fcm.utils import get_device_model
 
-from encuestas.models import Survey, SendedSurvey, Subject, Message, SendedMessage, Conjunto, ConjuntosToSend
+from encuestas.models import Survey, SendedSurvey, Subject, Message, SendedMessage, Conjunto, ConjuntosToSend, \
+    DeviceEncuesta
 from encuestas.validators import verificar_rut
 
 
@@ -112,6 +114,42 @@ def user_register(request):
         new_user.last_connection = datetime.now()
         new_user.save()
         return JsonResponse({'status': 'Ok'})
+    else:
+        return JsonResponse({}, status=404)
+
+
+@csrf_exempt
+def user_register_device(request):
+    print "first"
+    if request.method != 'POST':
+        return JsonResponse({}, status=404)
+    body = request.body.decode('utf-8')
+    print "firstf"
+    try:
+        body = json.loads(body)
+    except ValueError:
+        return JsonResponse({}, status=404)
+    print "second"
+    if 'rut' in body and 'device':
+        # Checkear si usuarios existe:
+        rut = body.get('rut')
+        device_json = body.get('device')
+        user = Subject.objects.filter(rut=rut)
+        if (len(user) > 0):
+            # Si existe, crear un device y agregarselo al usuario
+            if 'reg_id' in device_json:
+                reg_id = device_json.get('reg_id')
+                device = DeviceEncuesta(reg_id=reg_id, dev_id=rut, name=rut)
+                user = user.first()
+                user.device= device
+                user.save()
+                return JsonResponse({'status': 'Ok'})
+            else:
+                 return JsonResponse({}, status=404)
+        else:
+             return JsonResponse({}, status=404)
+
+
     else:
         return JsonResponse({}, status=404)
 
@@ -318,6 +356,9 @@ def send_surveys_from_cp(request):
             survey.save()
             sended_survey = SendedSurvey(survey_id=encuesta['pk'], subject_id=user['pk'])
             sended_survey.save()
+            Device = get_device_model()
+            device = Device.objects.get(name=user.get('rut'))
+            device.send_message({'message':'my test message'}, collapse_key='something')
     else:
         return JsonResponse({}, status=404)
     base = []
@@ -444,6 +485,7 @@ def create_message(request):
     else:
         return JsonResponse({}, status=404)
     return JsonResponse({'status': 'OK'})
+
 
 @transaction.atomic
 def send_message(request):
