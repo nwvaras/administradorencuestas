@@ -141,6 +141,7 @@ def user_register_device(request):
                 reg_id = device_json.get('reg_id')
                 device = DeviceEncuesta(reg_id=reg_id, dev_id=rut, name=rut)
                 user = user.first()
+                device.save()
                 user.device= device
                 user.save()
                 return JsonResponse({'status': 'Ok'})
