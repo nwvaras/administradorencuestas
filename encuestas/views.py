@@ -357,8 +357,8 @@ def send_surveys_from_cp(request):
             survey.save()
             sended_survey = SendedSurvey(survey_id=encuesta['pk'], subject_id=user['pk'])
             sended_survey.save()
-            Device = get_device_model()
-            device = Device.objects.get(name=user.get('rut'))
+            db_user = Subject.objects.get(id=user['pk'])
+            device = db_user.device
             device.send_message({'message':'my test message'}, collapse_key='something')
     else:
         return JsonResponse({}, status=404)
