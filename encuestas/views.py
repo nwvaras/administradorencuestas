@@ -139,9 +139,9 @@ def user_register_device(request):
             # Si existe, crear un device y agregarselo al usuario
             if 'reg_id' in device_json:
                 reg_id = device_json.get('reg_id')
-                device = DeviceEncuesta.objects.filter(reg_id=reg_id)
+                device = DeviceEncuesta.objects.filter(dev_id=rut)
                 if(len(device) > 0):
-                    device.first().delete()
+                    device.delete()
                 device = DeviceEncuesta(reg_id=reg_id, dev_id=rut, name=rut)
                 user = user.first()
                 device.save()
