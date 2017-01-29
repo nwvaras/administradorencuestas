@@ -47,7 +47,7 @@ class Subject(models.Model):
     phone = models.IntegerField(default=0)
     age = models.IntegerField(default=20)
     email = models.EmailField(blank=True, null=True)
-    device = models.ForeignKey(to=DeviceEncuesta,blank=True, null=True)
+    device = models.ForeignKey(to=DeviceEncuesta,blank=True, null=True,on_delete=models.SET_NULL)
     last_connection = models.DateTimeField(null=True)
 
     class Meta:
