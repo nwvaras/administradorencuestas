@@ -139,19 +139,19 @@ def user_register_device(request):
             # Si existe, crear un device y agregarselo al usuario
             if 'reg_id' in device_json:
                 reg_id = device_json.get('reg_id')
-                device = DeviceEncuesta.objects.filter(Q(dev_id=rut) | Q(reg_id= reg_id))
-                if(len(device) > 0):
+                device = DeviceEncuesta.objects.filter(Q(dev_id=rut) | Q(reg_id=reg_id))
+                if (len(device) > 0):
                     device.delete()
                 device = DeviceEncuesta(reg_id=reg_id, dev_id=rut, name=rut)
                 user = user.first()
                 device.save()
-                user.device= device
+                user.device = device
                 user.save()
                 return JsonResponse({'status': 'Ok'})
             else:
-                 return JsonResponse({}, status=404)
+                return JsonResponse({}, status=404)
         else:
-             return JsonResponse({}, status=404)
+            return JsonResponse({}, status=404)
 
 
     else:
@@ -363,7 +363,8 @@ def send_surveys_from_cp(request):
             sended_survey.save()
             db_user = Subject.objects.get(id=user['pk'])
             device = db_user.device
-            device.send_message('Tienes una nueva encuesta que responder', collapse_key='something')
+            if device is not None:
+                device.send_message('Tienes una nueva encuesta que responder', collapse_key='something')
     else:
         return JsonResponse({}, status=404)
     base = []
@@ -522,7 +523,8 @@ def send_message(request):
                 sended_survey.messages.add(sended_message)
                 db_user = Subject.objects.get(id=user['pk'])
                 device = db_user.device
-                device.send_message('Tienes un nuevo mensaje', collapse_key='something')
+                if device is not None:
+                    device.send_message('Tienes un nuevo mensaje', collapse_key='something')
                 sended_survey.save()
 
         else:
