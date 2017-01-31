@@ -210,6 +210,7 @@ def user_get_data(request):
     else:
         results['last_message'] = ""
     results["count"] = len(results['result'])
+    results["user"] = user.to_dict()
     return JsonResponse(results, safe=False)
 
 
