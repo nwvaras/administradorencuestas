@@ -233,8 +233,12 @@ def upload_user_csv(request):
         reader = csv.reader(codecs.EncodedFile(csvfile, "Latin-1"), delimiter=';', dialect=dialect)
         header = next(reader, None)
         print header
-        conjunto = Conjunto(name=header[1], description=header[2])
-        conjunto.save()
+        conjunto = Conjunto.objects.filter(name=header[1])
+        if len(conjunto)>0:
+            conjunto= conjunto.first()
+        else:
+            conjunto = Conjunto(name=header[1], description=header[2])
+            conjunto.save()
         for row in reader:
             try:
                 subject = Subject.objects.get(rut=row[0])
@@ -242,6 +246,7 @@ def upload_user_csv(request):
                 continue
             if row[1] == 1:
                 subject.conjuntos.add(conjunto)
+                subject.save()
 
     return JsonResponse({}, safe=False)
 
