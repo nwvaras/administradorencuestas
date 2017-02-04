@@ -36,6 +36,20 @@ class ConjuntosToSend(models.Model):
         return self.conjunto.name
 
 
+class Request(models.Model):
+    type = models.IntegerField()
+    title = models.CharField()
+    body = models.TextField()
+    user = models.CharField()
+
+
+    def to_dict(self):
+        return self.conjunto.to_dict()
+
+    def __unicode__(self):
+        return self.conjunto.name
+
+
 
 class DeviceEncuesta(AbstractDevice):
     pass

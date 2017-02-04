@@ -70,7 +70,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from fcm.utils import get_device_model
 
 from encuestas.models import Survey, SendedSurvey, Subject, Message, SendedMessage, Conjunto, ConjuntosToSend, \
-    DeviceEncuesta
+    DeviceEncuesta, Request
 from encuestas.validators import verificar_rut
 
 
@@ -130,7 +130,7 @@ def user_register_device(request):
     except ValueError:
         return JsonResponse({}, status=404)
     print "second"
-    if 'rut' in body and 'device':
+    if 'rut' in body and 'device' in body:
         # Checkear si usuarios existe:
         rut = body.get('rut')
         device_json = body.get('device')
@@ -154,6 +154,29 @@ def user_register_device(request):
             return JsonResponse({}, status=404)
 
 
+    else:
+        return JsonResponse({}, status=404)
+
+@csrf_exempt
+def request_message(request):
+    print "first"
+    if request.method != 'POST':
+        return JsonResponse({}, status=404)
+    body = request.body.decode('utf-8')
+    print "firstf"
+    try:
+        body = json.loads(body)
+    except ValueError:
+        return JsonResponse({}, status=404)
+    print "second"
+    if 'rut' in body and 'body' in body and 'title' in body and 'type' in body:
+        rut = body.get('rut')
+        body = body.get('body')
+        title = body.get('title')
+        type = body.get('type')
+        new_request = Request(rut=rut,body=body,title=title,type=type)
+        new_request.save()
+        return JsonResponse({"status","OK"})
     else:
         return JsonResponse({}, status=404)
 
