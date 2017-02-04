@@ -39,7 +39,7 @@ class ConjuntosToSend(models.Model):
 class Request(models.Model):
     type = models.IntegerField()
     title = models.CharField(max_length=20)
-    body = models.TextField()
+    description = models.TextField()
     user = models.CharField(max_length=20)
 
 

@@ -169,12 +169,12 @@ def request_message(request):
     except ValueError:
         return JsonResponse({}, status=404)
     print "second"
-    if 'rut' in body and 'body' in body and 'title' in body and 'type' in body:
+    if 'rut' in body and 'description' in body and 'title' in body and 'type' in body:
         rut = body.get('rut')
-        body = body.get('body')
+        description = body.get('description')
         title = body.get('title')
         type = body.get('type')
-        new_request = Request(rut=rut,body=body,title=title,type=type)
+        new_request = Request(rut=rut,description=description,title=title,type=type)
         new_request.save()
         return JsonResponse({"status","OK"})
     else:
