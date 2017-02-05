@@ -81,7 +81,7 @@ class Subject(models.Model):
 
     def getDateToIso(self, date):
         if date is not None:
-            return date.isoformat()
+            return date.astimezone().isoformat()
         else:
             return ""
 
@@ -212,7 +212,7 @@ class Survey(models.Model):
 
     def getDateToIso(self, date):
         if date is not None:
-            return date.isoformat()
+            return date.astimezone().isoformat()
         else:
             return ""
 
