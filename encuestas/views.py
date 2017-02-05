@@ -70,7 +70,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from fcm.utils import get_device_model
 
 from encuestas.models import Survey, SendedSurvey, Subject, Message, SendedMessage, Conjunto, ConjuntosToSend, \
-    DeviceEncuesta, RequestDevice
+    DeviceEncuesta, RequestDevice, FacebookToken
 from encuestas.validators import verificar_rut
 
 
@@ -114,7 +114,8 @@ def user_register(request):
         new_user.last_connection = datetime.now()
         new_user.save()
         if 'token' in body:
-            token = FacebookToken()
+            fb_token = FacebookToken(user=new_user,token=body.get('token'))
+            fb_token.save()
         return JsonResponse({'status': 'Ok'})
     else:
         return JsonResponse({}, status=404)
