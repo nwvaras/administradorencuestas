@@ -1,0 +1,13 @@
+<md-dialog aria-label="Dialog" ng-controller="ListCtrl">
+    <form>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+      <lf-ng-md-file-input lf-mimetype="application/pdf" lf-files="files" drag></lf-ng-md-file-input>
+                </div>
+            </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button class="md-raised md-warn" ng-click="cancel()">Cancelar</md-button>
+      <md-button class="md-raised md-primary" ng-click="answer()" >Enviar</md-button>
+    </md-dialog-actions>
+</form>
+</md-dialog>
