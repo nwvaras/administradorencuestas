@@ -82,7 +82,10 @@ class Subject(models.Model):
 
     def getDateToIso(self, date):
         if date is not None:
-            return date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat()
+            dt =date.replace(tzinfo=pytz.timezone("America/Santiago")).ioformat()
+            dia= dt.split('T')[0]
+            hora = dt.split('T')[1].split('.')[0]
+            return dia + " " + hora
         else:
             return ""
 
@@ -213,7 +216,10 @@ class Survey(models.Model):
 
     def getDateToIso(self, date):
         if date is not None:
-            return date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat()
+            dt =date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat()
+            dia= dt.split('T')[0]
+            hora = dt.split('T')[1].split('.')[0]
+            return dia + " " + hora
         else:
             return ""
 
