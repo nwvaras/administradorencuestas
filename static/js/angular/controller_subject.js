@@ -198,10 +198,10 @@ $scope.selected = [];
 
 }
   $scope.files = ""
-  //$scope.$watch('files.length',function(newVal,oldVal){
-  //        console.log($scope.files[0]);
-  //          uploadCSV($scope.files[0]);
-  //});
+  $scope.$watch('files.length',function(newVal,oldVal){
+          console.log($scope.files[0]);
+            uploadCSV($scope.files[0]);
+  });
 
 
   function DialogConjunto($scope, $mdDialog) {
