@@ -251,11 +251,11 @@ $scope.selected = [];
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             }).then(function(result){
-            $mdDialog.hide();
+            //$mdDialog.hide();
 
                  $scope.sendToast('Conjuntos cargados con exito')
             },function(err){
-           $mdDialog.hide();
+           //$mdDialog.hide();
                 $scope.sendToast('Error al cargar conjuntos')
             });
 
