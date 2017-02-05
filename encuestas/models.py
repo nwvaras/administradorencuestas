@@ -220,7 +220,8 @@ class Survey(models.Model):
             dt = date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat().split('T')
             dia = dt[0]
             hora = dt[1].split('.')[0]
-            return dia+" "+ hora    
+            hora = hora.split('-')[0]
+            return dia+" "+ hora
          else:
             return ""
 
