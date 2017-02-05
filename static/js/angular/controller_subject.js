@@ -198,10 +198,10 @@ $scope.selected = [];
 
 }
   $scope.files = ""
-  $scope.$watch('files.length',function(newVal,oldVal){
-          console.log($scope.files[0]);
-            uploadCSV($scope.files[0]);
-  });
+  //$scope.$watch('files.length',function(newVal,oldVal){
+  //        console.log($scope.files[0]);
+  //          uploadCSV($scope.files[0]);
+  //});
 
 
   function DialogController($scope, $mdDialog) {
@@ -230,7 +230,10 @@ $scope.selected = [];
       fullscreen: true // Only for -xs, -sm breakpoints.
     })
     .then(function(answer) {
+          console.log("subido")
+          uploadCSV($scope.files[0])
     }, function() {
+           console.log("no subido")
       $scope.status = 'You cancelled the dialog.';
     });
   };
