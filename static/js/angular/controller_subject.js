@@ -78,6 +78,12 @@ $scope.selected = [];
     'age-max' : 99,
     'conjuntos' : [],
   }}
+  var last = {
+      bottom: true,
+      top:  false,
+      left: false,
+      right: true
+    };
 
   var cargarDatos = function () {
 
