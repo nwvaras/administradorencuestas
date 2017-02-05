@@ -169,6 +169,7 @@ def request_message(request):
     except ValueError:
         return JsonResponse({}, status=404)
     print "second"
+    print body
     if 'rut' in body and 'description' in body and 'title' in body and 'type' in body:
         rut = body.get('rut')
         description = body.get('description')
