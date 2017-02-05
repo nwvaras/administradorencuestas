@@ -49,16 +49,7 @@ class RequestDevice(models.Model):
         return self.title
 
 
-class FacebookToken(models.Model):
-    user = models.ForeignKey(to=Subject)
-    token = models.CharField(max_length=1024)
-    created = models.DateTimeField(auto_now_add=True, blank=True)
 
-    def to_dict(self):
-        return self.user.name
-
-    def __unicode__(self):
-        return self.user.name
 
 
 class DeviceEncuesta(AbstractDevice):
@@ -280,3 +271,13 @@ class SendedSurvey(models.Model):
             },
             'messages': self.messages_dict()
         }
+class FacebookToken(models.Model):
+    user = models.ForeignKey(to=Subject)
+    token = models.CharField(max_length=1024)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def to_dict(self):
+        return self.user.name
+
+    def __unicode__(self):
+        return self.user.name
