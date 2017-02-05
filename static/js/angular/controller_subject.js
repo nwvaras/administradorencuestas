@@ -223,7 +223,7 @@ $scope.selected = [];
     $scope.showDialogMessage= function(ev) {
     $mdDialog.show({
       controller: DialogController,
-      templateUrl: '/static/html/angular/cargar_conjunto.html',
+      templateUrl: '/static/html/angular/cargar_conjunto_final.html',
       parent: angular.element(document.body),
       targetEvent: ev,
       clickOutsideToClose:true,
