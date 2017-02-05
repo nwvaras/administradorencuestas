@@ -216,14 +216,16 @@ $scope.selected = [];
                     formData.append('csv', obj.lfFile);
                 }
             });
-      $mdDialog.hide();
+
          $http.post('/encuestas/subjects/fromcsv/', formData, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             }).then(function(result){
+            $mdDialog.hide();
 
                  $scope.sendToast('Conjuntos cargados con exito')
             },function(err){
+           $mdDialog.hide();
                 $scope.sendToast('Error al cargar conjuntos')
             });
 
