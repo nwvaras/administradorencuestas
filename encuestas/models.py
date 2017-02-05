@@ -44,10 +44,10 @@ class RequestDevice(models.Model):
 
 
     def to_dict(self):
-        return self.conjunto.to_dict()
+        return self.title
 
     def __unicode__(self):
-        return self.conjunto.name
+        return self.title
 
 
 
