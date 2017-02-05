@@ -200,9 +200,9 @@ $scope.selected = [];
   $scope.files = ""
   var file = ""
   $scope.$watch('files.length',function(newVal,oldVal){
-    if(newVal >0 && file.length ==0){
+    if(newVal >0){
       console.log($scope.files[0]);
-            file =$scope.files[0]
+      uploadCSV($scope.files[0])
 
     }
 
@@ -235,9 +235,6 @@ $scope.selected = [];
       fullscreen: true // Only for -xs, -sm breakpoints.
     })
     .then(function(answer) {
-          console.log("subido")
-          console.log(file)
-          uploadCSV(file)
     }, function() {
            console.log("no subido")
       $scope.status = 'You cancelled the dialog.';
@@ -258,11 +255,11 @@ $scope.selected = [];
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             }).then(function(result){
-            //$mdDialog.hide();
+            $mdDialog.hide();
 
                  $scope.sendToast('Conjuntos cargados con exito')
             },function(err){
-          //$mdDialog.hide();
+          $mdDialog.hide();
                 $scope.sendToast('Error al cargar conjuntos')
             });
 
