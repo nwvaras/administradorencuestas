@@ -272,7 +272,7 @@ def upload_user_csv(request):
             except ObjectDoesNotExist:
                 continue
             if str(row[1]) == '1':
-                subject.conjuntos.add(conjunto)
+                subject.conjunto.add(conjunto)
                 subject.save()
 
     return JsonResponse({}, safe=False)
