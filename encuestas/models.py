@@ -36,7 +36,7 @@ class ConjuntosToSend(models.Model):
         return self.conjunto.name
 
 
-class Request(models.Model):
+class RequestDevice(models.Model):
     type = models.IntegerField()
     title = models.CharField(max_length=20)
     description = models.TextField()

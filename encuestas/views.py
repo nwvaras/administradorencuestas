@@ -70,7 +70,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 from fcm.utils import get_device_model
 
 from encuestas.models import Survey, SendedSurvey, Subject, Message, SendedMessage, Conjunto, ConjuntosToSend, \
-    DeviceEncuesta, Request
+    DeviceEncuesta, RequestDevice
 from encuestas.validators import verificar_rut
 
 
@@ -175,7 +175,7 @@ def request_message(request):
         description = body.get('description')
         title = body.get('title')
         type = body.get('type')
-        new_request = Request(user=rut,description=description,title=title,type=type)
+        new_request = RequestDevice(user=rut,description=description,title=title,type=type)
         new_request.save()
         return JsonResponse({"status":"OK"})
     else:
