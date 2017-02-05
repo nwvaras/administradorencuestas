@@ -204,17 +204,17 @@ $scope.selected = [];
   //});
 
 
-  function DialogController($scope, $mdDialog) {
+  function DialogConjunto($scope, $mdDialog) {
     $scope.hide = function() {
       $mdDialog.hide();
     };
 
-    $scope.cancel = function() {
+    $scope.no = function() {
       $mdDialog.cancel();
     };
 
-    $scope.answer = function(answer) {
-      $mdDialog.hide(answer);
+    $scope.enviar = function() {
+      $mdDialog.hide('enviado');
     };
   }
     $scope.loadSurveyDetail = function(survey){
@@ -222,7 +222,7 @@ $scope.selected = [];
     }
     $scope.showDialogMessage= function(ev) {
     $mdDialog.show({
-      controller: DialogController,
+      controller: DialogConjunto,
       templateUrl: '/static/html/angular/cargar_conjunto_final2.html',
       parent: angular.element(document.body),
       targetEvent: ev,
