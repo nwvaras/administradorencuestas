@@ -240,7 +240,31 @@ def user_get_data(request):
     results["count"] = len(results['result'])
     results["user"] = user.to_dict()
     return JsonResponse(results, safe=False)
-
+@csrf_exempt
+def user_get_historial(request):
+    print "first"
+    if request.method != 'POST':
+        return JsonResponse({}, status=404)
+    body = request.body.decode('utf-8')
+    print "firstf"
+    try:
+        body = json.loads(body)
+    except ValueError:
+        return JsonResponse({}, status=404)
+    print "second"
+    rut = body.get('rut', "12121")
+    userExist = Subject.objects.filter(rut=rut)
+    if len(userExist) == 0:
+        return JsonResponse({}, status=404)
+    print body
+    user = userExist.first()
+    user.last_connection = timezone.now()
+    user.save()
+    surveyRespList = SendedSurvey.objects.filter(respondida=True, subject__rut=rut).all()
+    print surveyRespList
+    results = dict()
+    results['result'] = [ob.to_dict() for ob in surveyRespList]
+    return JsonResponse(results, safe=False)
 
 def ready_survey(request, string):
     surveyResp = SendedSurvey.objects.get(pk=string)
