@@ -204,7 +204,6 @@ $scope.selected = [];
       fullscreen: true // Only for -xs, -sm breakpoints.
     })
     .then(function(answer) {
-      $scope.sendMessage(answer)
     }, function() {
       $scope.status = 'You cancelled the dialog.';
     });
@@ -217,14 +216,27 @@ $scope.selected = [];
                     formData.append('csv', obj.lfFile);
                 }
             });
+      $mdDialog.hide();
          $http.post('/encuestas/subjects/fromcsv/', formData, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             }).then(function(result){
-                // do sometingh
+
+                 $scope.sendToast('Conjuntos cargados con exito')
             },function(err){
-                // do sometingh
+                $scope.sendToast('Error al cargar conjuntos')
             });
 
   }
+
+  $scope.sendToast = function(message) {
+    var pinTo = $scope.getToastPosition();
+
+    $mdToast.show(
+      $mdToast.simple()
+        .textContent(message)
+        .position(pinTo )
+        .hideDelay(3000)
+    );
+  };
 });
