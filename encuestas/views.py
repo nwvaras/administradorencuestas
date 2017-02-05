@@ -3,6 +3,7 @@ import codecs
 import csv
 import json
 from datetime import datetime
+from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
@@ -111,7 +112,7 @@ def user_register(request):
         new_user.save()
         new_user.conjunto.add(Conjunto.objects.get(id=conjunto['pk']))
         new_user.conjunto.add(Conjunto.objects.get(id=sexo['pk']))
-        new_user.last_connection = datetime.now()
+        new_user.last_connection = timezone.now()
         new_user.save()
         if 'token' in body:
             fb_token = FacebookToken(user=new_user,token=body.get('token'))
@@ -225,7 +226,7 @@ def user_get_data(request):
         return JsonResponse({}, status=404)
     print body
     user = userExist.first()
-    user.last_connection = datetime.now()
+    user.last_connection = timezone.now()
     user.save()
     surveyRespList = SendedSurvey.objects.filter(respondida=False, subject__rut=rut).all()
     last_message = SendedMessage.objects.filter(subject__rut=rut).order_by('-date_sended')
@@ -389,7 +390,7 @@ def send_surveys_from_cp(request):
         encuesta = body.get('encuesta', {})
         for user in usuarios:
             survey = Survey.objects.get(id=encuesta['pk'])
-            survey.last_sended_date = datetime.now()
+            survey.last_sended_date = timezone.now()
             survey.save()
             sended_survey = SendedSurvey(survey_id=encuesta['pk'], subject_id=user['pk'])
             sended_survey.save()
