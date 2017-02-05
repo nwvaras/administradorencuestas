@@ -82,7 +82,7 @@ class Subject(models.Model):
 
     def getDateToIso(self, date):
         if date is not None:
-            return date.replace(tzinfo=pytz.timezone("America/Santiago")).strftime('%Y-%m-%dT%H:%M:%S.%f%z')
+            return str(date)
         else:
             return ""
 
@@ -213,7 +213,7 @@ class Survey(models.Model):
 
     def getDateToIso(self, date):
         if date is not None:
-            return date.replace(tzinfo=pytz.timezone("America/Santiago")).strftime('%Y-%m-%dT%H:%M:%S.%f%z')
+            return str(date)
         else:
             return ""
 
