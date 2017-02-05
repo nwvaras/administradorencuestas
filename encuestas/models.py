@@ -4,7 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from fcm.models import AbstractDevice
 from encuestas.validators import verificar_rut
-
+import pytz
 
 class Conjunto(models.Model):
     name = models.CharField(max_length=32)
@@ -82,7 +82,7 @@ class Subject(models.Model):
 
     def getDateToIso(self, date):
         if date is not None:
-            return date.astimezone(date.tzinfo).isoformat()
+            return date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat()
         else:
             return ""
 
@@ -213,7 +213,7 @@ class Survey(models.Model):
 
     def getDateToIso(self, date):
         if date is not None:
-            return date.astimezone(date.tzinfo).isoformat()
+            return date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat()
         else:
             return ""
 
