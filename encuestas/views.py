@@ -264,6 +264,8 @@ def user_get_historial(request):
     print surveyRespList
     results = dict()
     results['result'] = [ob.to_dict() for ob in surveyRespList]
+    results["count"] = len(results['result'])
+    results["user"] = user.to_dict()
     return JsonResponse(results, safe=False)
 
 def ready_survey(request, string):
