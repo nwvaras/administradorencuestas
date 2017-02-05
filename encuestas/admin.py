@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from encuestas.models import Conjunto, Subject, Survey, SendedSurvey, Message, SendedMessage, ConjuntosToSend, Request
+from encuestas.models import Conjunto, Subject, Survey, SendedSurvey, Message, SendedMessage, ConjuntosToSend, \
+    RequestDevice
 from django.contrib import admin
 from encuestas.views import subject_menu, survey_menu, message_record
 
@@ -133,4 +134,4 @@ admin.site.register(SendedSurvey,MyModelAdmin)
 admin.site.register(Message,MyModelAdmin)
 admin.site.register(SendedMessage,MyModelAdmin)
 admin.site.register(ConjuntosToSend,MyModelAdmin)
-admin.site.register(Request,MyModelAdmin)
+admin.site.register(RequestDevice,MyModelAdmin)
