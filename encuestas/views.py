@@ -551,7 +551,7 @@ def send_message(request):
                 sended_survey = SendedSurvey.objects.get(id=sended)
                 sended_survey.messages.add(sended_message)
                 db_user = Subject.objects.get(id=user['pk'])
-                messsage = Message(id=id)
+                messsage = Message.objects.get(id=id)
                 device = db_user.device
                 if device is not None:
                     device.send_message(message.description, collapse_key='something')
