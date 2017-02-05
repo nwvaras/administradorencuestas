@@ -175,7 +175,7 @@ def request_message(request):
         description = body.get('description')
         title = body.get('title')
         type = body.get('type')
-        new_request = Request(rut=rut,description=description,title=title,type=type)
+        new_request = Request(user=rut,description=description,title=title,type=type)
         new_request.save()
         return JsonResponse({"status","OK"})
     else:
