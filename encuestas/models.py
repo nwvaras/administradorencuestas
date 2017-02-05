@@ -42,7 +42,6 @@ class RequestDevice(models.Model):
     description = models.TextField()
     user = models.CharField(max_length=20)
 
-
     def to_dict(self):
         return self.title
 
@@ -50,9 +49,21 @@ class RequestDevice(models.Model):
         return self.title
 
 
+class FacebookToken(models.Model):
+    user = models.ForeignKey(to=Subject)
+    token = models.CharField(max_length=1024)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def to_dict(self):
+        return self.user.name
+
+    def __unicode__(self):
+        return self.user.name
+
 
 class DeviceEncuesta(AbstractDevice):
     pass
+
 
 class Subject(models.Model):
     name = models.CharField(max_length=32, default='John Doe')
@@ -61,7 +72,7 @@ class Subject(models.Model):
     phone = models.IntegerField(default=0)
     age = models.IntegerField(default=20)
     email = models.EmailField(blank=True, null=True)
-    device = models.ForeignKey(to=DeviceEncuesta,blank=True, null=True,on_delete=models.SET_NULL)
+    device = models.ForeignKey(to=DeviceEncuesta, blank=True, null=True, on_delete=models.SET_NULL)
     last_connection = models.DateTimeField(null=True)
 
     class Meta:

@@ -113,6 +113,8 @@ def user_register(request):
         new_user.conjunto.add(Conjunto.objects.get(id=sexo['pk']))
         new_user.last_connection = datetime.now()
         new_user.save()
+        if 'token' in body:
+            token = FacebookToken()
         return JsonResponse({'status': 'Ok'})
     else:
         return JsonResponse({}, status=404)
