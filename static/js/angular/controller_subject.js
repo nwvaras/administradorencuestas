@@ -245,6 +245,8 @@ $scope.selected = [];
   };
 
   var uploadCSV= function (file) {
+    file = $scope.files[0]
+    console.log(file)
     var formData = new FormData();
             angular.forEach($scope.files,function(obj){
                 if(!obj.isRemote){
