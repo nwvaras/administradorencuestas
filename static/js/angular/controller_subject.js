@@ -200,7 +200,7 @@ $scope.selected = [];
   $scope.files = ""
   var file = ""
   $scope.$watch('files.length',function(newVal,oldVal){
-    if(newVal >0){
+    if(newVal >0 && file.length ==0){
       console.log($scope.files[0]);
             file =$scope.files[0]
 
