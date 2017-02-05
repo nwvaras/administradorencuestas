@@ -231,6 +231,7 @@ $scope.selected = [];
     })
     .then(function(answer) {
           console.log("subido")
+          console.log($scope.files)
           uploadCSV($scope.files[0])
     }, function() {
            console.log("no subido")
