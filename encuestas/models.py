@@ -256,7 +256,7 @@ class SendedSurvey(models.Model):
     messages = models.ManyToManyField(to=SendedMessage)
     def getDateToIso(self, date):
         if date is not None:
-            return date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat().split()
+            return date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat()
         else:
             return ""
     def messages_dict(self):
