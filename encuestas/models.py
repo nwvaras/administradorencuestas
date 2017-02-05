@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from fcm.models import AbstractDevice
@@ -81,7 +82,7 @@ class Subject(models.Model):
 
     def getDateToIso(self, date):
         if date is not None:
-            return date.astimezone('America/Santiago').isoformat()
+            return date.astimezone(date.tzinfo).isoformat()
         else:
             return ""
 
@@ -212,7 +213,7 @@ class Survey(models.Model):
 
     def getDateToIso(self, date):
         if date is not None:
-            return date.astimezone('America/Santiago').isoformat()
+            return date.astimezone(date.tzinfo).isoformat()
         else:
             return ""
 
