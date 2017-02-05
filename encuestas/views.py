@@ -271,7 +271,7 @@ def upload_user_csv(request):
                 subject = Subject.objects.get(rut=row[0])
             except ObjectDoesNotExist:
                 continue
-            if row[1] == 1:
+            if str(row[1]) == '1':
                 subject.conjuntos.add(conjunto)
                 subject.save()
 
