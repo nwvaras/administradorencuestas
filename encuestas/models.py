@@ -81,6 +81,7 @@ class Subject(models.Model):
         return total
 
     def getDateToIso(self, date):
+        print date
         if date is not None:
             return str(date)
         else:
@@ -213,6 +214,7 @@ class Survey(models.Model):
 
     def getDateToIso(self, date):
         if date is not None:
+            print date
             return str(date)
         else:
             return ""
