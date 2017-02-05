@@ -81,11 +81,12 @@ class Subject(models.Model):
         return total
 
     def getDateToIso(self, date):
+
         if date is not None:
-            dt =date.replace(tzinfo=pytz.timezone("America/Santiago")).ioformat()
-            dia= dt.split('T')[0]
-            hora = dt.split('T')[1].split('.')[0]
-            return dia + " " + hora
+            dt = date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat().split('T')
+            dia = dt[0]
+            hora = dt[1].split('.')[0]
+            return dia+" "+ hora
         else:
             return ""
 
@@ -215,12 +216,12 @@ class Survey(models.Model):
         return (yes_count, no_count)
 
     def getDateToIso(self, date):
-        if date is not None:
-            dt =date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat()
-            dia= dt.split('T')[0]
-            hora = dt.split('T')[1].split('.')[0]
-            return dia + " " + hora
-        else:
+         if date is not None:
+            dt = date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat().split('T')
+            dia = dt[0]
+            hora = dt[1].split('.')[0]
+            return dia+" "+ hora    
+         else:
             return ""
 
     def to_dict(self):
@@ -252,7 +253,11 @@ class SendedSurvey(models.Model):
     date_creation = models.DateTimeField(auto_now_add=True, blank=True)
     date_responded = models.DateTimeField(null=True, blank=True)
     messages = models.ManyToManyField(to=SendedMessage)
-
+    def getDateToIso(self, date):
+        if date is not None:
+            return date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat().split()
+        else:
+            return ""
     def messages_dict(self):
         total = []
         for i in self.messages.all():
@@ -274,7 +279,7 @@ class SendedSurvey(models.Model):
             'survey': {
                 'titulo': self.survey.title,
                 'url': self.survey.url,
-                'date_end': self.survey.getDateToIso(self.survey.end_survey_time)
+                'date_end': self.getDateToIso(self.survey.end_survey_time)
             },
             'messages': self.messages_dict()
         }
