@@ -220,6 +220,7 @@ def user_get_data(request):
     userExist = Subject.objects.filter(rut=rut)
     if len(userExist) == 0:
         return JsonResponse({}, status=404)
+    print datetime.now()
     user = userExist.first()
     user.last_connection = timezone.now()
     user.save()
