@@ -224,7 +224,7 @@ def user_get_data(request):
     user = userExist.first()
     user.last_connection = timezone.now()
     user.save()
-    surveyRespList = SendedSurvey.objects.exclude(survey__end_survey_time__gt =datetime.now()).filter(respondida=False, subject__rut=rut).all()
+    surveyRespList = SendedSurvey.objects.exclude(survey__end_survey_time__lt =datetime.now()).filter(respondida=False, subject__rut=rut).all()
 
     results = dict()
     results['result'] = [ob.to_dict() for ob in surveyRespList]
