@@ -77,24 +77,21 @@ from encuestas.validators import verificar_rut
 
 @csrf_exempt
 def get_survey(request, user):
+    print datetime.now()
     surveyRespList = SendedSurvey.objects.filter(respondida=False, subject__rut=user).all()
-    print surveyRespList
     results = [ob.to_dict() for ob in surveyRespList]
     return JsonResponse(results, safe=False)
 
 
 @csrf_exempt
 def user_register(request):
-    print "first"
     if request.method != 'POST':
         return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
-    print "firstf"
     try:
         body = json.loads(body)
     except ValueError:
         return JsonResponse({}, status=404)
-    print "second"
     if 'rut' in body and 'conjunto' in body and 'email' in body and 'telefono' in body and 'sexo' in body and 'nombre' in body and 'apellido' in body and 'edad' in body:
 
         name = body['nombre'] + " " + body['apellido']
@@ -124,16 +121,13 @@ def user_register(request):
 
 @csrf_exempt
 def user_register_device(request):
-    print "first"
     if request.method != 'POST':
         return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
-    print "firstf"
     try:
         body = json.loads(body)
     except ValueError:
         return JsonResponse({}, status=404)
-    print "second"
     if 'rut' in body and 'device' in body:
         # Checkear si usuarios existe:
         rut = body.get('rut')
@@ -163,17 +157,13 @@ def user_register_device(request):
 
 @csrf_exempt
 def request_message(request):
-    print "first"
     if request.method != 'POST':
         return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
-    print "firstf"
     try:
         body = json.loads(body)
     except ValueError:
         return JsonResponse({}, status=404)
-    print "second"
-    print body
     if 'rut' in body and 'description' in body and 'title' in body and 'type' in body:
         rut = body.get('rut')
         description = body.get('description')
@@ -181,6 +171,16 @@ def request_message(request):
         type = body.get('type')
         new_request = RequestDevice(user=rut,description=description,title=title,type=type)
         new_request.save()
+        usuarios_admin = ['18390931-2','18121722-7']
+        for rut in usuarios_admin:
+            subject= ""
+            try:
+                subject = Subject.objects.get(rut=rut)
+            except ObjectDoesNotExist:
+                continue
+            device = subject.device
+            if device is not None:
+                device.send_message('Nueva Duda/Problema en Usuario', collapse_key='something')
         return JsonResponse({"status":"OK"})
     else:
         return JsonResponse({}, status=404)
@@ -188,7 +188,6 @@ def request_message(request):
 
 @csrf_exempt
 def user_register_data(request):
-    print "first"
     if request.method != 'GET':
         return JsonResponse({}, status=404)
 
@@ -210,27 +209,22 @@ def user_register_data(request):
 
 @csrf_exempt
 def user_get_data(request):
-    print "first"
     if request.method != 'POST':
         return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
-    print "firstf"
     try:
         body = json.loads(body)
     except ValueError:
         return JsonResponse({}, status=404)
-    print "second"
     rut = body.get('rut', "12121")
     userExist = Subject.objects.filter(rut=rut)
     if len(userExist) == 0:
         return JsonResponse({}, status=404)
-    print body
     user = userExist.first()
     user.last_connection = timezone.now()
     user.save()
     surveyRespList = SendedSurvey.objects.filter(respondida=False, subject__rut=rut).all()
     last_message = SendedMessage.objects.filter(subject__rut=rut).order_by('-date_sended')
-    print surveyRespList
     results = dict()
     results['result'] = [ob.to_dict() for ob in surveyRespList]
     if len(last_message) > 0:
@@ -242,26 +236,21 @@ def user_get_data(request):
     return JsonResponse(results, safe=False)
 @csrf_exempt
 def user_get_historial(request):
-    print "first"
     if request.method != 'POST':
         return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
-    print "firstf"
     try:
         body = json.loads(body)
     except ValueError:
         return JsonResponse({}, status=404)
-    print "second"
     rut = body.get('rut', "12121")
     userExist = Subject.objects.filter(rut=rut)
     if len(userExist) == 0:
         return JsonResponse({}, status=404)
-    print body
     user = userExist.first()
     user.last_connection = timezone.now()
     user.save()
     surveyRespList = SendedSurvey.objects.filter(respondida=True, subject__rut=rut).all()
-    print surveyRespList
     results = dict()
     results['result'] = [ob.to_dict() for ob in surveyRespList]
     results["count"] = len(results['result'])
@@ -279,14 +268,12 @@ def ready_survey(request, string):
 
 @transaction.atomic
 def upload_user_csv(request):
-    print request.FILES
     if request.method == 'POST' and request.FILES:
         csvfile = request.FILES['csv']
         dialect = csv.Sniffer().sniff(codecs.EncodedFile(csvfile, "Latin-1").read(1024))
         csvfile.open()
         reader = csv.reader(codecs.EncodedFile(csvfile, "Latin-1"), delimiter=';', dialect=dialect)
         header = next(reader, None)
-        print header
         conjunto = Conjunto.objects.filter(name=header[1])
         if len(conjunto)>0:
             conjunto= conjunto.first()
@@ -307,8 +294,6 @@ def upload_user_csv(request):
 
 @csrf_exempt
 def get_users_by_filter(request):
-    print("asd2")
-    print request.body
     if request.method != 'POST':
         return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
@@ -400,9 +385,6 @@ def get_messages(request):
 
 @csrf_exempt
 def send_surveys_from_cp(request):
-    print("asd")
-    print(request.body)
-    print("asd")
     if request.method != 'POST':
         return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
@@ -436,8 +418,6 @@ def send_surveys_from_cp(request):
 @csrf_exempt
 @transaction.atomic
 def send_surveys_from_cp_to_survey_users(request):
-    print(request.body)
-    print "je"
 
     if request.method != 'POST':
         return JsonResponse({}, status=404)
@@ -466,8 +446,6 @@ def send_surveys_from_cp_to_survey_users(request):
 @csrf_exempt
 @transaction.atomic
 def create_survey_from_cp(request):
-    print(request.body)
-    print "je2"
 
     if request.method != 'POST':
         return JsonResponse({}, status=404)
@@ -493,8 +471,6 @@ def create_survey_from_cp(request):
 @csrf_exempt
 @transaction.atomic
 def create_message_from_cp(request):
-    print(request.body)
-    print "je2"
 
     if request.method != 'POST':
         return JsonResponse({}, status=404)
@@ -532,8 +508,6 @@ def create_message_from_cp(request):
 
 
 def create_message(request):
-    print(request.body)
-    print "je2"
 
     if request.method != 'POST':
         return JsonResponse({}, status=404)
@@ -554,8 +528,6 @@ def create_message(request):
 
 @transaction.atomic
 def send_message(request):
-    print(request.body)
-    print "je2"
 
     if request.method != 'POST':
         return JsonResponse({}, status=404)
@@ -597,7 +569,6 @@ def send_message(request):
 
 @csrf_exempt
 def get_survey_details_html(request, id):
-    print "hello"
     if request.method != 'GET':
         return JsonResponse({}, status=404)
     sended_surveys = SendedSurvey.objects.filter(survey_id=id)
@@ -620,7 +591,6 @@ def get_survey_details_html(request, id):
 
 @csrf_exempt
 def get_message_details_html(request, id):
-    print "hello"
     if request.method != 'GET':
         return JsonResponse({}, status=404)
     sended_surveys = SendedMessage.objects.filter(message_id=id)
