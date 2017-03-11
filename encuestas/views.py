@@ -224,14 +224,10 @@ def user_get_data(request):
     user = userExist.first()
     user.last_connection = timezone.now()
     user.save()
-    surveyRespList = SendedSurvey.objects.filter(respondida=False, subject__rut=rut).all()
-    last_message = SendedMessage.objects.filter(subject__rut=rut).order_by('-date_sended')
+    surveyRespList = SendedSurvey.objects.exclude(end_survey_time__gt =datetime.now()).filter(respondida=False, subject__rut=rut).all()
     results = dict()
     results['result'] = [ob.to_dict() for ob in surveyRespList]
-    if len(last_message) > 0:
-        results['last_message'] = last_message.first().to_dict_to_user()
-    else:
-        results['last_message'] = ""
+    results['last_message'] = ""
     results["count"] = len(results['result'])
     results["user"] = user.to_dict()
     return JsonResponse(results, safe=False)
