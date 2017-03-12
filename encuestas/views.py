@@ -92,7 +92,7 @@ def user_register(request):
         body = json.loads(body)
     except ValueError:
         return JsonResponse({}, status=404)
-    if 'rut' in body and 'conjunto1' in body and 'conjunto2' in body and'conjunto3' in body and 'conjunto4' in body and 'email' in body and 'telefono' in body and 'sexo' in body and 'nombre' in body and 'apellido' in body and 'edad' in body:
+    if 'rut' in body and 'conjunto1' in body and 'conjunto2' in body and'conjunto3' in body and 'conjunto4' in body and 'email' in body and 'telefono' in body and 'nombre' in body and 'apellido' in body and 'edad' in body:
 
         name = body['nombre'] + " " + body['apellido']
         email = body['email']
