@@ -97,10 +97,12 @@ def user_register(request):
         name = body['nombre'] + " " + body['apellido']
         email = body['email']
         phone = body['telefono']
-        sexo = body['sexo']
+        sexo = body['conjunto1']
         rut = body['rut']
         verificar_rut(rut)
         conjunto = body['conjunto']
+        conjunto3 = body.get('conjunto3',"")
+        conjunto4 = body.get('conjunto4',"")
         age = body['edad']
         userExist = Subject.objects.filter(rut=rut)
         if len(userExist) > 0:
@@ -109,6 +111,10 @@ def user_register(request):
         new_user.save()
         new_user.conjunto.add(Conjunto.objects.get(id=conjunto['pk']))
         new_user.conjunto.add(Conjunto.objects.get(id=sexo['pk']))
+        if len(conjunto3) >0:
+            new_user.conjunto.add(Conjunto.objects.get(id=conjunto3['pk']))
+        if len(conjunto4) > 0:
+            new_user.conjunto.add(Conjunto.objects.get(id=conjunto4['pk']))
         new_user.last_connection = timezone.now()
         new_user.save()
         if 'token' in body:
