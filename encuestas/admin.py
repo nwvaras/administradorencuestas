@@ -4,6 +4,8 @@ from encuestas.models import Conjunto, Subject, Survey, SendedSurvey, Message, S
 from django.contrib import admin
 from encuestas.views import subject_menu, survey_menu, message_record
 
+from administradorencuestas.encuestas.models import FacebookToken
+
 
 def create_action_for_subject_message(message):
     def action(modeladmin, request, queryset):
@@ -134,4 +136,5 @@ admin.site.register(SendedSurvey,MyModelAdmin)
 admin.site.register(Message,MyModelAdmin)
 admin.site.register(SendedMessage,MyModelAdmin)
 admin.site.register(ConjuntosToSend,MyModelAdmin)
+admin.site.register(FacebookToken,MyModelAdmin)
 admin.site.register(RequestDevice)
