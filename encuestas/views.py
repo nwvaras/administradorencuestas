@@ -191,19 +191,33 @@ def user_register_data(request):
     if request.method != 'GET':
         return JsonResponse({}, status=404)
 
-    conjuntos = ConjuntosToSend.objects.exclude(conjunto__name="Mujer").exclude(conjunto__name="Hombre").all()
+    conjuntos = ConjuntosToSend.objects.all()
     dict_base = dict()
-    base = []
-    for i in xrange(0, len(conjuntos)):
-        conjunto = conjuntos[i].conjunto
-        base.append(conjunto.to_dict())
-    dict_base['conjuntos'] = base
-    base2 = []
-    conjuntos = ConjuntosToSend.objects.filter(Q(conjunto__name='Mujer') | Q(conjunto__name='Hombre'))
-    for i in xrange(0, len(conjuntos)):
-        conjunto = conjuntos[i].conjunto
-        base2.append(conjunto.to_dict())
-    dict_base['sexo'] = base2
+    dict_base['conjunto1']=[]
+    dict_base['conjunto2'] = []
+    dict_base['conjunto3'] = []
+    dict_base['conjunto4'] = []
+    for conjunto in conjuntos:
+        dict_base['conjunto' + str(conjunto.type)].append(conjunto.to_dict())
+    print dict_base
+
+
+
+
+
+    # conjuntos = ConjuntosToSend.objects.exclude(conjunto__name="Mujer").exclude(conjunto__name="Hombre").all()
+    # dict_base = dict()
+    # base = []
+    # for i in xrange(0, len(conjuntos)):
+    #     conjunto = conjuntos[i].conjunto
+    #     base.append(conjunto.to_dict())
+    # dict_base['conjuntos'] = base
+    # base2 = []
+    # conjuntos = ConjuntosToSend.objects.filter(Q(conjunto__name='Mujer') | Q(conjunto__name='Hombre'))
+    # for i in xrange(0, len(conjuntos)):
+    #     conjunto = conjuntos[i].conjunto
+    #     base2.append(conjunto.to_dict())
+    # dict_base['sexo'] = base2
     return JsonResponse(dict_base)
 
 
