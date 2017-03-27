@@ -31,6 +31,7 @@
   <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
       <thead md-head md-order="subject.order" md-on-reorder="cargarDatos">
       <tr md-row>
+          <th md-column ><span>N°</span></th>
         <th md-column md-order-by="nameToLower"><span>Nombre</span></th>
         <th md-column md-numeric md-order-by="calories.value"><span>Conjuntos</span></th>
         <th md-column md-numeric>Enviada</th>
@@ -40,6 +41,7 @@
     </thead>
     <tbody md-body>
       <tr md-row md-select="subject" md-select-id="nombre" ng-repeat="subject in usuarios">
+          <td md-cell >{$ $index +1 $}</td>
         <td md-cell >{$ subject.nombre $}</td>
         <td md-cell >{$ getConjuntos(subject.conjuntos)   $}</td>
           <td md-cell ><p ng-show="subject.enviada"><ng-md-icon icon="done"></ng-md-icon></p><p ng-show="!subject.enviada"><ng-md-icon icon="not_interested"></ng-md-icon> </p></td>
