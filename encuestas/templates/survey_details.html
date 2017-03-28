@@ -42,6 +42,7 @@
     <tbody md-body>
       <tr md-row md-select="subject" md-select-id="nombre" ng-repeat="subject in usuarios">
           <td md-cell >{$ $index +1 $}</td>
+          <td md-cell >{$ subject.rut $}</td>
         <td md-cell >{$ subject.nombre $}</td>
         <td md-cell >{$ getConjuntos(subject.conjuntos)   $}</td>
           <td md-cell ><p ng-show="subject.enviada"><ng-md-icon icon="done"></ng-md-icon></p><p ng-show="!subject.enviada"><ng-md-icon icon="not_interested"></ng-md-icon> </p></td>

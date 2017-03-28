@@ -118,6 +118,7 @@ class Subject(models.Model):
         return {
             'pk': self.pk,
             'nombre': self.name,
+            'rut' : self.rut,
             'conjuntos': self.conjuntos_dict(),
             'enviada': status,
             'fecha_envio': sended,
