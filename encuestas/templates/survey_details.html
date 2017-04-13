@@ -37,6 +37,7 @@
         <th md-column md-numeric md-order-by="calories.value"><span>Conjuntos</span></th>
         <th md-column md-numeric>Enviada</th>
         <th md-column md-numeric>Fecha de Envio</th>
+          <th md-column md-numeric>Ultima conexion</th>
           <th md-column md-numeric>Respondida</th>
       </tr>
     </thead>
@@ -48,6 +49,7 @@
         <td md-cell >{$ getConjuntos(subject.conjuntos)   $}</td>
           <td md-cell ><p ng-show="subject.enviada"><ng-md-icon icon="done"></ng-md-icon></p><p ng-show="!subject.enviada"><ng-md-icon icon="not_interested"></ng-md-icon> </p></td>
        <td md-cell ng-click="loadSurveyDetail(encuesta)" ><p ng-show="subject.fecha_envio">{$subject.fecha_envio$}</p><p ng-hide="subject.fecha_envio">No aplica</p></td>
+          <td md-cell >{$ subject.ultima_conexion $}</td>
           <td md-cell ><p ng-show="subject.responded"><ng-md-icon icon="done"></ng-md-icon></p><p ng-show="!subject.responded"><ng-md-icon icon="not_interested"></ng-md-icon> </p></td>
       </tr>
     </tbody>
