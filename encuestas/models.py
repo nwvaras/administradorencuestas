@@ -123,6 +123,7 @@ class Subject(models.Model):
             'enviada': status,
             'fecha_envio': sended,
             'responded': responded,
+            'ultima_conexion': self.getDateToIso(self.last_connection),
             'survey_pk': tpk,
 
         }
