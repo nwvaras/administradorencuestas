@@ -233,6 +233,7 @@ def user_get_data(request):
         print "post error"
         return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
+    print str(request.body)
     try:
         print "json body decode error"
         body = json.loads(body)
