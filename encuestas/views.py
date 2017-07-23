@@ -230,15 +230,18 @@ def user_register_data(request):
 @csrf_exempt
 def user_get_data(request):
     if request.method != 'POST':
+        print "post error"
         return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
     try:
+        print "json body decode error"
         body = json.loads(body)
     except ValueError:
         return JsonResponse({}, status=404)
     rut = body.get('rut', "12121")
     userExist = Subject.objects.filter(rut=rut)
     if len(userExist) == 0:
+        print "user doesn't exist error"
         return JsonResponse({}, status=404)
     print datetime.now()
     user = userExist.first()
