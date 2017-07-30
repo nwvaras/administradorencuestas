@@ -426,7 +426,7 @@ def send_surveys_from_cp(request):
             db_user = Subject.objects.get(id=user['pk'])
             device = db_user.device
             if device is not None:
-                device.send_message('Tienes una nueva encuesta que responder', collapse_key='something')
+                device.send_message({'msg': 'my test message', 'notification' : 'holi'}, collapse_key='something')
     else:
         return JsonResponse({}, status=404)
     base = []
