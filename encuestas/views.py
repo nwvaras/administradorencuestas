@@ -403,6 +403,22 @@ def get_messages(request):
             base.append(message.to_dict())
     return JsonResponse({'mensajes': base})
 
+@csrf_exempt
+def ios_debug(request):
+    if request.method != 'POST':
+        return JsonResponse({}, status=404)
+    body = request.body.decode('utf-8')
+    try:
+        body = json.loads(body)
+    except ValueError:
+        return JsonResponse({}, status=404)
+    msg= body.get('debug', "")
+    if len(msg) == 0:
+        return JsonResponse({}, status=404)
+    else:
+        print msg
+
+    return JsonResponse({'ok': 'ok'})
 
 @csrf_exempt
 def send_surveys_from_cp(request):
