@@ -12,7 +12,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, render_to_response
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
-
+from fcm_django.fcm import fcm_send_message
 #
 #
 # def index(request):
@@ -422,6 +422,7 @@ def ios_debug(request):
 
 @csrf_exempt
 def send_surveys_from_cp(request):
+
     if request.method != 'POST':
         return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
@@ -442,18 +443,20 @@ def send_surveys_from_cp(request):
             db_user = Subject.objects.get(id=user['pk'])
             device = db_user.device
             if device is not None:
-                device.send_message({"notification": {
-      "category": "notification_category",
-      "title_loc_key": "notification_title",
-      "body_loc_key": "notification_body",
-      "badge": 1
-  },
-  "data": {
-    "data_type": "notification_data_type",
-    "data_id": "111111",
-    "data_detail": "FOO",
-    "data_detail_body": "BAR"
-  }})
+                token = device.reg_id
+                fcm_send_message(token,title="test",body="testbody")
+  #               device.send_message({"notification": {
+  #     "category": "notification_category",
+  #     "title_loc_key": "notification_title",
+  #     "body_loc_key": "notification_body",
+  #     "badge": 1
+  # },
+  # "data": {
+  #   "data_type": "notification_data_type",
+  #   "data_id": "111111",
+  #   "data_detail": "FOO",
+  #   "data_detail_body": "BAR"
+  # }})
     else:
         return JsonResponse({}, status=404)
     base = []
