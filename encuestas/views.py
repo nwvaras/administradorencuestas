@@ -442,11 +442,16 @@ def send_surveys_from_cp(request):
             db_user = Subject.objects.get(id=user['pk'])
             device = db_user.device
             if device is not None:
-                device.send_message({"notification" : {
-      "body" : "great match!",
-      "title" : "Portugal vs. Denmark",
-      "icon" : "myicon"
-    }})
+                device.send_message({"priority" : "high",
+  "notification" : {
+    "body" : "This week's edition is now available.",
+    "title" : "NewsMagazine.com",
+    "icon" : "new",
+  },
+  "data" : {
+    "volume" : "3.21.15",
+    "contents" : "http://www.news-magazine.com/world-week/21659772"
+  }})
     else:
         return JsonResponse({}, status=404)
     base = []
