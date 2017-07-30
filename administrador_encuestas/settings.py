@@ -91,6 +91,10 @@ DATABASES = {
 
 FCM_APIKEY = "AIzaSyBIbdFZZ-69C2wn1m8uvYRddDQ6RPIuk-8"
 FCM_DEVICE_MODEL = 'encuestas.DeviceEncuesta'
+FCM_NOTIFICATION_KEYS = {
+        "title": "My title for all notifications",
+        "tag": "My tag for all notifications",
+    }
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
