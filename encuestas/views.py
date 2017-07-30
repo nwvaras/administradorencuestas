@@ -442,15 +442,17 @@ def send_surveys_from_cp(request):
             db_user = Subject.objects.get(id=user['pk'])
             device = db_user.device
             if device is not None:
-                device.send_message({"priority" : "high",
-  "notification" : {
-    "body" : "This week's edition is now available.",
-    "title" : "NewsMagazine.com",
-    "icon" : "new",
+                device.send_message({"notification": {
+      "category": "notification_category",
+      "title_loc_key": "notification_title",
+      "body_loc_key": "notification_body",
+      "badge": 1
   },
-  "data" : {
-    "volume" : "3.21.15",
-    "contents" : "http://www.news-magazine.com/world-week/21659772"
+  "data": {
+    "data_type": "notification_data_type",
+    "data_id": "111111",
+    "data_detail": "FOO",
+    "data_detail_body": "BAR"
   }})
     else:
         return JsonResponse({}, status=404)
