@@ -608,7 +608,7 @@ def send_message(request):
                 device = db_user.device
                 if device is not None:
                     token = device.reg_id
-                    fcm_send_message(token, title=msg.title, body="")
+                    fcm_send_message(token, title=msg.title, body=msg.description)
                 sended_survey.save()
 
         else:
