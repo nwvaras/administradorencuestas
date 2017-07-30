@@ -442,10 +442,7 @@ def send_surveys_from_cp(request):
             db_user = Subject.objects.get(id=user['pk'])
             device = db_user.device
             if device is not None:
-                device.send_message({'aps': {
-  'content-available': 1,
-  'alert': 'Something new has happened in your app!'
-}})
+                device.send_message({'aps': {'content-available': 1,'alert':'Something new has happened in your app!'}})
     else:
         return JsonResponse({}, status=404)
     base = []
