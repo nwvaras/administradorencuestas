@@ -86,9 +86,11 @@ def get_survey(request, user):
 @csrf_exempt
 def user_register(request):
     if request.method != 'POST':
+        print "no es post"
         return JsonResponse({}, status=404)
     body = request.body.decode('utf-8')
     try:
+        print "decode error"
         body = json.loads(body)
     except ValueError:
         return JsonResponse({}, status=404)
@@ -122,6 +124,7 @@ def user_register(request):
             fb_token.save()
         return JsonResponse({'status': 'Ok'})
     else:
+        print "malformed"
         return JsonResponse({}, status=404)
 
 
@@ -608,7 +611,7 @@ def send_message(request):
                 device = db_user.device
                 if device is not None:
                     token = device.reg_id
-                    fcm_send_message(token, title=msg.title, body=msg.description)
+                    fcm_send_message(token, title="Quanto", body=msg.title)
                 sended_survey.save()
 
         else:
