@@ -245,6 +245,7 @@ def user_get_data(request):
     rut = body.get('rut', "12121")
     userExist = Subject.objects.filter(rut=rut)
     if len(userExist) == 0:
+        print rut
         print "user doesn't exist error"
         return JsonResponse({}, status=404)
     print datetime.now()
