@@ -243,9 +243,9 @@ def user_get_data(request):
         print "json body decode error"
         return JsonResponse({}, status=404)
     rut = body.get('rut', "12121")
+    print rut
     userExist = Subject.objects.filter(rut=rut)
     if len(userExist) == 0:
-        print rut
         print "user doesn't exist error"
         return JsonResponse({}, status=404)
     print datetime.now()
