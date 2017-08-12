@@ -93,7 +93,7 @@ def user_register(request):
         print "decode error"
         body = json.loads(body)
     except ValueError:
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     print body
     if 'rut' in body and 'conjunto1' in body and 'conjunto2' in body and'conjunto3' in body and 'conjunto4' in body and 'email' in body and 'telefono' in body and 'nombre' in body and 'apellido' in body and 'edad' in body:
 
@@ -132,12 +132,12 @@ def user_register(request):
 @csrf_exempt
 def user_register_device(request):
     if request.method != 'POST':
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     if 'rut' in body and 'device' in body:
         # Checkear si usuarios existe:
         rut = body.get('rut')
@@ -168,12 +168,12 @@ def user_register_device(request):
 @csrf_exempt
 def request_message(request):
     if request.method != 'POST':
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     if 'rut' in body and 'description' in body and 'title' in body and 'type' in body:
         rut = body.get('rut')
         description = body.get('description')
@@ -235,13 +235,13 @@ def user_register_data(request):
 def user_get_data(request):
     if request.method != 'POST':
         print "post error"
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
         print "json body decode error"
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     rut = body.get('rut', "12121")
     print rut
     userExist = Subject.objects.filter(rut=rut)
@@ -263,12 +263,12 @@ def user_get_data(request):
 @csrf_exempt
 def user_get_historial(request):
     if request.method != 'POST':
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     rut = body.get('rut', "12121")
     userExist = Subject.objects.filter(rut=rut)
     if len(userExist) == 0:
@@ -321,12 +321,12 @@ def upload_user_csv(request):
 @csrf_exempt
 def get_users_by_filter(request):
     if request.method != 'POST':
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     filters = body.get('filters', {})
     age_min = filters.get('age_min', 0)
     age_max = filters.get('age_max', 99)
@@ -348,12 +348,12 @@ def get_users_by_filter(request):
 @csrf_exempt
 def get_surveys_by_filter(request):
     if request.method != 'POST':
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     filters = body.get('filters', {})
     date_creation_min = filters.get('date_creation_min', datetime(2005, 1, 30))
     date_creation_max = filters.get('date_creation_max', datetime(2025, 1, 30))
@@ -372,12 +372,12 @@ def get_surveys_by_filter(request):
 @csrf_exempt
 def get_sended_messages_by_filter(request):
     if request.method != 'POST':
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     filters = body.get('filters', {})
     date_sended_min = filters.get('date_sended_min', datetime(2005, 1, 30))
     date_sended_max = filters.get('date_sended_max', datetime(2025, 1, 30))
@@ -396,7 +396,7 @@ def get_sended_messages_by_filter(request):
 @csrf_exempt
 def get_messages(request):
     if request.method != 'POST':
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     messages = Message.objects.all()
     base = []
 
@@ -411,12 +411,12 @@ def get_messages(request):
 @csrf_exempt
 def ios_debug(request):
     if request.method != 'POST':
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     msg= body.get('debug', "")
     if len(msg) == 0:
         return JsonResponse({}, status=404)
@@ -429,12 +429,12 @@ def ios_debug(request):
 def send_surveys_from_cp(request):
 
     if request.method != 'POST':
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
 
     if 'encuesta' in body and 'usuarios' in body:
         usuarios = body.get('usuarios', {})
@@ -476,12 +476,12 @@ def send_surveys_from_cp(request):
 def send_surveys_from_cp_to_survey_users(request):
 
     if request.method != 'POST':
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
 
     if 'encuesta' in body and 'selected' in body:
 
@@ -504,12 +504,12 @@ def send_surveys_from_cp_to_survey_users(request):
 def create_survey_from_cp(request):
 
     if request.method != 'POST':
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
 
     if 'encuesta' in body:
 
@@ -529,12 +529,12 @@ def create_survey_from_cp(request):
 def create_message_from_cp(request):
 
     if request.method != 'POST':
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
 
     if 'message' in body:
         message = body.get('message', {})
@@ -566,12 +566,12 @@ def create_message_from_cp(request):
 def create_message(request):
 
     if request.method != 'POST':
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
 
     if 'message' in body:
         message = body.get('message', {})
@@ -586,12 +586,12 @@ def create_message(request):
 def send_message(request):
 
     if request.method != 'POST':
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
     try:
         body = json.loads(body)
     except ValueError:
-        return JsonResponse({}, status=404)
+        return JsonResponse({}, status=406)
 
     if 'message' in body:
 
