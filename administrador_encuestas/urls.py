@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/graphs', graph_viewer),
     url(r'^encuestas/',include('encuestas.urls', namespace='encuestas')),
+    url(r'^encuestas/v2',include('encuestas.apiv2.urls', namespace='encuestasapiv2')),
     # ...
 ]
 urlpatterns += staticfiles_urlpatterns()

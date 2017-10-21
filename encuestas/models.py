@@ -6,6 +6,7 @@ from fcm.models import AbstractDevice
 from encuestas.validators import verificar_rut
 import pytz
 
+
 class Conjunto(models.Model):
     name = models.CharField(max_length=32)
     description = models.TextField()
@@ -50,7 +51,12 @@ class RequestDevice(models.Model):
         return self.title
 
 
+class SurveyMonkey(models.Model):
+    script = models.CharField(max_length=10000)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
 
+    def to_dict(self):
+        return {'content': self.script}
 
 
 class DeviceEncuesta(AbstractDevice):
@@ -86,7 +92,7 @@ class Subject(models.Model):
             dt = date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat().split('T')
             dia = dt[0]
             hora = dt[1].split('.')[0]
-            return dia+" "+ hora
+            return dia + " " + hora
         else:
             return ""
 
@@ -118,7 +124,7 @@ class Subject(models.Model):
         return {
             'pk': self.pk,
             'nombre': self.name,
-            'rut' : self.rut,
+            'rut': self.rut,
             'conjuntos': self.conjuntos_dict(),
             'enviada': status,
             'fecha_envio': sended,
@@ -218,13 +224,13 @@ class Survey(models.Model):
         return (yes_count, no_count)
 
     def getDateToIso(self, date):
-         if date is not None:
+        if date is not None:
             dt = date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat().split('T')
             dia = dt[0]
             hora = dt[1].split('.')[0]
             hora = hora.split('-')[0]
-            return dia+" "+ hora
-         else:
+            return dia + " " + hora
+        else:
             return ""
 
     def to_dict(self):
@@ -256,11 +262,13 @@ class SendedSurvey(models.Model):
     date_creation = models.DateTimeField(auto_now_add=True, blank=True)
     date_responded = models.DateTimeField(null=True, blank=True)
     messages = models.ManyToManyField(to=SendedMessage)
+
     def getDateToIso(self, date):
         if date is not None:
             return date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat()
         else:
             return ""
+
     def messages_dict(self):
         total = []
         for i in self.messages.all():
@@ -286,6 +294,8 @@ class SendedSurvey(models.Model):
             },
             'messages': self.messages_dict()
         }
+
+
 class FacebookToken(models.Model):
     user = models.ForeignKey(to=Subject)
     token = models.CharField(max_length=1024)
