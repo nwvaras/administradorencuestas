@@ -375,7 +375,7 @@ def get_sended_messages_by_filter(request):
         return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
     try:
-        body = json.loads(body)
+        b
     except ValueError:
         return JsonResponse({}, status=406)
     filters = body.get('filters', {})
