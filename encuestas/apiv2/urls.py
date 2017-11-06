@@ -6,7 +6,7 @@ from encuestas.apiv2.views import get_survey, ready_survey, get_users_by_filter,
     send_surveys_from_cp, send_surveys_from_cp_to_survey_users, create_survey_from_cp, create_message_from_cp, \
     get_survey_details_html, get_conjuntos, get_sended_messages_by_filter, send_message, get_message_details_html, \
     create_message, user_get_data, user_register_data, user_register, upload_user_csv, user_register_device, \
-    request_message, user_get_historial,ios_debug
+    request_message, user_get_historial,ios_debug, survey_script
 
 urlpatterns = [
 
