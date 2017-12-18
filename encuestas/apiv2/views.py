@@ -202,7 +202,8 @@ def request_message(request):
                 continue
             device = subject.device
             if device is not None:
-                device.send_message('Nueva Duda/Problema en Usuario', collapse_key='something')
+                token = device.reg_id
+                fcm_send_message(token, title="Quanto", body='Nueva Duda/Problema en Usuario')
         return JsonResponse({"status":"OK"})
     else:
         return JsonResponse({}, status=404)
@@ -387,7 +388,7 @@ def get_sended_messages_by_filter(request):
         return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
     try:
-        b
+        body = json.loads(body)
     except ValueError:
         return JsonResponse({}, status=406)
     filters = body.get('filters', {})
