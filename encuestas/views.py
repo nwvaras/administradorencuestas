@@ -449,7 +449,7 @@ def send_surveys_from_cp(request):
             device = db_user.device
             if device is not None:
                 token = device.reg_id
-                fcm_send_message(token,title="Quanto",body="Tienes una nueva encuesta para responder")
+                fcm_send_message(token,title="Quanto",body="Tienes una nueva encuesta para responder", sound="default")
   #               device.send_message({"notification": {
   #     "category": "notification_category",
   #     "title_loc_key": "notification_title",
@@ -613,7 +613,7 @@ def send_message(request):
                 device = db_user.device
                 if device is not None:
                     token = device.reg_id
-                    fcm_send_message(token, title="Quanto", body=msg.title)
+                    fcm_send_message(token, title="Quanto", body=msg.title,sound="default")
                 sended_survey.save()
 
         else:
