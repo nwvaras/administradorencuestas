@@ -273,7 +273,7 @@ class SendedSurvey(models.Model):
     def messages_dict(self):
         total = []
         for i in self.messages.all():
-            total.append({"message": i.message.to_dict(), "time": i.date_sended})
+            total.append({"message": i.message.to_dict(), "time": self.getDateToIso(i.date_sended)})
         return total
 
     class Meta:
