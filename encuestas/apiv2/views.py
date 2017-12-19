@@ -305,7 +305,7 @@ def ready_survey(request, string):
     surveyResp = SendedSurvey.objects.get(pk=string)
 
     surveyResp.respondida = True
-    surveyResp.date_responded = datetime.datetime.now()
+    surveyResp.date_responded = datetime.now()
     surveyResp.save()
 
     return JsonResponse({}, safe=False)
