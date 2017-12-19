@@ -84,9 +84,9 @@ def get_survey(request, user):
 
 
 @csrf_exempt
-def survey_script(request, typ='0'):
+def survey_script(request, typ='1'):
     if request.method == 'GET':
-        val = True if typ == '0' else False
+        val = True if typ == '1' else False
         survey_script_got = SurveyMonkey.objects.filter(isAndroid=val).order_by('-created').first()
         if survey_script_got is not None:
             return JsonResponse(survey_script_got.to_dict())
