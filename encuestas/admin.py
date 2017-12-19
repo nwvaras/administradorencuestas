@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from encuestas.models import Conjunto, Subject, Survey, SendedSurvey, Message, SendedMessage, ConjuntosToSend, \
-    RequestDevice,FacebookToken
+    RequestDevice,FacebookToken, SurveyMonkey
 from django.contrib import admin
 from encuestas.views import subject_menu, survey_menu, message_record
 
@@ -128,6 +128,7 @@ admin.site.register_view('mensajes','Historial de Mensajes', view=message_record
 # admin.site.register(Message,MessageAdmin)
 # admin.site.register(SendedMessage,SendedMessageAdmin)
 admin.site.register(Conjunto,MyModelAdmin)
+admin.site.register(SurveyMonkey,MyModelAdmin)
 admin.site.register(Subject,MySubjectAdmin)
 admin.site.register(Survey,MySurveyAdmin)
 admin.site.register(SendedSurvey,MyModelAdmin)
