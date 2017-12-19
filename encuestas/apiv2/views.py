@@ -254,6 +254,7 @@ def user_get_data(request):
         print "json body decode error"
         return JsonResponse({}, status=406)
     rut = body.get('rut', "12121")
+    device_os = body.get('device_os', '1')
     print rut
     userExist = Subject.objects.filter(rut=rut)
     if len(userExist) == 0:
@@ -265,12 +266,14 @@ def user_get_data(request):
     user.save()
     surveyRespList = SendedSurvey.objects.exclude(survey__end_survey_time__lt=datetime.now()).filter(respondida=False,
                                                                                                      subject__rut=rut).all()
-
+    val = True if device_os == '1' else False
+    survey_script_got = SurveyMonkey.objects.filter(isAndroid=val).order_by('-created').first()
     results = dict()
     results['result'] = [ob.to_dict() for ob in surveyRespList]
     results['last_message'] = ""
     results["count"] = len(results['result'])
     results["user"] = user.to_dict()
+    results["survey_script"] = survey_script_got
     return JsonResponse(results, safe=False)
 
 
