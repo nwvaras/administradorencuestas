@@ -288,6 +288,7 @@ class SendedSurvey(models.Model):
             'pk': self.pk,
             'respondida': self.respondida,
             'horaEnvio': self.date_creation,
+            'date_responded': self.date_responded,
             'survey': {
                 'titulo': self.survey.title,
                 'url': self.survey.url,
