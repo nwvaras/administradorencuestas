@@ -32,6 +32,6 @@ urlpatterns = [
     url(r'^userRegisterDevice/$',user_register_device, name='user_register_device'),
     url(r'^request/$',request_message, name='request_message'),
     url(r'^ios_debug/$',ios_debug, name='ios_debug'),
-    url(r'^getSurveyScript/<int:year>/', survey_script, name='survey_script'),
+    url(r'^getSurveyScript/(?P<typ>\w+)/$', survey_script, name='survey_script'),
 
 ]

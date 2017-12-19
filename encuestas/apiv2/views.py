@@ -87,9 +87,9 @@ def get_survey(request, user):
 def survey_script(request, typ=0):
     if request.method != 'GET':
         val = True if typ == 0 else False
-        survey_script = SurveyMonkey.objects.filter(isAndroid=val).order_by('-created').first()
-        if survey_script is not None:
-            return JsonResponse(survey_script.to_dict())
+        survey_script_got = SurveyMonkey.objects.filter(isAndroid=val).order_by('-created').first()
+        if survey_script_got is not None:
+            return JsonResponse(survey_script_got.to_dict())
         else:
             return JsonResponse({}, status=404)
     else:
