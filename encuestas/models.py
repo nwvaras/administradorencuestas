@@ -53,6 +53,7 @@ class RequestDevice(models.Model):
 
 class SurveyMonkey(models.Model):
     script = models.CharField(max_length=20000)
+    isAndroid = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True, blank=True)
 
     def to_dict(self):
