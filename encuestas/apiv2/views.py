@@ -273,7 +273,7 @@ def user_get_data(request):
     results['last_message'] = ""
     results["count"] = len(results['result'])
     results["user"] = user.to_dict()
-    results["survey_script"] = survey_script_got
+    results["survey_script"] = survey_script_got.to_dict()
     return JsonResponse(results, safe=False)
 
 
