@@ -84,10 +84,10 @@ def get_survey(request, user):
 
 
 @csrf_exempt
-def survey_script(request, typ):
+def survey_script(request, typ=0):
     if request.method != 'GET':
         val = True if typ == 0 else False
-        survey_script = SurveyMonkey.objects.filter(isAndroid=0).order_by('-created').first()
+        survey_script = SurveyMonkey.objects.filter(isAndroid=val).order_by('-created').first()
         if survey_script is not None:
             return JsonResponse(survey_script.to_dict())
         else:
