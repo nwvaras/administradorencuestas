@@ -11,7 +11,7 @@ from encuestas.apiv2.views import get_survey, ready_survey, get_users_by_filter,
 urlpatterns = [
 
     url(r'^supdate/(?P<string>\w+)/$',ready_survey, name='ready_survey'),
-    url(r'^supdate/(?P<string>\w+)/$',ready_survey, name='viewed_survey'),
+    url(r'^sviewed/(?P<string>\w+)/$',ready_survey, name='viewed_survey'),
     url(r'^subjects/$',get_users_by_filter, name='get_users_by_filter'),
     url(r'^subjects/fromcsv/$',upload_user_csv, name='upload_user_csv'),
     url(r'^surveys/send/$',send_surveys_from_cp, name='send_surveys_from_cp'),
