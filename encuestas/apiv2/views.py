@@ -97,7 +97,7 @@ def survey_script(request, typ='1'):
 
 
 @csrf_exempt
-def user_register(request):
+def user_register(request,typ='1'):
     if request.method != 'POST':
         print "no es post"
         return JsonResponse({}, status=404)
@@ -108,6 +108,7 @@ def user_register(request):
     except ValueError:
         return JsonResponse({}, status=406)
     print body
+    android = True if typ == '1' else False
     if 'rut' in body and 'conjunto1' in body and 'conjunto2' in body and 'conjunto3' in body and 'conjunto4' in body and 'email' in body and 'telefono' in body and 'nombre' in body and 'apellido' in body and 'edad' in body:
 
         name = body['nombre'] + " " + body['apellido']
@@ -127,6 +128,10 @@ def user_register(request):
         new_user.save()
         new_user.conjunto.add(Conjunto.objects.get(id=conjunto['pk']))
         new_user.conjunto.add(Conjunto.objects.get(id=sexo['pk']))
+        if android:
+            new_user.conjunto.add(Conjunto.objects.filter(name='Android').first())
+        else:
+            new_user.conjunto.add(Conjunto.objects.filter(name='iOS').first())
         if len(conjunto3) > 0:
             new_user.conjunto.add(Conjunto.objects.get(id=conjunto3['pk']))
         if len(conjunto4) > 0:
