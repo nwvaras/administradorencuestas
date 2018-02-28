@@ -264,7 +264,7 @@ class SendedSurvey(models.Model):
     date_responded = models.DateTimeField(null=True, blank=True)
     date_viewed = models.DateTimeField(null=True, blank=True,default=None)
     viewed = models.BooleanField(default=False)
-    messages = models.ManyToManyField(to=SendedMessage)
+    messages = models.ManyToManyField(to=SendedMessage,blank=True)
 
     def getDateToIso(self, date):
         if date is not None:
