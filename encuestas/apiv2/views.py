@@ -303,11 +303,16 @@ def user_get_historial(request):
 
 def ready_survey(request, string):
     surveyResp = SendedSurvey.objects.get(pk=string)
-
     surveyResp.respondida = True
     surveyResp.date_responded = datetime.now()
     surveyResp.save()
+    return JsonResponse({}, safe=False)
 
+def viewed_survey(request, string):
+    surveyResp = SendedSurvey.objects.get(pk=string)
+    surveyResp.viewed = True
+    surveyResp.date_viewed = datetime.now()
+    surveyResp.save()
     return JsonResponse({}, safe=False)
 
 
