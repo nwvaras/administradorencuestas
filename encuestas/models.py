@@ -268,7 +268,12 @@ class SendedSurvey(models.Model):
 
     def getDateToIso(self, date):
         if date is not None:
-            return date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat()
+            d = date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat()
+            if d.find('-') is not -1:
+                d= d[0,d.find('+')]
+            elif d.find('+') is not -1:
+                d = d[0, d.find('-')]
+            return d
         else:
             return ""
 
