@@ -271,9 +271,9 @@ class SendedSurvey(models.Model):
             d = str(date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat())
             if d.find("-") is not -1:
                 print d.find("-")
-                d= d[0,d.index("-")]
+                d= d[0:d.index("-")]
             elif d.find("+") is not -1:
-                d = d[0, d.index("+")]
+                d = d[0: d.index("+")]
             return d
         else:
             return ""
