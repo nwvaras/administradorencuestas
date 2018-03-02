@@ -270,9 +270,9 @@ class SendedSurvey(models.Model):
         if date is not None:
             d = date.replace(tzinfo=pytz.timezone("America/Santiago")).isoformat()
             if d.find('-') is not -1:
-                d= d[0,d.find('+')]
+                d= d[0,d.find('-')]
             elif d.find('+') is not -1:
-                d = d[0, d.find('-')]
+                d = d[0, d.find('+')]
             return d
         else:
             return ""
