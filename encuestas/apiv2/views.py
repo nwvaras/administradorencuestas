@@ -296,6 +296,8 @@ def user_get_historial(request):
     rut = body.get('rut', "12121")
     userExist = Subject.objects.filter(rut=rut)
     if len(userExist) == 0:
+        print rut
+        print body
         return JsonResponse({}, status=404)
     user = userExist.first()
     user.last_connection = timezone.now()
