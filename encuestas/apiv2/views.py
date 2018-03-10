@@ -125,14 +125,12 @@ def user_register(request,typ='1'):
         userExist = Subject.objects.filter(rut=rut)
         if len(userExist) > 0:
             return JsonResponse({}, status=404)
-        new_user = Subject(name=name, age=age, phone=phone, email=email, rut=rut)
-        new_user.save()
+
         conjunto_2 =Conjunto.objects.get(id=conjunto['pk'])
         conjunto_sexo= Conjunto.objects.get(id=sexo['pk'])
-        new_user.conjunto.add(conjunto_2)
+        new_user = Subject(name=name, age=age, phone=phone, email=email, rut=rut)
         if conjunto_2.name.find('(') is not -1:
             return JsonResponse({}, status=404)
-        new_user.conjunto.add(conjunto_sexo)
         if conjunto_sexo.name.find('(') is not -1:
             return JsonResponse({}, status=404)
         if android:
@@ -149,7 +147,8 @@ def user_register(request,typ='1'):
             if conjunto_4.name.find('(') is not -1:
                 return JsonResponse({}, status=404)
             new_user.conjunto.add(conjunto_4)
-
+        new_user.conjunto.add(conjunto_2)
+        new_user.conjunto.add(conjunto_sexo)
         new_user.last_connection = timezone.now()
         new_user.save()
         if 'token' in body:
