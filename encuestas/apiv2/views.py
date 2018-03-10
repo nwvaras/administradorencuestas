@@ -120,7 +120,7 @@ def user_register(request,typ='1'):
         conjunto = body['conjunto2']
         conjunto3 = body.get('conjunto3', "")
         conjunto4 = body.get('conjunto4', "")
-        if conjunto.name.find("(") or sexo.name.find("(")or conjunto3.name.find("("):
+        if conjunto.find("(") or sexo.find("(")or conjunto3.find("("):
             return JsonResponse({}, status=404)
         age = body['edad']
         userExist = Subject.objects.filter(rut=rut)
