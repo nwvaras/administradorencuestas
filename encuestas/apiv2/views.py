@@ -133,6 +133,11 @@ def user_register(request,typ='1'):
             return JsonResponse({}, status=404)
         if conjunto_sexo.name.find('(') is not -1:
             return JsonResponse({}, status=404)
+        if len(conjunto3) > 0:
+            conjunto_3 =Conjunto.objects.get(id=conjunto3['pk'])
+            if conjunto_3.name.find('(') is not -1:
+                return JsonResponse({}, status=404)
+        new_user.save()
         if android:
             new_user.conjunto.add(Conjunto.objects.filter(name='Android').first())
         else:
@@ -150,7 +155,7 @@ def user_register(request,typ='1'):
         new_user.conjunto.add(conjunto_2)
         new_user.conjunto.add(conjunto_sexo)
         new_user.last_connection = timezone.now()
-        new_user.save()
+
         if 'token' in body:
             fb_token = FacebookToken(user=new_user, token=body.get('token'))
             fb_token.save()
