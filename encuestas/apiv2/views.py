@@ -130,10 +130,10 @@ def user_register(request,typ='1'):
         conjunto_2 =Conjunto.objects.get(id=conjunto['pk'])
         conjunto_sexo= Conjunto.objects.get(id=sexo['pk'])
         new_user.conjunto.add(conjunto_2)
-        if conjunto_2.name.find("("):
+        if conjunto_2.name.find('('):
             return JsonResponse({}, status=404)
         new_user.conjunto.add(conjunto_sexo)
-        if conjunto_sexo.name.find("("):
+        if conjunto_sexo.name.find('('):
             return JsonResponse({}, status=404)
         if android:
             new_user.conjunto.add(Conjunto.objects.filter(name='Android').first())
@@ -141,12 +141,12 @@ def user_register(request,typ='1'):
             new_user.conjunto.add(Conjunto.objects.filter(name='iOS').first())
         if len(conjunto3) > 0:
             conjunto_3 =Conjunto.objects.get(id=conjunto3['pk'])
-            if conjunto_3.name.find("("):
+            if conjunto_3.name.find('('):
                 return JsonResponse({}, status=404)
             new_user.conjunto.add(conjunto_3)
         if len(conjunto4) > 0:
             conjunto_4 =Conjunto.objects.get(id=conjunto4['pk'])
-            if conjunto_4.name.find("("):
+            if conjunto_4.name.find('('):
                 return JsonResponse({}, status=404)
             new_user.conjunto.add(conjunto_4)
 
