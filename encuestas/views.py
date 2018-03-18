@@ -630,7 +630,7 @@ def get_survey_details_html(request, id):
         return JsonResponse({}, status=404)
     sended_surveys = SendedSurvey.objects.filter(survey_id=id)
     survey = Survey.objects.get(id=id)
-    users = Subject.objects.all()
+    users = Subject.objects.all().order_by('last_connection')
     responded = 0
     total = 0
     base = []
