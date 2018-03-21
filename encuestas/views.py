@@ -95,7 +95,7 @@ def user_register(request):
     except ValueError:
         return JsonResponse({}, status=406)
     print body
-    if 'rut' in body and 'conjunto1' in body and 'conjunto2' in body and'conjunto3' in body and 'conjunto4' in body and 'email' in body and 'telefono' in body and 'nombre' in body and 'apellido' in body and 'edad' in body:
+    if 'rut' in body and 'conjunto1' in body and 'conjunto2' in body and 'conjunto3' in body and 'conjunto4' in body and 'email' in body and 'telefono' in body and 'nombre' in body and 'apellido' in body and 'edad' in body:
 
         name = body['nombre'] + " " + body['apellido']
         email = body['email']
@@ -104,8 +104,8 @@ def user_register(request):
         rut = body['rut']
         verificar_rut(rut)
         conjunto = body['conjunto2']
-        conjunto3 = body.get('conjunto3',"")
-        conjunto4 = body.get('conjunto4',"")
+        conjunto3 = body.get('conjunto3', "")
+        conjunto4 = body.get('conjunto4', "")
         age = body['edad']
         userExist = Subject.objects.filter(rut=rut)
         if len(userExist) > 0:
@@ -114,14 +114,14 @@ def user_register(request):
         new_user.save()
         new_user.conjunto.add(Conjunto.objects.get(id=conjunto['pk']))
         new_user.conjunto.add(Conjunto.objects.get(id=sexo['pk']))
-        if len(conjunto3) >0:
+        if len(conjunto3) > 0:
             new_user.conjunto.add(Conjunto.objects.get(id=conjunto3['pk']))
         if len(conjunto4) > 0:
             new_user.conjunto.add(Conjunto.objects.get(id=conjunto4['pk']))
         new_user.last_connection = timezone.now()
         new_user.save()
         if 'token' in body:
-            fb_token = FacebookToken(user=new_user,token=body.get('token'))
+            fb_token = FacebookToken(user=new_user, token=body.get('token'))
             fb_token.save()
         return JsonResponse({'status': 'Ok'})
     else:
@@ -165,6 +165,7 @@ def user_register_device(request):
     else:
         return JsonResponse({}, status=404)
 
+
 @csrf_exempt
 def request_message(request):
     if request.method != 'POST':
@@ -179,11 +180,11 @@ def request_message(request):
         description = body.get('description')
         title = body.get('title')
         type = body.get('type')
-        new_request = RequestDevice(user=rut,description=description,title=title,type=type)
+        new_request = RequestDevice(user=rut, description=description, title=title, type=type)
         new_request.save()
-        usuarios_admin = ['18390931-2','18121722-7']
+        usuarios_admin = ['18390931-2', '18121722-7']
         for rut in usuarios_admin:
-            subject= ""
+            subject = ""
             try:
                 subject = Subject.objects.get(rut=rut)
             except ObjectDoesNotExist:
@@ -191,7 +192,7 @@ def request_message(request):
             device = subject.device
             if device is not None:
                 device.send_message('Nueva Duda/Problema en Usuario', collapse_key='something')
-        return JsonResponse({"status":"OK"})
+        return JsonResponse({"status": "OK"})
     else:
         return JsonResponse({}, status=404)
 
@@ -203,17 +204,13 @@ def user_register_data(request):
 
     conjuntos = ConjuntosToSend.objects.all()
     dict_base = dict()
-    dict_base['conjunto1']=[]
+    dict_base['conjunto1'] = []
     dict_base['conjunto2'] = []
     dict_base['conjunto3'] = []
     dict_base['conjunto4'] = []
     for conjunto in conjuntos:
         dict_base['conjunto' + str(conjunto.type)].append(conjunto.to_dict())
     print dict_base
-
-
-
-
 
     # conjuntos = ConjuntosToSend.objects.exclude(conjunto__name="Mujer").exclude(conjunto__name="Hombre").all()
     # dict_base = dict()
@@ -252,7 +249,8 @@ def user_get_data(request):
     user = userExist.first()
     user.last_connection = timezone.now()
     user.save()
-    surveyRespList = SendedSurvey.objects.exclude(survey__end_survey_time__lt =datetime.now()).filter(respondida=False, subject__rut=rut).all()
+    surveyRespList = SendedSurvey.objects.exclude(survey__end_survey_time__lt=datetime.now()).filter(respondida=False,
+                                                                                                     subject__rut=rut).all()
 
     results = dict()
     results['result'] = [ob.to_dict() for ob in surveyRespList]
@@ -260,6 +258,8 @@ def user_get_data(request):
     results["count"] = len(results['result'])
     results["user"] = user.to_dict()
     return JsonResponse(results, safe=False)
+
+
 @csrf_exempt
 def user_get_historial(request):
     if request.method != 'POST':
@@ -283,6 +283,7 @@ def user_get_historial(request):
     results["user"] = user.to_dict()
     return JsonResponse(results, safe=False)
 
+
 def ready_survey(request, string):
     surveyResp = SendedSurvey.objects.get(pk=string)
 
@@ -301,8 +302,8 @@ def upload_user_csv(request):
         reader = csv.reader(codecs.EncodedFile(csvfile, "Latin-1"), delimiter=';', dialect=dialect)
         header = next(reader, None)
         conjunto = Conjunto.objects.filter(name=header[1])
-        if len(conjunto)>0:
-            conjunto= conjunto.first()
+        if len(conjunto) > 0:
+            conjunto = conjunto.first()
         else:
             conjunto = Conjunto(name=header[1], description=header[2])
             conjunto.save()
@@ -408,6 +409,7 @@ def get_messages(request):
             base.append(message.to_dict())
     return JsonResponse({'mensajes': base})
 
+
 @csrf_exempt
 def ios_debug(request):
     if request.method != 'POST':
@@ -417,7 +419,7 @@ def ios_debug(request):
         body = json.loads(body)
     except ValueError:
         return JsonResponse({}, status=406)
-    msg= body.get('debug', "")
+    msg = body.get('debug', "")
     if len(msg) == 0:
         return JsonResponse({}, status=404)
     else:
@@ -425,9 +427,9 @@ def ios_debug(request):
 
     return JsonResponse({'ok': 'ok'})
 
+
 @csrf_exempt
 def send_surveys_from_cp(request):
-
     if request.method != 'POST':
         return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
@@ -449,19 +451,20 @@ def send_surveys_from_cp(request):
             device = db_user.device
             if device is not None:
                 token = device.reg_id
-                fcm_send_message(token,title="Quanto",body="Tienes una nueva encuesta para responder", sound="default")
-  #               device.send_message({"notification": {
-  #     "category": "notification_category",
-  #     "title_loc_key": "notification_title",
-  #     "body_loc_key": "notification_body",
-  #     "badge": 1
-  # },
-  # "data": {
-  #   "data_type": "notification_data_type",
-  #   "data_id": "111111",
-  #   "data_detail": "FOO",
-  #   "data_detail_body": "BAR"
-  # }})
+                fcm_send_message(token, title="Quanto", body="Tienes una nueva encuesta para responder",
+                                 sound="default")
+    #               device.send_message({"notification": {
+    #     "category": "notification_category",
+    #     "title_loc_key": "notification_title",
+    #     "body_loc_key": "notification_body",
+    #     "badge": 1
+    # },
+    # "data": {
+    #   "data_type": "notification_data_type",
+    #   "data_id": "111111",
+    #   "data_detail": "FOO",
+    #   "data_detail_body": "BAR"
+    # }})
     else:
         return JsonResponse({}, status=404)
     base = []
@@ -474,7 +477,6 @@ def send_surveys_from_cp(request):
 @csrf_exempt
 @transaction.atomic
 def send_surveys_from_cp_to_survey_users(request):
-
     if request.method != 'POST':
         return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
@@ -502,7 +504,6 @@ def send_surveys_from_cp_to_survey_users(request):
 @csrf_exempt
 @transaction.atomic
 def create_survey_from_cp(request):
-
     if request.method != 'POST':
         return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
@@ -527,7 +528,6 @@ def create_survey_from_cp(request):
 @csrf_exempt
 @transaction.atomic
 def create_message_from_cp(request):
-
     if request.method != 'POST':
         return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
@@ -564,7 +564,6 @@ def create_message_from_cp(request):
 
 
 def create_message(request):
-
     if request.method != 'POST':
         return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
@@ -584,7 +583,6 @@ def create_message(request):
 
 @transaction.atomic
 def send_message(request):
-
     if request.method != 'POST':
         return JsonResponse({}, status=406)
     body = request.body.decode('utf-8')
@@ -613,7 +611,7 @@ def send_message(request):
                 device = db_user.device
                 if device is not None:
                     token = device.reg_id
-                    fcm_send_message(token, title="Quanto", body=msg.title,sound="default")
+                    fcm_send_message(token, title="Quanto", body=msg.title, sound="default")
                 sended_survey.save()
 
         else:
