@@ -457,7 +457,7 @@ def send_surveys_from_cp(request):
     #     "category": "notification_category",
     #     "title_loc_key": "notification_title",
     #     "body_loc_key": "notification_body",
-    #     "badge": 1
+    #     "badge": 1sds
     # },
     # "data": {
     #   "data_type": "notification_data_type",
