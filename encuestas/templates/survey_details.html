@@ -19,7 +19,7 @@
 
         <md-toolbar  ng-hide="options.rowSelection && selected.length">
           <div class="md-toolbar-tools">
-            <span>Personas</span>
+            <span>{$ encuesta.title $}</span>
             <div flex></div>
              <md-button class="md-raised md-default" ng-click="showDialogMessage($event)">Enviar Mensaje</md-button>
              <md-button class="md-raised md-warn md-default" ng-click="enviarEncuesta($event)">Enviar Encuesta</md-button>
