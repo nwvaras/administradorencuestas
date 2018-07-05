@@ -29,11 +29,11 @@
         </md-toolbar>
         <md-table-container>
   <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
-      <thead md-head md-order="subject.order" md-on-reorder="logOrder">
+      <thead md-head md-order="query.order" md-on-reorder="logOrder">
       <tr md-row>
           <th md-column ><span>N°</span></th>
           <th md-column ><span>RUT</span></th>
-        <th md-column md-order-by="nameToLower"><span>Nombre</span></th>
+        <th md-column ><span>Nombre</span></th>
         <th md-column md-numeric ><span>Conjuntos</span></th>
         <th md-column md-numeric>Enviada</th>
         <th md-column md-order-by="fecha_envio">Fecha de Envio</th>
