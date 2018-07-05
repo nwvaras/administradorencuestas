@@ -50,6 +50,7 @@ angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$sco
     );
   };
   $scope.logOrder = function (property) {
+      console.log('order: ', order);
     var sortOrder = 1;
     if(property[0] === "-") {
         sortOrder = -1;
