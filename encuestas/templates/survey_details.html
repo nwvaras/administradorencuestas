@@ -34,10 +34,10 @@
           <th md-column ><span>N°</span></th>
           <th md-column ><span>RUT</span></th>
         <th md-column md-order-by="nameToLower"><span>Nombre</span></th>
-        <th md-column md-numeric md-order-by="calories.value"><span>Conjuntos</span></th>
+        <th md-column md-numeric ><span>Conjuntos</span></th>
         <th md-column md-numeric>Enviada</th>
-        <th md-column md-numeric>Fecha de Envio</th>
-          <th md-column md-numeric>Ultima conexion</th>
+        <th md-column md-numeric md-order-by="subject.fecha_envio">Fecha de Envio</th>
+          <th md-column md-numeric md-order-by="subject.ultima_conexion">Ultima conexion</th>
           <th md-column md-numeric>Respondida</th>
       </tr>
     </thead>
