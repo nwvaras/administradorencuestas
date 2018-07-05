@@ -49,6 +49,11 @@ angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$sco
         .targetEvent(event)
     );
   };
+  $scope.query = {
+    order: 'rut',
+    limit: 5,
+    page: 1
+  };
   $scope.logOrder = function (property) {
       console.log('order: ', order);
     var sortOrder = 1;
