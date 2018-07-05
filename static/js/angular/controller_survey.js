@@ -35,6 +35,19 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
         .targetEvent(event)
     );
   };
+  $scope.logOrder = function (property) {
+    var sortOrder = 1;
+    if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    var a= function (a,b) {
+        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
+    $scope.encuestas.sort(a)
+
+  };
 
   $scope.navigateTo = function(to, event) {
     $mdDialog.show(

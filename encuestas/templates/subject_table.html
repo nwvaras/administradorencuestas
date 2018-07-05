@@ -23,13 +23,13 @@
   <table md-table  multiple ng-model="selected" md-progress="promise">
       <thead md-head md-order="subject.order" md-on-reorder="cargarDatos">
       <tr md-row>
-        <th md-column md-order-by="nameToLower"><span>Nombre</span></th>
-        <th md-column md-numeric md-order-by="calories.value"><span>Rut</span></th>
+        <th md-column><span>Nombre</span></th>
+        <th md-column md-numeric><span>Rut</span></th>
         <th md-column md-numeric>Edad</th>
         <th md-column md-numeric>Email</th>
           <th md-column md-numeric>Telefono</th>
         <th md-column md-numeric>Conjuntos</th>
-          <th md-column md-numeric>Ultima Conexion</th>
+          <th md-column md-numeric md-table="ultima_conexion">Ultima Conexion</th>
       </tr>
     </thead>
     <tbody md-body>

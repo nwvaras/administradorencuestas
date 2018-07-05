@@ -36,7 +36,7 @@
         <th md-column ><span>Nombre</span></th>
         <th md-column md-numeric ><span>Conjuntos</span></th>
         <th md-column md-numeric>Enviada</th>
-        <th md-column ng-click="logOrder()">Fecha de Envio</th>
+        <th md-column md-order-by="fecha_envio">Fecha de Envio</th>
           <th md-column md-order-by="ultima_conexion">Ultima conexion</th>
           <th md-column md-numeric>Respondida</th>
       </tr>
@@ -62,8 +62,6 @@
          <md-card-title>
            <md-card-title-text>
              <span class="md-headline">Filtros</span>
-               <span ng-click="logOrder()" >Filtrar por Fecha de Envio</span>
-               <span ng-click="logOrder()">Filtrar por Ultima conexion</span>
            </md-card-title-text>
 
               </md-card-actions>

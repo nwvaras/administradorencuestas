@@ -49,7 +49,19 @@ angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$sco
         .targetEvent(event)
     );
   };
+  $scope.logOrder = function (property) {
+    var sortOrder = 1;
+    if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    var a= function (a,b) {
+        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
+    $scope.subjects.sort(a)
 
+  };
   $scope.doPrimaryAction = function(event) {
     $mdDialog.show(
       $mdDialog.alert()
