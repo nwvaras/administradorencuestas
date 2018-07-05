@@ -11,7 +11,7 @@
       <md-input-container flex class="flex md-input-has-value">
         <label class="md-required">Escoja un mensaje para enviar</label>
         <md-select ng-model="sendedMessage" required>
-           <md-option ng-value="message" ng-repeat="message in messages">{$ message.title $}</md-option>
+           <md-option ng-value="message" ng-repeat="message in messages">{$ "("+ message.pk+")" + message.title $}</md-option>
         </md-select>
       </md-input-container>
     </md-dialog-content>
