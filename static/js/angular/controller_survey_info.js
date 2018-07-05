@@ -40,6 +40,9 @@ angular.module('DiscusionAbiertaApp').controller('MainCtrl', function($scope, $m
     }
     return total
   }
+  $scope.logOrder = function (order) {
+    console.log('order: ', order);
+  };
   $scope.doSecondaryAction = function(event) {
     $mdDialog.show(
       $mdDialog.alert()
