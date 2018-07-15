@@ -19,6 +19,24 @@ angular.module('DiscusionAbiertaApp').controller('ListCtrl', function($http,$sco
   }
     $scope.selected=[]
     $scope.sendMessage =""
+    $scope.query = {
+    order: 'titulo',
+    limit: 5,
+    page: 1
+  };
+  $scope.logOrder = function (property) {
+    var sortOrder = 1;
+    if(property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    var a= function (a,b) {
+        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
+    $scope.messages.sort(a)
+
+  };
 
   var cargarDatos = function () {
 

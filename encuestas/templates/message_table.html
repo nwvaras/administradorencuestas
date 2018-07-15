@@ -20,16 +20,16 @@
         </md-toolbar>
         <md-table-container>
   <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
-      <thead md-head md-order="message.order" md-on-reorder="cargarDatos">
+      <thead md-head md-order="message.order" md-on-reorder="logOrder">
       <tr md-row>
-          <th md-column md-numeric><span>ID</span></th>
-        <th md-column md-numeric><span>Titulo</span></th>
+          <th md-column md-numeric md-order-by="pk"><span>ID</span></th>
+        <th md-column md-numeric md-order-by="title"><span>Titulo</span></th>
         <th md-column md-numeric>Descripcion</th>
       </tr>
     </thead>
     <tbody md-body>
       <tr md-row md-select="message" md-select-id="pk" ng-repeat="message in messages">
-          <td md-cell ng-click="loadMessageDetail(message)">{$ message.pk  $}</td>
+          <td md-cell ng-click="loadMessageDetail(message)" >{$ message.pk  $}</td>
         <td md-cell ng-click="loadMessageDetail(message)">{$ message.title   $}</td>
           <td md-cell ng-click="loadMessageDetail(message)">{$ message.description $}</td>
       </tr>
