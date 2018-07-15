@@ -252,6 +252,7 @@ class Survey(models.Model):
                     'key': 'No',
                     'y': no
                 }],
+            'ratio': yes / (no + yes) * 100
 
         }
 
@@ -262,9 +263,9 @@ class SendedSurvey(models.Model):
     respondida = models.BooleanField(default=False)
     date_creation = models.DateTimeField(auto_now_add=True, blank=True)
     date_responded = models.DateTimeField(null=True, blank=True)
-    date_viewed = models.DateTimeField(null=True, blank=True,default=None)
+    date_viewed = models.DateTimeField(null=True, blank=True, default=None)
     viewed = models.BooleanField(default=False)
-    messages = models.ManyToManyField(to=SendedMessage,blank=True)
+    messages = models.ManyToManyField(to=SendedMessage, blank=True)
 
     def getDateToIso(self, date):
         if date is not None:
