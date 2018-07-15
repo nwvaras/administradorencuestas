@@ -252,7 +252,7 @@ class Survey(models.Model):
                     'key': 'No',
                     'y': no
                 }],
-            'ratio': yes / (no + yes) * 100
+            'ratio': yes*1.0 / (no*1.0 + yes*1.0) * 100
 
         }
 
