@@ -236,6 +236,11 @@ class Survey(models.Model):
 
     def to_dict(self):
         (yes, no) = self.calculate_responses()
+        ratio = 0
+        if yes ==0 and no==0:
+            ratio = "No aplica"
+        else:
+            ratio = yes*1.0 / (no*1.0 + yes*1.0) * 100
         return {
             'pk': self.pk,
             'titulo': self.title,
@@ -252,7 +257,7 @@ class Survey(models.Model):
                     'key': 'No',
                     'y': no
                 }],
-            'ratio': yes*1.0 / (no*1.0 + yes*1.0) * 100
+            'ratio': ratio
 
         }
 
